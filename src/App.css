@@ -1,38 +1,83 @@
-.App {
-  text-align: center;
+body {
+  background-color: #F6F6F6 !important;
+  overflow-x: hidden;
+}
+/* .border-right {
+  border-right: 2px solid #D1D1D1 !important;
+} */
+
+.border-bottom-d1d1d1 {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.20);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.bg-f3f3f3 {
+  background-color: #0B3333 !important;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.sidebaar {
+  background:#0B3333 !important;
+  box-shadow: 2px 10px 15px 0px rgba(0, 0, 0, 0.25);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.side-menu-item {
+  color: #ffffff !important;
+  font-size: 16px !important;
+  /* font-weight: 500 !important; */
+  padding: 8px 16px;
+  width: 100%;
+  text-decoration: none;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  display: block;
+  /* font-family: Poppins; */
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+}
+
+.side-menu-item:hover,
+.side-menu-active {
+  color: #6FFFA8!important;
+  border-radius: 3px;
+  background: rgba(93, 117, 103, 0.59);  
+}
+
+.mt-2px {
+  margin-top: 2px !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.close-btn-container {
+  border-radius: 6px 0px 0px 6px;
+  /* border: 1px solid #ffffff; */
+  justify-content: end;
+  margin-left: auto;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: min-content;
+  padding: 10px 0 10px 10px;
+  cursor: pointer;
+  margin-top: 10px;
+  border-right-width: 0;
 }
 
-.App-link {
-  color: #61dafb;
+.w-100px {
+  width: 100px !important;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.rotate-180 {
+  transform: rotate(180deg);
 }
+
+.trans {
+  transition: width 100ms cubic-bezier(0.4, 0, 0.6, 1) 0ms, margin 200ms cubic-bezier(0.4, 0, 0.6, 1) 0ms
+}
+
+.trans-1 {
+  transition: 1000ms
+}
+/* .dashboardlogocontainer{
+  display: flex;
+} */
