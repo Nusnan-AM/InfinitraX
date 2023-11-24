@@ -1,10 +1,12 @@
 import React from 'react';
-import SideBar from "../layouts/Sidebar";
+import Sidebar from "../layouts/Sidebar";
 
 function Dashboard() {
   return (
-    <SideBar>
-    </SideBar>
+    <Sidebar>
+      <h3>usdhudsfudhsu</h3>
+      <h3 style={{marginTop:'1000px'}}>sjdgyuasgdygs</h3>
+    </Sidebar>
   )
 }
 
