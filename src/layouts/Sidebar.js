@@ -3,17 +3,29 @@ import "../App.css";
 import logo from "../assets/logo.png";
 import logos from "../assets/logo-small.png";
 import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { changeToggle } from "../redux/actions";
 import profilepic from "../assets/powsi.jpeg";
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
-import InventoryIcon from '@mui/icons-material/Inventory';
-import SettingsIcon from '@mui/icons-material/Settings';
-import LogoutIcon from '@mui/icons-material/Logout';
-import PieChartIcon from '@mui/icons-material/PieChart';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import StorageIcon from '@mui/icons-material/Storage';
-import WebStoriesIcon from '@mui/icons-material/WebStories';
+import InventoryIcon from "@mui/icons-material/Inventory";
+import SettingsIcon from "@mui/icons-material/Settings";
+import LogoutIcon from "@mui/icons-material/Logout";
+import PieChartIcon from "@mui/icons-material/PieChart";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import StorageIcon from "@mui/icons-material/Storage";
+import WebStoriesIcon from "@mui/icons-material/WebStories";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import { fontSize } from "@mui/system";
 
 function Sidebar({ children }) {
+  const dispatch = useDispatch();
+  const open = useSelector((state) => {
+    return state.setting.toggle;
+  });
+
+  function toggleDrawer() {
+    dispatch(changeToggle(!open));
+  }
   const [windowSize, setWindowSize] = useState([
     window.innerWidth,
     window.innerHeight,
@@ -34,9 +46,15 @@ function Sidebar({ children }) {
   return (
     <div className="row">
       <div className={"col-2"}>
-        <div className="sidebaar" style={{ width: windowSize[0] * 0.155 }}>
+        <div
+          className="sidebaar"
+          style={{ width: !open && windowSize[0] * 0.155 }}
+        >
           <div className="">
-            {windowSize[0] >= 800 ? (
+            <div className="close-btn-container" onClick={toggleDrawer}>
+              <MenuOpenIcon className={!!open && "rotate-180"} sx={{fontSize:'30px'}}/>
+            </div>
+            {!open && windowSize[0] >= 800 ? (
               <div className="row align-items-center justify-content-center">
                 <img
                   src={logo}
@@ -58,7 +76,7 @@ function Sidebar({ children }) {
             )}
           </div>
           <div className="w-100 border-bottom-d1d1d1 mb-2" />
-          {windowSize[0] >= 800 ? (
+          {!open && windowSize[0] >= 800 ? (
             <div className="ms-2">
               <div className="d-flex align-items-center justify-content-center mb-2">
                 <div className="d-flex align-items-center justify-content-center ms-1">
@@ -101,10 +119,10 @@ function Sidebar({ children }) {
                 to={"/"}
               >
                 <div className={"d-flex"}>
-                    <SpaceDashboardIcon
-                      className={windowSize[0] >= 800 ? "me-2" : "ms-1"}
-                    />
-                  {windowSize[0] >= 800 ? (
+                  <SpaceDashboardIcon
+                    className={!open && windowSize[0] >= 800 ? "me-2" : "ms-1"}
+                  />
+                  {!open && windowSize[0] >= 800 ? (
                     <div className={"trans-1"}>Dashboard</div>
                   ) : (
                     ""
@@ -125,10 +143,10 @@ function Sidebar({ children }) {
                 to={"/category"}
               >
                 <div className={"d-flex"}>
-                  <PieChartIcon 
-                    className={windowSize[0] >= 800 ? "me-2" : "ms-1"}
+                  <PieChartIcon
+                    className={!open && windowSize[0] >= 800 ? "me-2" : "ms-1"}
                   />
-                  {windowSize[0] >= 800 ? (
+                  {!open && windowSize[0] >= 800 ? (
                     <div className={"trans-1"}>Category</div>
                   ) : (
                     ""
@@ -148,9 +166,9 @@ function Sidebar({ children }) {
               >
                 <div className={"d-flex"}>
                   <StorageIcon
-                    className={windowSize[0] >= 800 ? "me-2" : "ms-1"}
+                    className={!open && windowSize[0] >= 800 ? "me-2" : "ms-1"}
                   />
-                  {windowSize[0] >= 800 ? (
+                  {!open && windowSize[0] >= 800 ? (
                     <div className={"trans-1"}>Attributes</div>
                   ) : (
                     ""
@@ -170,9 +188,9 @@ function Sidebar({ children }) {
               >
                 <div className={"d-flex"}>
                   <WebStoriesIcon
-                    className={windowSize[0] >= 800 ? "me-2" : "ms-1"}
+                    className={!open && windowSize[0] >= 800 ? "me-2" : "ms-1"}
                   />
-                  {windowSize[0] >= 800 ? (
+                  {!open && windowSize[0] >= 800 ? (
                     <div className={"trans-1"}>Product</div>
                   ) : (
                     ""
@@ -191,9 +209,9 @@ function Sidebar({ children }) {
               >
                 <div className={"d-flex"}>
                   <ShoppingCartIcon
-                    className={windowSize[0] >= 800 ? "me-2" : "ms-1"}
+                    className={!open && windowSize[0] >= 800 ? "me-2" : "ms-1"}
                   />
-                  {windowSize[0] >= 800 ? (
+                  {!open && windowSize[0] >= 800 ? (
                     <div className={"trans-1"}>Sales</div>
                   ) : (
                     ""
@@ -211,10 +229,10 @@ function Sidebar({ children }) {
                 to={"/inventory"}
               >
                 <div className={"d-flex"}>
-                  <InventoryIcon 
-                    className={windowSize[0] >= 800 ? "me-2" : "ms-1"}
+                  <InventoryIcon
+                    className={!open && windowSize[0] >= 800 ? "me-2" : "ms-1"}
                   />
-                  {windowSize[0] >= 800 ? (
+                  {!open && windowSize[0] >= 800 ? (
                     <div className={"trans-1"}>Inventory</div>
                   ) : (
                     ""
@@ -234,9 +252,9 @@ function Sidebar({ children }) {
               >
                 <div className={"d-flex"}>
                   <SettingsIcon
-                    className={windowSize[0] >= 800 ? "me-2" : "ms-1"}
+                    className={!open && windowSize[0] >= 800 ? "me-2" : "ms-1"}
                   />
-                  {windowSize[0] >= 800 ? (
+                  {!open && windowSize[0] >= 800 ? (
                     <div className={"trans-1"}>Settings</div>
                   ) : (
                     ""
@@ -254,10 +272,10 @@ function Sidebar({ children }) {
                 to={"/logout"}
               >
                 <div className={"d-flex"}>
-                  <LogoutIcon 
-                    className={windowSize[0] >= 800 ? "me-2" : "ms-1"}
+                  <LogoutIcon
+                    className={!open && windowSize[0] >= 800 ? "me-2" : "ms-1"}
                   />
-                  {windowSize[0] >= 800 ? (
+                  {!open && windowSize[0] >= 800 ? (
                     <div className={"trans-1"}>Logout</div>
                   ) : (
                     ""
@@ -268,9 +286,15 @@ function Sidebar({ children }) {
           </div>
         </div>
       </div>
-      <div className={"col-10"}>
-        <div>{children}</div>
-      </div>
+      {!open ? (
+        <div className={"col-10"}>
+          <div>{children}</div>
+        </div>
+      ) : (
+        <div className={"col-12"}>
+          <div>{children}</div>
+        </div>
+      )}
     </div>
   );
 }
