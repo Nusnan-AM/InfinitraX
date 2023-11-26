@@ -4,16 +4,24 @@ import DashboardIcon1 from "../assets/DashbaordIcon1.svg";
 import DashboardIcon2 from "../assets/DashbaordIcon2.svg";
 import DashboardIcon3 from "../assets/DashbaordIcon3.svg";
 import DashboardIcon4 from "../assets/DashbaordIcon4.svg";
+import SalesOverviewChart from "../components/charts/SalesOverViewChart";
+import StockOverViewChart from "../components/charts/StockOverViewChart";
+import ProductOverViewChart from "../components/charts/ProductOverViewChart";
 
 function Dashboard() {
   return (
     <Sidebar>
       <div className="container">
-        <div className="row">
-          <div className="col">sad</div>
+        <div className="row mb-4">
+          <div className="col">
+            <div className="DashbaordContainerTop">
+              <h4>Sales Overview</h4>
+              <SalesOverviewChart />
+            </div>
+          </div>
         </div>
-        <div className="d-flex row">
-          <div className="col-lg-3 col-md-6 col-sm-12 mb-4">
+        <div className="d-flex row mb-4">
+          <div className="col-lg-3 col-md-6 col-sm-6 mb-4">
             <div className="d-flex DashboardSummaryCount">
               <div
                 className="col-1 SideCardcolor"
@@ -28,7 +36,7 @@ function Dashboard() {
               </div>
             </div>
           </div>
-          <div className="col-lg-3 col-md-6 col-sm-12 mb-4">
+          <div className="col-lg-3 col-md-6 col-sm-6 mb-4">
             <div className="d-flex DashboardSummaryCount">
               <div
                 className="col-1 SideCardcolor"
@@ -43,7 +51,7 @@ function Dashboard() {
               </div>
             </div>
           </div>
-          <div className="col-lg-3 col-md-6 col-sm-12 mb-4">
+          <div className="col-lg-3 col-md-6 col-sm-6 mb-4">
             <div className="d-flex DashboardSummaryCount">
               <div
                 className="col-1 SideCardcolor"
@@ -58,7 +66,7 @@ function Dashboard() {
               </div>
             </div>
           </div>
-          <div className="col-lg-3 col-md-6 col-sm-12 mb-4">
+          <div className="col-lg-3 col-md-6 col-sm-6 mb-4">
             <div className="d-flex DashboardSummaryCount">
               <div
                 className="col-1 SideCardcolor"
@@ -74,9 +82,19 @@ function Dashboard() {
             </div>
           </div>
         </div>
-        <div className="row">
-          <div className="col">df</div>
-          <div className="col">dfsd</div>
+        <div className="d-flex row mb-4">
+          <div className="col-lg-6 col-md-6 col-sm-12 mb-4">
+            <div className="DashboardGraphContainer">
+              <h4>Stock Overview</h4>
+              <StockOverViewChart />
+            </div>
+          </div>
+          <div className="col-lg-6 col-md-6 col-sm-12 mb-4">
+            <div className="DashboardGraphContainer">
+              <h4>Stock Overview</h4>
+              <ProductOverViewChart />
+            </div>
+          </div>
         </div>
       </div>
     </Sidebar>

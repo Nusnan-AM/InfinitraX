@@ -99,3 +99,38 @@ body {
   font-weight: 600;
   line-height: normal;
 }
+
+.DashbaordContainerTop {
+  width: 100%;
+  border-radius: 5px;
+  background: #FFF;
+  box-shadow: 6px 9px 43.5px 0px rgba(0, 0, 0, 0.25);
+  height: 300px;
+  margin-top: 10px;
+}
+
+.DashbaordContainerTop h4 {
+  color: #0B3333;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin-left: 20px;
+}
+
+.DashboardGraphContainer {
+  width: 100%;
+  height: 230px;
+  border-radius: 5px;
+  background: #FFF;
+  box-shadow: 6px 9px 43.5px 0px rgba(0, 0, 0, 0.25);
+}
+
+.DashboardGraphContainer h4 {
+  color: #0B3333;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-left: 20px;
+}
