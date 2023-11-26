@@ -1,14 +1,17 @@
-import React ,{useEffect,useState} from "react";
+import React, { useEffect, useState } from "react";
 import "../App.css";
-import FeatherIcon from "feather-icons-react";
 import logo from "../assets/logo.png";
 import logos from "../assets/logo-small.png";
 import { NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { changeToggle } from "../redux/actions";
-import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import profilepic from "../assets/powsi.jpeg";
-
+import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
+import InventoryIcon from '@mui/icons-material/Inventory';
+import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
+import PieChartIcon from '@mui/icons-material/PieChart';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import StorageIcon from '@mui/icons-material/Storage';
+import WebStoriesIcon from '@mui/icons-material/WebStories';
 
 function Sidebar({ children }) {
   const [windowSize, setWindowSize] = useState([
@@ -21,37 +24,19 @@ function Sidebar({ children }) {
       setWindowSize([window.innerWidth, window.innerHeight]);
     };
 
-    window.addEventListener('resize', handleWindowResize);
+    window.addEventListener("resize", handleWindowResize);
 
     return () => {
-      window.removeEventListener('resize', handleWindowResize);
+      window.removeEventListener("resize", handleWindowResize);
     };
-
-    
   }, []);
 
-  const dispatch = useDispatch();
-  const open = useSelector((state) => {
-    return state.setting.toggle;
-  });
-
-  function toggleDrawer() {
-    dispatch(changeToggle(windowSize[0]));
-  }
   return (
     <div className="row">
       <div className={"col-2"}>
-        <div className="sidebaar" style={{width: windowSize[0]*0.155}}>
+        <div className="sidebaar" style={{ width: windowSize[0] * 0.155 }}>
           <div className="">
-            {/* {windowSize[0] >=800 ? (
-            <div className="close-btn-container" onClick={toggleDrawer}>
-              <MenuOpenIcon
-                className={windowSize[0] && "rotate-180"}
-                style={{ color: "white" }}
-              />
-            </div>
-            ) : ""} */}
-            {windowSize[0] >=800 ? (
+            {windowSize[0] >= 800 ? (
               <div className="row align-items-center justify-content-center">
                 <img
                   src={logo}
@@ -67,7 +52,7 @@ function Sidebar({ children }) {
                 <img
                   src={logos}
                   alt={""}
-                  style={{ width: "40px", height: "40px", }}
+                  style={{ width: "40px", height: "40px" }}
                 />
               </div>
             )}
@@ -86,7 +71,7 @@ function Sidebar({ children }) {
                   />
                 </div>
                 <div className="d-flex align-items-center justify-content-center">
-                  <div className="text-light">
+                  <div className="DashbaordProfile">
                     <h5 className="m-0">Powsi</h5>
                     <p className="txt m-0">powsi@gmail.com</p>
                   </div>
@@ -94,20 +79,19 @@ function Sidebar({ children }) {
               </div>
             </div>
           ) : (
-            <div className="w-100px shadow sidebarrt px-3">
+            <div className="d-flex align-items-center justify-content-center ms-1">
               <img
                 src={profilepic}
                 alt="avatar"
                 className="rounded-circle my-1"
-                width="50px"
-                height="50px"
+                width="60px"
+                height="60px"
               />
-               <h5 className="m-0">{windowSize[0]}</h5>
             </div>
           )}
           <div className={"w-100 border-bottom-d1d1d1 mb-2"} />
           <div className="d-flex flex-column align-items-center align-items-sm-start px-2 pt-2 text-white">
-            <div className={"w-100 px-sm-2 px-2"}>
+            <div className={"w-100 px-sm-2"}>
               <NavLink
                 className={({ isActive }) =>
                   isActive
@@ -117,11 +101,14 @@ function Sidebar({ children }) {
                 to={"/"}
               >
                 <div className={"d-flex"}>
-                  <FeatherIcon
-                    icon="layout"
-                    className={windowSize[0] ? "me-2" : "ms-1"}
-                  />
-                 {windowSize[0] >= 800 ? <div className={"trans-1"}>Logout</div> : ""}
+                    <SpaceDashboardIcon
+                      className={windowSize[0] >= 800 ? "me-2" : "ms-1"}
+                    />
+                  {windowSize[0] >= 800 ? (
+                    <div className={"trans-1"}>Dashboard</div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </NavLink>
             </div>
@@ -138,11 +125,14 @@ function Sidebar({ children }) {
                 to={"/category"}
               >
                 <div className={"d-flex"}>
-                  <FeatherIcon
-                    icon="hard-drive"
-                    className={windowSize[0] ? "me-2" : "ms-1"}
+                  <PieChartIcon 
+                    className={windowSize[0] >= 800 ? "me-2" : "ms-1"}
                   />
-                  {windowSize[0] >= 800 ? <div className={""}>Logout</div> : ""}
+                  {windowSize[0] >= 800 ? (
+                    <div className={"trans-1"}>Category</div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </NavLink>
             </div>
@@ -157,11 +147,14 @@ function Sidebar({ children }) {
                 to={"/attributes"}
               >
                 <div className={"d-flex"}>
-                  <FeatherIcon
-                    icon="shopping-cart"
+                  <StorageIcon
                     className={windowSize[0] >= 800 ? "me-2" : "ms-1"}
                   />
-                 {windowSize[0] >= 800 ? <div className={""}>Logout</div> : ""}
+                  {windowSize[0] >= 800 ? (
+                    <div className={"trans-1"}>Attributes</div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </NavLink>
             </div>
@@ -176,11 +169,14 @@ function Sidebar({ children }) {
                 to={"/product"}
               >
                 <div className={"d-flex"}>
-                  <FeatherIcon
-                    icon="activity"
+                  <WebStoriesIcon
                     className={windowSize[0] >= 800 ? "me-2" : "ms-1"}
                   />
-                 {windowSize[0] >= 800 ? <div className={""}>Logout</div> : ""}
+                  {windowSize[0] >= 800 ? (
+                    <div className={"trans-1"}>Product</div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </NavLink>
             </div>
@@ -194,11 +190,14 @@ function Sidebar({ children }) {
                 to={"/sales"}
               >
                 <div className={"d-flex"}>
-                  <FeatherIcon
-                    icon="airplay"
+                  <ShoppingCartIcon
                     className={windowSize[0] >= 800 ? "me-2" : "ms-1"}
                   />
-                 {windowSize[0] >= 800 ? <div className={""}>Logout</div> : ""}
+                  {windowSize[0] >= 800 ? (
+                    <div className={"trans-1"}>Sales</div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </NavLink>
             </div>
@@ -212,11 +211,14 @@ function Sidebar({ children }) {
                 to={"/inventory"}
               >
                 <div className={"d-flex"}>
-                  <FeatherIcon
-                    icon="codepen"
+                  <InventoryIcon 
                     className={windowSize[0] >= 800 ? "me-2" : "ms-1"}
                   />
-                 {windowSize[0] >= 800 ? <div className={""}>Logout</div> : ""}
+                  {windowSize[0] >= 800 ? (
+                    <div className={"trans-1"}>Inventory</div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </NavLink>
             </div>
@@ -231,11 +233,14 @@ function Sidebar({ children }) {
                 to={"/settings"}
               >
                 <div className={"d-flex"}>
-                  <FeatherIcon
-                    icon="settings"
+                  <SettingsIcon
                     className={windowSize[0] >= 800 ? "me-2" : "ms-1"}
                   />
-                 {windowSize[0] >= 800 ? <div className={""}>Logout</div> : ""}
+                  {windowSize[0] >= 800 ? (
+                    <div className={"trans-1"}>Settings</div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </NavLink>
             </div>
@@ -249,18 +254,21 @@ function Sidebar({ children }) {
                 to={"/logout"}
               >
                 <div className={"d-flex"}>
-                  <FeatherIcon
-                    icon="log-out"
+                  <LogoutIcon 
                     className={windowSize[0] >= 800 ? "me-2" : "ms-1"}
                   />
-                  {windowSize[0] >= 800 ? <div className={""}>Logout</div> : ""}
+                  {windowSize[0] >= 800 ? (
+                    <div className={"trans-1"}>Logout</div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </NavLink>
             </div>
           </div>
         </div>
       </div>
-      <div className={ "col-10" }>
+      <div className={"col-10"}>
         <div>{children}</div>
       </div>
     </div>
