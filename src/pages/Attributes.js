@@ -36,7 +36,7 @@ function Attributes() {
                 <td>Grey</td>
                 <td>
                   <div className="d-flex">
-                    <button className="btn h4">
+                    <button className="btn h4" data-bs-toggle="modal" data-bs-target="#viewAttribute">
                       <FaEye />
                     </button>
                     <button className="btn" data-bs-toggle="modal" data-bs-target="#editAttribute">
@@ -54,7 +54,7 @@ function Attributes() {
                 <td>512 GB</td>
                 <td>
                   <div className="d-flex">
-                    <button className="btn h4">
+                    <button className="btn h4" data-bs-toggle="modal" data-bs-target="#viewAttribute">
                       <FaEye />
                     </button>
                     <button className="btn" data-bs-toggle="modal" data-bs-target="#editAttribute">
@@ -72,7 +72,7 @@ function Attributes() {
                 <td>15 inch</td>
                 <td>
                   <div className="d-flex">
-                    <button className="btn h4">
+                    <button className="btn h4" data-bs-toggle="modal" data-bs-target="#viewAttribute">
                       <FaEye />
                     </button>
                     <button className="btn" data-bs-toggle="modal" data-bs-target="#editAttribute">
@@ -90,7 +90,7 @@ function Attributes() {
                 <td>Black</td>
                 <td>
                   <div className="d-flex">
-                    <button className="btn h4">
+                    <button className="btn h4" data-bs-toggle="modal" data-bs-target="#viewAttribute">
                       <FaEye />
                     </button>
                     <button className="btn" data-bs-toggle="modal" data-bs-target="#editAttribute">
@@ -108,7 +108,7 @@ function Attributes() {
                 <td>2 TB</td>
                 <td>
                   <div className="d-flex">
-                    <button className="btn h4">
+                    <button className="btn h4" data-bs-toggle="modal" data-bs-target="#viewAttribute">
                       <FaEye />
                     </button>
                     <button className="btn" data-bs-toggle="modal" data-bs-target="#editAttribute">
@@ -126,7 +126,7 @@ function Attributes() {
                 <td>White</td>
                 <td>
                   <div className="d-flex">
-                    <button className="btn h4">
+                    <button className="btn h4" data-bs-toggle="modal" data-bs-target="#viewAttribute">
                       <FaEye />
                     </button>
                     <button className="btn" data-bs-toggle="modal" data-bs-target="#editAttribute">
@@ -144,7 +144,7 @@ function Attributes() {
                 <td>13.5 inch</td>
                 <td>
                   <div className="d-flex">
-                    <button className="btn h4">
+                    <button className="btn h4" data-bs-toggle="modal" data-bs-target="#viewAttribute">
                       <FaEye />
                     </button>
                     <button className="btn" data-bs-toggle="modal" data-bs-target="#editAttribute">
@@ -162,7 +162,7 @@ function Attributes() {
                 <td>Gold</td>
                 <td>
                   <div className="d-flex">
-                    <button className="btn h4">
+                    <button className="btn h4" data-bs-toggle="modal" data-bs-target="#viewAttribute">
                       <FaEye />
                     </button>
                     <button className="btn" data-bs-toggle="modal" data-bs-target="#editAttribute">
@@ -179,6 +179,30 @@ function Attributes() {
         </div>
       </Sidebar>
 
+      <div class="modal fade" id="viewAttribute" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="viewAttributeLabel">View attributes</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-white">
+              <div data-mdb-input-init class="form-outline mb-4">
+                <label class="form-label" for="inputviewAttribute-attribute">Attribute</label>
+                <input type="text" id="inputViewAttribute-attribute" class="form-control" readOnly />
+              </div>
+              <div data-mdb-input-init class="form-outline mb-4">
+                <label class="form-label" for="inputviewAttribute-value">Value</label>
+                <input type="text" id="inputViewAttribute-value" class="form-control" readOnly />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-success" data-bs-dismiss="modal">Done</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="modal fade" id="editAttribute" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -187,13 +211,20 @@ function Attributes() {
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form>
-            <div class="modal-body">
-              
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-success">Edit</button>
-            </div>
+              <div class="modal-body text-white">
+                <div data-mdb-input-init class="form-outline mb-4">
+                  <label class="form-label" for="attribute">Attribute</label>
+                  <input type="text" id="inputEditAttribute-attribute" class="form-control" required />
+                </div>
+                <div data-mdb-input-init class="form-outline mb-4">
+                  <label class="form-label" for="value">Value</label>
+                  <input type="text" id="inputEditAttribute-value" class="form-control" required />
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-success">Edit</button>
+              </div>
             </form>
           </div>
         </div>
@@ -203,19 +234,22 @@ function Attributes() {
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="deleteAttributeLabel">Edit attributes</h1>
+              <h1 class="modal-title fs-5" id="deleteAttributeLabel">Delete attributes</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form>
-            <div class="modal-body">
-              <p>
-                Are you sure you want to delete this item? This action is not reversable
-              </p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <button type="submit" class="btn btn-danger">Delete</button>
-            </div>
+              <div class="modal-body text-white">
+                <p>
+                  Are you sure you want to delete this item?
+                </p>
+                <p>
+                  This action is not reversable.
+                </p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </div>
             </form>
           </div>
         </div>
