@@ -51,7 +51,7 @@ function Sidebar({ children }) {
           style={{ width: !open && windowSize[0] * 0.155 }}
         >
           <div className="">
-            <div className="close-btn-container" onClick={toggleDrawer}>
+            <div className="close-btn-container cursor-pointer" onClick={toggleDrawer}>
               <MenuOpenIcon className={!!open && "rotate-180"} sx={{fontSize:'30px'}}/>
             </div>
             {!open && windowSize[0] >= 800 ? (

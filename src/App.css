@@ -3,7 +3,9 @@ body {
   overflow-x: hidden;
   color: black;
 }
-
+.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+  background-color: rgb(206, 242, 209);
+}
 .border-bottom-d1d1d1 {
   border-bottom: 2px solid rgba(255, 255, 255, 0.20);
 }
@@ -56,6 +58,16 @@ body {
 .trans-1 {
   transition: 1000ms
 }
+.close-btn-container{
+  color: white;
+  display: flex;
+  margin-top: -10px;
+}
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+/* ---------------------------------------------------------------------------------------------------------------------------- */
 
 .DashbaordProfile h5 {
   color: rgb(228, 224, 224);
@@ -75,7 +87,7 @@ body {
   box-shadow: 6px 9px 43.5px 0px rgba(0, 0, 0, 0.25);
 }
 
-.SideCardcolor {
+.DashboardSummaryCount .SideCardcolor {
   width: 5px !important;
   height: 100%;
 }
@@ -134,11 +146,9 @@ body {
   line-height: normal;
   margin-left: 20px;
 }
-.close-btn-container{
-  color: white;
-  display: flex;
-  margin-top: -10px;
-}
-.rotate-180 {
-  transform: rotate(180deg);
+
+ /* ----------------------------------------------------------------------------------------------------------------------------  */
+
+nav, .modal-body{
+  background-color: #103434;
 }
