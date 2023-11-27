@@ -4,6 +4,7 @@ import "../assets/css/attributes.css";
 import { FaEye } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { IoIosAddCircle } from "react-icons/io";
 
 function Attributes() {
   return (
@@ -14,6 +15,36 @@ function Attributes() {
             <span className="navbar-brand mb-0 h1 text-white">Attributes Section</span>
           </div>
         </nav>
+        <div>
+          <div className="container px-3">
+            <div className="row">
+              <div className="col mx-3 p-2 rounded bg-white">
+                <div className="row">
+                  <div className="col">
+                    <span className="fw-bold">Filter by</span>
+                  </div>
+                  <div className="col">
+                    <select id="selectFilterByAttribute" class="form-select">
+                      <option>Filter by Attribute</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div className="col mx-3 p-2 rounded bg-white">
+                <div className="row">
+                  <div className="col">
+                    <span className="fw-bold">Add Attribute</span>
+                  </div>
+                  <div className="col">
+                    <button className="btn btn-success" data-bs-toggle="modal" data-bs-target="#addAttribute">
+                      Add Attribute <IoIosAddCircle />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="container mt-3">
           <nav className="navbar bg-white mb-3 mx-1 py-1 rounded">
             <div className="container-fluid">
@@ -179,6 +210,36 @@ function Attributes() {
         </div>
       </Sidebar>
 
+      <div class="modal fade" id="addAttribute" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="viewAttributeLabel">View attributes</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-white">
+              <div data-mdb-input-init class="form-outline mb-4">
+                <label class="form-label" for="inputAddAttribute-attribute">Attribute</label>
+                <select id="selectAddAttribute-attribute" class="form-select">
+                  <option selected>--Select an Attribute--</option>
+                  <option>Color</option>
+                  <option>Storage</option>
+                  <option>Display</option>
+                </select>
+              </div>
+              <div data-mdb-input-init class="form-outline mb-4">
+                <label class="form-label" for="inputAddAttribute-value">Value</label>
+                <input type="text" id="inputViewAttribute-value" class="form-control" readOnly />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-success">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="modal fade" id="viewAttribute" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -188,11 +249,11 @@ function Attributes() {
             </div>
             <div class="modal-body text-white">
               <div data-mdb-input-init class="form-outline mb-4">
-                <label class="form-label" for="inputviewAttribute-attribute">Attribute</label>
+                <label class="form-label" for="inputViewAttribute-attribute">Attribute</label>
                 <input type="text" id="inputViewAttribute-attribute" class="form-control" readOnly />
               </div>
               <div data-mdb-input-init class="form-outline mb-4">
-                <label class="form-label" for="inputviewAttribute-value">Value</label>
+                <label class="form-label" for="inputViewAttribute-value">Value</label>
                 <input type="text" id="inputViewAttribute-value" class="form-control" readOnly />
               </div>
             </div>
@@ -214,7 +275,12 @@ function Attributes() {
               <div class="modal-body text-white">
                 <div data-mdb-input-init class="form-outline mb-4">
                   <label class="form-label" for="attribute">Attribute</label>
-                  <input type="text" id="inputEditAttribute-attribute" class="form-control" required />
+                  <select id="selectEditAttribute-attribute" class="form-select">
+                    <option selected>--Select an Attribute--</option>
+                    <option>Color</option>
+                    <option>Storage</option>
+                    <option>Display</option>
+                  </select>
                 </div>
                 <div data-mdb-input-init class="form-outline mb-4">
                   <label class="form-label" for="value">Value</label>
