@@ -1,0 +1,10 @@
+.SignInBody{
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.dev/svgjs' width='1440' height='560' preserveAspectRatio='none' viewBox='0 0 1440 560'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1004%26quot%3b)' fill='none'%3e%3crect width='1440' height='560' x='0' y='0' fill='rgba(255%2c 255%2c 255%2c 1)'%3e%3c/rect%3e%3cpath d='M292.56 586.09C407.83 585.21 515.78 472.79 739.53 472.78 963.27 472.77 963.01 542.78 1186.49 542.78 1409.98 542.78 1520.36 472.99 1633.46 472.78' stroke='rgba(0%2c 87%2c 15%2c 0.58)' stroke-width='2'%3e%3c/path%3e%3cpath d='M700.99 663.34C824.32 593.67 758.22 179.74 987.58 174.57 1216.94 169.4 1411.45 340.85 1560.77 342.57' stroke='rgba(0%2c 87%2c 15%2c 0.58)' stroke-width='2'%3e%3c/path%3e%3cpath d='M163.51 623.4C361.6 598 475.87 147.04 803.57 145.38 1131.26 143.72 1276.29 339.2 1443.62 341.38' stroke='rgba(0%2c 87%2c 15%2c 0.58)' stroke-width='2'%3e%3c/path%3e%3cpath d='M542.98 649.19C694.76 647.14 813.05 476.37 1122.87 469.17 1432.69 461.97 1544.23 217.28 1702.76 211.57' stroke='rgba(0%2c 87%2c 15%2c 0.58)' stroke-width='2'%3e%3c/path%3e%3cpath d='M684.01 649.61C803.97 606.86 759.94 250.56 1000 250.07 1240.07 249.58 1462.46 492.16 1631.99 496.47' stroke='rgba(0%2c 87%2c 15%2c 0.58)' stroke-width='2'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1004'%3e%3crect width='1440' height='560' fill='white'%3e%3c/rect%3e%3c/mask%3e%3c/defs%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-size: cover;
+   }
+  
+   .SignIn-heading { 
+    font-size: 2rem;
+    color: #198754;
+  }

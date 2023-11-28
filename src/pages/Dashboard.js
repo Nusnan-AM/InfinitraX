@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/Dashboard.css";
 import Sidebar from "../layouts/Sidebar";
 import DashboardIcon1 from "../assets/DashbaordIcon1.svg";
 import DashboardIcon2 from "../assets/DashbaordIcon2.svg";
