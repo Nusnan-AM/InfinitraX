@@ -1,16 +1,23 @@
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo.png";
 import "../assets/css/signin.css";
+import { useState } from "react";
 
 export default function Signin() {
 
-    function submitForm(e){
+    const [fieldError, setFieldError] = useState(null);
 
-        const data = new FormData();
+    function submitForm(e) {
 
-        if(data.usernmae === "" || data.password === ""){
-            e.preventDefault();
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.target).entries());
+
+        if (data.username === "" && data.password === "") {
+            setFieldError("Please fill all fields!")
+        } else {
+            window.location.href = "/dashboard";
         }
+        console.log(data);
     }
 
     return (
@@ -18,42 +25,42 @@ export default function Signin() {
             <div className="main">
                 <nav className="navbar fixed-top shadow-5-strong">
                     <div className="container">
-                        <Link class="navbar-brand" to="/">
-                            <img src={Logo} width="30" height="30" class="d-inline-block align-top" alt="" />
+                        <Link className="navbar-brand" to="/">
+                            <img src={Logo} width="30" height="30" className="d-inline-block align-top" alt="" />
                             <span className="px-3 fw-bold">Infinitrax</span>
                         </Link>
                     </div>
                 </nav>
-                <section class="vh-100">
-                    <div class="container py-5">
-                        <div className="text-center p-3">
-                            <h2>Welcome to Infinitrax</h2>
+                <section className="vh-100">
+                    <div className="container py-5">
+                        <div className="text-center p-3 pt-5">
+                            <h2 className="heading">Welcome to Infinitrax</h2>
                         </div>
-                        <div class="row d-flex align-items-center justify-content-center h-100">
-                            <div class="col-md-8 col-lg-7 col-xl-6">
-                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
-                                    class="img-fluid" alt="Phone image" />
+                        <div className="row d-flex align-items-center justify-content-center h-100">
+                            <div className="col-md-8 col-lg-7 col-xl-6">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg" className="img-fluid" alt="main image" />
                             </div>
-                            <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1 p-5 bg-light rounded">
-                                <form onSubmit={(e)=>submitForm(e)}>
-                                    <div class="form-outline mb-4">
-                                        <input type="text" id="username" class="form-control form-control-md" required/>
-                                        <label class="form-label" for="username">Username</label>
+                            <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1 p-5 bg-light rounded">
+                                <form onSubmit={(e) => submitForm(e)}>
+                                    <h6 className="text-center text-danger">{fieldError}</h6>
+                                    <div className="form-outline mb-4">
+                                        <input type="text" id="username" name="username" className="form-control form-control-md" />
+                                        <label className="form-label" htmlFor="username">Username</label>
                                     </div>
 
-                                    <div class="form-outline mb-4">
-                                        <input type="password" id="password" class="form-control form-control-md" required/>
-                                        <label class="form-label" for="password">Password</label>
+                                    <div className="form-outline mb-4">
+                                        <input type="password" id="password" name="password" className="form-control form-control-md" />
+                                        <label className="form-label" htmlFor="password">Password</label>
                                     </div>
 
-                                    <div class="d-flex mb-4">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="rememberMe" checked />
-                                            <label class="form-check-label" for="rememberMe"> Remember me </label>
+                                    <div className="d-flex mb-4">
+                                        <div className="form-check">
+                                            <input className="form-check-input" type="checkbox" value="" id="rememberMe" defaultChecked />
+                                            <label className="form-check-label" htmlFor="rememberMe"> Remember me </label>
                                         </div>
                                     </div>
 
-                                    <button type="submit" class="btn btn-success btn-lg btn-block">Sign in</button>
+                                    <button type="submit" className="btn btn-success btn-lg btn-block">Sign in</button>
                                 </form>
                             </div>
                         </div>
