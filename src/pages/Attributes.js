@@ -1,6 +1,5 @@
 import React from "react";
 import Sidebar from "../layouts/Sidebar";
-import "../assets/css/attributes.css";
 import { FaEye } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";

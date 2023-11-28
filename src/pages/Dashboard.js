@@ -91,7 +91,7 @@ function Dashboard() {
           </div>
           <div className="col-lg-6 col-md-6 col-sm-12 mb-4">
             <div className="DashboardGraphContainer">
-              <h4>Stock Overview</h4>
+              <h4>Product Overview</h4>
               <ProductOverViewChart />
             </div>
           </div>
