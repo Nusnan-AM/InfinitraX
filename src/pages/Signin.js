@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo.png";
-import "../assets/css/signin.css";
 import { useState } from "react";
 
 export default function Signin() {
@@ -19,10 +18,10 @@ export default function Signin() {
         }
         console.log(data);
     }
-
+    
     return (
         <>
-            <div className="main">
+            <div className="SignInBody">
                 <nav className="navbar fixed-top shadow-5-strong">
                     <div className="container">
                         <Link className="navbar-brand" to="/">
@@ -34,7 +33,7 @@ export default function Signin() {
                 <section className="vh-100">
                     <div className="container py-5">
                         <div className="text-center p-3 pt-5">
-                            <h2 className="heading">Welcome to Infinitrax</h2>
+                            <h2 className="SignIn-heading">Welcome to Infinitrax</h2>
                         </div>
                         <div className="row d-flex align-items-center justify-content-center h-100">
                             <div className="col-md-8 col-lg-7 col-xl-6">
@@ -69,4 +68,6 @@ export default function Signin() {
             </div>
         </>
     );
+  
 }
+
