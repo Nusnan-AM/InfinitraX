@@ -116,7 +116,7 @@ function Sidebar({ children }) {
                     ? "side-menu-item side-menu-active "
                     : "side-menu-item "
                 }
-                to={"/"}
+                to={"/dashboard"}
               >
                 <div className={"d-flex"}>
                   <SpaceDashboardIcon
@@ -269,7 +269,7 @@ function Sidebar({ children }) {
                     ? "side-menu-item side-menu-active"
                     : "side-menu-item"
                 }
-                to={"/logout"}
+                to={"/"}
               >
                 <div className={"d-flex"}>
                   <LogoutIcon

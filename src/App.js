@@ -8,12 +8,14 @@ import Product from "./pages/Product";
 import Sales from "./pages/Sales";
 import Inventory from "./pages/Inventory";
 import Settings from "./pages/Settings";
+import Signin from "./pages/Signin";
 
 function App() {
   return (
     <div className="">
       <Routes>
-        <Route path="/" element={<Dashboard/>} />
+      <Route path="/" element={<Signin/>} />
+        <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/category" element={<Category/>} />
         <Route path="/attributes" element={<Attributes/>} />
         <Route path="/product" element={<Product/>} />
