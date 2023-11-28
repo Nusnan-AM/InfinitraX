@@ -3,6 +3,16 @@ import Logo from "../assets/logo.png";
 import "../assets/css/signin.css";
 
 export default function Signin() {
+
+    function submitForm(e){
+
+        const data = new FormData();
+
+        if(data.usernmae === "" || data.password === ""){
+            e.preventDefault();
+        }
+    }
+
     return (
         <>
             <div className="main">
@@ -25,10 +35,10 @@ export default function Signin() {
                                     class="img-fluid" alt="Phone image" />
                             </div>
                             <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1 p-5 bg-light rounded">
-                                <form>
+                                <form onSubmit={(e)=>submitForm(e)}>
                                     <div class="form-outline mb-4">
-                                        <input type="email" id="email" class="form-control form-control-md" required/>
-                                        <label class="form-label" for="email">Email address</label>
+                                        <input type="text" id="username" class="form-control form-control-md" required/>
+                                        <label class="form-label" for="username">Username</label>
                                     </div>
 
                                     <div class="form-outline mb-4">
