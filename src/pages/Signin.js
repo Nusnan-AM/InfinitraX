@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo.png";
+import BackgroundImage from "../assets/SigninBackground.svg";
 import { useState } from "react";
 import "../styles/signin.css";
 
@@ -43,7 +44,7 @@ export default function Signin() {
                         <div className="row d-flex align-items-center justify-content-center h-100">
                             <div className="col-md-8 col-lg-7 col-xl-6">
                                 <img
-                                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
+                                    src={BackgroundImage}
                                     className="img-fluid"
                                     alt="main image"
                                 />
