@@ -1,277 +1,239 @@
-import React from "react";
+import React, { useState } from "react";
 import Sidebar from "../layouts/Sidebar";
 import { FaEye } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { IoIosAddCircle } from "react-icons/io";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import {Navbar} from "react-bootstrap";
 
 function Attributes() {
-  const datas = [
-    { no: 1, attribute: "Color", Value: "Grey" },
-    { no: 2, attribute: "Color", Value: "Grey" },
-    { no: 3, attribute: "Color", Value: "Grey" },
-    { no: 4, attribute: "Color", Value: "Grey" },
-    { no: 5, attribute: "Color", Value: "Grey" },
-    { no: 6, attribute: "Color", Value: "Grey" },
-    { no: 7, attribute: "Color", Value: "Grey" },
-  ];
+  const [showAdd, setShowAdd] = useState(false);
+  const [showView, setShowView] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+
+  const handleCloseAdd = () => setShowAdd(false);
+  const handleShowAdd = () => setShowAdd(true);
+
+  const handleCloseView = () => setShowView(false);
+  const handleShowView = () => setShowView(true);
+
+  const handleCloseEdit = () => setShowEdit(false);
+  const handleShowEdit = () => setShowEdit(true);
+
+  const handleCloseDelete = () => setShowDelete(false);
+  const handleShowDelete = () => setShowDelete(true);
+
+  const attributeTable = [
+    {
+      attribute: "Color",
+      value: "Grey",
+    },
+    {
+      attribute: "Storage",
+      value: "512 GB",
+    },
+    {
+      attribute: "Display",
+      value: "15 inch",
+    },
+    {
+      attribute: "Color",
+      value: "Black",
+    },
+    {
+      attribute: "Storage",
+      value: "2 TB",
+    },
+    {
+      attribute: "Color",
+      value: "White",
+    },
+    {
+      attribute: "Display",
+      value: "13.5 inch",
+    },
+    {
+      attribute: "Color",
+      value: "Gold",
+    },
+  ]; 
+
   return (
-    <>
-      <Sidebar>
-        <nav className="navbar mt-3 m-3 py-1 rounded">
-          <div className="container-fluid d-flex align-items-center justify-content-center">
-            <span className="navbar-brand mb-0 h1 text-white">
-              Attributes Section
-            </span>
-          </div>
-        </nav>
-        <div>
-          <div className="container px-3">
-            <div className="row">
-              <div className="col mx-3 p-2 rounded bg-white">
+      <>
+        <div className="Attributes">
+          <Sidebar>
+            <Navbar className="navbar mt-3 m-3 py-1 rounded">
+              <div className="container-fluid d-flex align-items-center justify-content-center">
+              <span className="navbar-brand mb-0 h1 text-white">
+                Attributes Section
+              </span>
+              </div>
+            </Navbar>
+            <div>
+              <div className="container px-3">
                 <div className="row">
-                  <div className="col">
-                    <span className="fw-bold">Filter by</span>
+                  <div className="col mx-3 p-2 rounded bg-white">
+                    <div className="row">
+                      <div className="col">
+                        <span className="fw-bold">Filter by</span>
+                      </div>
+                      <div className="col">
+                        <select
+                            id="selectFilterByAttribute"
+                            className="form-select"
+                        >
+                          <option>Filter by Attribute</option>
+                        </select>
+                      </div>
+                    </div>
                   </div>
-                  <div className="col">
-                    <select id="selectFilterByAttribute" class="form-select">
-                      <option>Filter by Attribute</option>
+                  <div className="col mx-3 p-2 rounded bg-white">
+                    <div className="row">
+                      <div className="col">
+                        <span className="fw-bold">Add Attribute</span>
+                      </div>
+                      <div className="col">
+                        <Button
+                            variant="success"
+                            onClick={handleShowAdd}
+                        >
+                          Add Attribute <IoIosAddCircle />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="container mt-3">
+              <Navbar className="navbar bg-white mb-3 mx-1 py-1 rounded">
+                <div className="container-fluid">
+                  <p className="navbar-brand fw-bold">Attribute List</p>
+                </div>
+              </Navbar>
+              <table className="table table-striped table-hover">
+                <thead>
+                <tr>
+                  <th scope="col" className="col-1">
+                    No
+                  </th>
+                  <th scope="col" className="col-1">
+                    Attribute
+                  </th>
+                  <th scope="col" className="col-1">
+                    Value
+                  </th>
+                  <th scope="col" className="col-1">
+                    Action
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+                {
+                  attributeTable.map((value, i)=>{
+                    return(
+                  <tr key={i}>
+                  <th scope="row">{i+1}</th>
+                  <td>{value?.attribute}</td>
+                  <td>{value?.value}</td>
+                  <td>
+                    <div className="d-flex">
+                      <button className="btn h4" onClick={handleShowView}>
+                        <FaEye />
+                      </button>
+                      <button className="btn">
+                        <FaEdit
+                            className="text-success h4"
+                            onClick={handleShowEdit}
+                        />
+                      </button>
+                      <button className="btn">
+                        <MdDelete
+                            className="text-danger h4"
+                            onClick={handleShowDelete}
+                        />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                    )
+                  })
+                }
+                </tbody>
+              </table>
+            </div>
+          </Sidebar>
+
+          <Modal show={showAdd} onHide={handleCloseAdd}>
+            <Modal.Header closeButton>
+              <Modal.Title>Add attributes</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <form>
+                <div className="modal-body text-white">
+                  <div className="form-outline mb-4">
+                    <label
+                        className="form-label"
+                        htmlFor="inputAddAttribute-attribute"
+                    >
+                      Attribute
+                    </label>
+                    <select
+                        id="selectAddAttribute-attribute"
+                        className="form-select"
+                    >
+                      <option selected>--Select an Attribute--</option>
+                      <option>Color</option>
+                      <option>Storage</option>
+                      <option>Display</option>
                     </select>
                   </div>
-                </div>
-              </div>
-              <div className="col mx-3 p-2 rounded bg-white">
-                <div className="row">
-                  <div className="col">
-                    <span className="fw-bold">Add Attribute</span>
-                  </div>
-                  <div className="col">
-                    <button
-                      className="btn btn-success"
-                      data-bs-toggle="modal"
-                      data-bs-target="#addAttribute"
+                  <div className="form-outline mb-4">
+                    <label
+                        className="form-label"
+                        htmlFor="inputAddAttribute-value"
                     >
-                      Add Attribute <IoIosAddCircle />
-                    </button>
+                      Value
+                    </label>
+                    <input
+                        type="text"
+                        id="inputAddAttribute-value"
+                        className="form-control"
+                        required
+                    />
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="container mt-3">
-          <nav className="navbar bg-white mb-3 mx-1 py-1 rounded">
-            <div className="container-fluid">
-              <a className="navbar-brand fw-bold">Attribute List</a>
-            </div>
-          </nav>
-          <table className="table table-striped table-hover">
-            <thead>
-              <tr>
-                <th scope="col" className="col-1">
-                  No
-                </th>
-                <th scope="col" className="col-1">
-                  Attribute
-                </th>
-                <th scope="col" className="col-1">
-                  Value
-                </th>
-                <th scope="col" className="col-1">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {datas.map((data)=>(
-              <tr>
-                <th scope="row">{data.no}</th>
-                <td>{data.attribute}</td>
-                <td>{data.Value}</td>
-                <td>
-                  <div className="d-flex">
-                    <button
-                      className="btn h4"
-                      data-bs-toggle="modal"
-                      data-bs-target="#viewAttribute"
-                    >
-                      <FaEye />
-                    </button>
-                    <button
-                      className="btn"
-                      data-bs-toggle="modal"
-                      data-bs-target="#editAttribute"
-                    >
-                      <FaEdit className="text-success h4" />
-                    </button>
-                    <button
-                      className="btn"
-                      data-bs-toggle="modal"
-                      data-bs-target="#deleteAttribute"
-                    >
-                      <MdDelete className="text-danger h4" />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-           ))}
-            </tbody>
-          </table>
-        </div>
-      </Sidebar>
-
-      <div
-        class="modal fade"
-        id="addAttribute"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="viewAttributeLabel">
-                View attributes
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body text-white">
-              <div data-mdb-input-init class="form-outline mb-4">
-                <label class="form-label" for="inputAddAttribute-attribute">
-                  Attribute
-                </label>
-                <select id="selectAddAttribute-attribute" class="form-select">
-                  <option selected>--Select an Attribute--</option>
-                  <option>Color</option>
-                  <option>Storage</option>
-                  <option>Display</option>
-                </select>
-              </div>
-              <div data-mdb-input-init class="form-outline mb-4">
-                <label class="form-label" for="inputAddAttribute-value">
-                  Value
-                </label>
-                <input
-                  type="text"
-                  id="inputViewAttribute-value"
-                  class="form-control"
-                  readOnly
-                />
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
+              </form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseAdd}>
                 Close
-              </button>
-              <button type="submit" class="btn btn-success">
+              </Button>
+              <Button variant="success" onClick={handleCloseAdd}>
                 Add
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+              </Button>
+            </Modal.Footer>
+          </Modal>
 
-      <div
-        class="modal fade"
-        id="viewAttribute"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="viewAttributeLabel">
-                View attributes
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body text-white">
-              <div data-mdb-input-init class="form-outline mb-4">
-                <label class="form-label" for="inputViewAttribute-attribute">
-                  Attribute
-                </label>
-                <input
-                  type="text"
-                  id="inputViewAttribute-attribute"
-                  class="form-control"
-                  readOnly
-                />
-              </div>
-              <div data-mdb-input-init class="form-outline mb-4">
-                <label class="form-label" for="inputViewAttribute-value">
-                  Value
-                </label>
-                <input
-                  type="text"
-                  id="inputViewAttribute-value"
-                  class="form-control"
-                  readOnly
-                />
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-success"
-                data-bs-dismiss="modal"
-              >
-                Done
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div
-        class="modal fade"
-        id="editAttribute"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="editAttributeLabel">
-                Edit attributes
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <form>
-              <div class="modal-body text-white">
-                <div data-mdb-input-init class="form-outline mb-4">
-                  <label class="form-label" for="attribute">
+          <Modal show={showView} onHide={handleCloseView}>
+            <Modal.Header closeButton>
+              <Modal.Title>View attributes</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <div className="modal-body text-white">
+                <div className="form-outline mb-4">
+                  <label
+                      className="form-label"
+                      htmlFor="inputAddAttribute-attribute"
+                  >
                     Attribute
                   </label>
                   <select
-                    id="selectEditAttribute-attribute"
-                    class="form-select"
+                      id="selectAddAttribute-attribute"
+                      className="form-select"
                   >
                     <option selected>--Select an Attribute--</option>
                     <option>Color</option>
@@ -279,79 +241,100 @@ function Attributes() {
                     <option>Display</option>
                   </select>
                 </div>
-                <div data-mdb-input-init class="form-outline mb-4">
-                  <label class="form-label" for="value">
+                <div className="form-outline mb-4">
+                  <label
+                      className="form-label"
+                      htmlFor="inputAddAttribute-value"
+                  >
                     Value
                   </label>
                   <input
-                    type="text"
-                    id="inputEditAttribute-value"
-                    class="form-control"
-                    required
+                      type="text"
+                      id="inputViewAttribute-value"
+                      className="form-control"
+                      readOnly
                   />
                 </div>
               </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="submit" class="btn btn-success">
-                  Edit
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseView}>
+                Close
+              </Button>
+              <Button variant="success" onClick={handleCloseView}>
+                Done
+              </Button>
+            </Modal.Footer>
+          </Modal>
 
-      <div
-        class="modal fade"
-        id="deleteAttribute"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="deleteAttributeLabel">
-                Delete attributes
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <form>
-              <div class="modal-body text-white">
-                <p>Are you sure you want to delete this item?</p>
-                <p>This action is not reversable.</p>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Cancel
-                </button>
-                <button type="submit" class="btn btn-danger">
-                  Delete
-                </button>
-              </div>
-            </form>
-          </div>
+          <Modal show={showEdit} onHide={handleCloseEdit}>
+            <Modal.Header closeButton>
+              <Modal.Title>Edit attributes</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <form>
+                <div className="modal-body text-white">
+                  <div className="form-outline mb-4">
+                    <label className="form-label" htmlFor="attribute">
+                      Attribute
+                    </label>
+                    <select
+                        id="selectEditAttribute-attribute"
+                        className="form-select"
+                    >
+                      <option selected>--Select an Attribute--</option>
+                      <option>Color</option>
+                      <option>Storage</option>
+                      <option>Display</option>
+                    </select>
+                  </div>
+                  <div className="form-outline mb-4">
+                    <label className="form-label" htmlFor="value">
+                      Value
+                    </label>
+                    <input
+                        type="text"
+                        id="inputEditAttribute-value"
+                        className="form-control"
+                        required
+                    />
+                  </div>
+                </div>
+              </form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseEdit}>
+                Close
+              </Button>
+              <Button variant="success" onClick={handleCloseEdit}>
+                Edit
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal show={showDelete} onHide={handleCloseDelete}>
+            <Modal.Header closeButton>
+              <Modal.Title>Add attributes</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <form>
+                <div className="modal-body text-white">
+                  <p>Are you sure you want to delete this item?</p>
+                  <p>This action is not reversable.</p>
+                </div>
+              </form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseDelete}>
+                Close
+              </Button>
+              <Button variant="danger" onClick={handleCloseDelete}>
+                Delete
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </div>
-      </div>
-    </>
+      </>
   );
 }
 
