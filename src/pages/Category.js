@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../App.css";
 import "../styles/Category.css";
 import Sidebar from "../layouts/Sidebar";
@@ -7,23 +7,35 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import AddCategory from "../components/modals/AddCategory";
+import AddBrand from "../components/modals/AddBrand";
 
 function Category() {
   const datas = [
-    { no: 1, attribute: "Color", Value: "Grey" },
-    { no: 2, attribute: "Color", Value: "Grey" },
-    { no: 3, attribute: "Color", Value: "Grey" },
-    { no: 4, attribute: "Color", Value: "Grey" },
-    { no: 5, attribute: "Color", Value: "Grey" },
-    { no: 6, attribute: "Color", Value: "Grey" },
-    { no: 7, attribute: "Color", Value: "Grey" },
-    { no: 2, attribute: "Color", Value: "Grey" },
-    { no: 3, attribute: "Color", Value: "Grey" },
-    { no: 4, attribute: "Color", Value: "Grey" },
-    { no: 5, attribute: "Color", Value: "Grey" },
-    { no: 6, attribute: "Color", Value: "Grey" },
-    { no: 7, attribute: "Color", Value: "Grey" },
+    { category: "laptops", status: "Active" },
+    { category: "Monitors", status: "Active" },
+    { category: "Processors", status: "Active" },
+    { category: "Motherboards", status: "Active" },
+    { category: "RAM", status: "InActive" },
+    { category: "Mouse", status: "Active" },
+    { category: "Keyboard", status: "Active" },
+    { category: "Mousepad", status: "Active" },
+    { category: "laptops", status: "InActive" },
+    { category: "laptops", status: "Active" },
+    { category: "laptops", status: "Active" },
+    { category: "laptops", status: "Active" },
+    { category: "laptops", status: "Active" },
   ];
+
+  const [showModal, setShowModal] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
+
+  const addCategoryModal = () => {
+    setShowModal(!showModal);
+  };
+  const addBrandModal = () => {
+    setShowModal2(!showModal2);
+  };
   return (
     <Sidebar>
       <div className="container">
@@ -45,8 +57,72 @@ function Category() {
               <div className="d-flex mb-2 Category-AddedSection">
                 <h5 className="col-6">CategoryList</h5>
                 <div className="col-6">
-                  <button className="d-flex gap-1 btn btn-success mt-3">
+                  <button
+                    className="d-flex gap-1 btn btn-success mt-3"
+                    onClick={addCategoryModal}
+                  >
                     AddCategory
+                    <AddCircleIcon />
+                  </button>
+                </div>
+              </div>
+              <div className="Category-TableSection">
+                <table className="table table-striped table-hover">
+                  <thead className="top-0 position-sticky z-1">
+                    <tr>
+                      <th scope="col" className="col-1">
+                        No
+                      </th>
+                      <th scope="col" className="col-1">
+                        Categories
+                      </th>
+                      <th scope="col" className="col-1">
+                        Status
+                      </th>
+                      <th scope="col" className="col-1">
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {datas.map((data, index) => (
+                      <tr key={index}>
+                        <th scope="row">{index + 1}</th>
+                        <td>{data.category}</td>
+                        <td>
+                          <div
+                            className={
+                              data.status === "Active"
+                                ? "Category-ActiveField"
+                                : "Category-InActiveField"
+                            }
+                          >
+                            {data.status}
+                          </div>
+                        </td>
+                        <td className="col-2">
+                          <IconButton aria-label="delete" className="viewbutt">
+                            <VisibilityIcon className="text-" />
+                          </IconButton>
+                          <IconButton aria-label="delete" className="viewbutt">
+                            <EditIcon className="text-success" />
+                          </IconButton>
+                          <IconButton aria-label="delete" className="viewbutt">
+                            <DeleteIcon className="text-danger" />
+                          </IconButton>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div className="col-lg-6 col-md-12 col-sm-12 mb-4">
+              <div className="d-flex mb-2 Category-AddedSection">
+                <h5 className="col-6">BrandList</h5>
+                <div className="col-6">
+                  <button className="d-flex gap-1 btn btn-success mt-3" onClick={addBrandModal}>
+                    AddBrand
                     <AddCircleIcon />
                   </button>
                 </div>
@@ -70,90 +146,30 @@ function Category() {
                     </tr>
                   </thead>
                   <tbody>
-                    {datas.map((data) => (
-                      <tr>
-                        <th scope="row">{data.no}</th>
-                        <td>{data.attribute}</td>
-                        <td>{data.Value}</td>
-                        <td>
-                            <IconButton
-                              aria-label="delete"
-                              className="viewbutt"
-                            >
-                              <VisibilityIcon className="text-" />
-                            </IconButton>
-                            <IconButton
-                              aria-label="delete"
-                              className="viewbutt"
-                            >
-                              <EditIcon className="text-success" />
-                            </IconButton>
-                            <IconButton
-                              aria-label="delete"
-                              className="viewbutt"
-                            >
-                              <DeleteIcon className="text-danger" />
-                            </IconButton>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div className="col-lg-6 col-md-12 col-sm-12 mb-4">
-              <div className="d-flex mb-2 Category-AddedSection">
-                <h5 className="col-6">BrandList</h5>
-                <div className="col-6">
-                  <button className="d-flex gap-1 btn btn-success mt-3">
-                    AddBrand
-                    <AddCircleIcon />
-                  </button>
-                </div>
-              </div>
-              <div className="Category-TableSection">
-              <table className="table table-striped table-hover">
-                  <thead className="top-0 position-sticky z-1">
-                    <tr>
-                      <th scope="col" className="col-1">
-                        No
-                      </th>
-                      <th scope="col" className="col-1">
-                        Attribute
-                      </th>
-                      <th scope="col" className="col-1">
-                        Value
-                      </th>
-                      <th scope="col" className="col-1">
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {datas.map((data) => (
-                      <tr>
-                        <th scope="row">{data.no}</th>
-                        <td>{data.attribute}</td>
-                        <td>{data.Value}</td>
-                        <td>
-                            <IconButton
-                              aria-label="delete"
-                              className="viewbutt"
-                            >
-                              <VisibilityIcon className="text-" />
-                            </IconButton>
-                            <IconButton
-                              aria-label="delete"
-                              className="viewbutt"
-                            >
-                              <EditIcon className="text-success" />
-                            </IconButton>
-                            <IconButton
-                              aria-label="delete"
-                              className="viewbutt"
-                            >
-                              <DeleteIcon className="text-danger" />
-                            </IconButton>
+                    {datas.map((data,index) => (
+                      <tr key={index}>
+                        <th scope="row">{index+1}</th>
+                        <td>{data.category}</td>
+                        <td> 
+                          <div
+                            className={
+                              data.status === "Active"
+                                ? "Category-ActiveField"
+                                : "Category-InActiveField"
+                            }
+                          >
+                            {data.status}
+                          </div></td>
+                        <td className="col-2">
+                          <IconButton aria-label="delete" className="viewbutt">
+                            <VisibilityIcon className="text-" />
+                          </IconButton>
+                          <IconButton aria-label="delete" className="viewbutt">
+                            <EditIcon className="text-success" />
+                          </IconButton>
+                          <IconButton aria-label="delete" className="viewbutt">
+                            <DeleteIcon className="text-danger" />
+                          </IconButton>
                         </td>
                       </tr>
                     ))}
@@ -164,6 +180,9 @@ function Category() {
           </div>
         </div>
       </div>
+
+      <AddCategory show={showModal} onHide={addCategoryModal} />
+      <AddBrand show={showModal2} onHide={addBrandModal}/>
     </Sidebar>
   );
 }

@@ -6,7 +6,7 @@ body {
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
   background-color: rgb(236, 255, 237);
 }
-nav, .modal-body{
+nav{
   background-color: #103434;
 }
 
@@ -27,3 +27,11 @@ thead,tbody{
   text-align: center;
   /* padding: 15px; */
 }
+
+.Modal-Title{
+  text-transform: uppercase;
+  font-weight: 700 !important;
+  color: #103434 !important;
+}
+
+
