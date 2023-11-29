@@ -9,3 +9,21 @@ body {
 nav, .modal-body{
   background-color: #103434;
 }
+
+.test{
+  background-color: green;
+  height: 100%;
+}
+
+.test2{
+background-color: red;
+height: 100%;
+}
+
+
+thead,tbody{
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  /* padding: 15px; */
+}
