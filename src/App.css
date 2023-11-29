@@ -25,13 +25,44 @@ thead,tbody{
   align-items: center;
   justify-content: center;
   text-align: center;
-  /* padding: 15px; */
 }
 
 .Modal-Title{
   text-transform: uppercase;
   font-weight: 700 !important;
   color: #103434 !important;
+}
+.search-input-container {
+  position: relative;
+}
+
+
+.SearchBox {
+  width: 300px;
+  padding-left: 5px;
+  border-radius: 5px;
+  background: #ffffff;
+  height: 35px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.search-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #555;
+  cursor: pointer;
+}
+
+.search-icon:hover {
+  color: #05004b;
+}
+
+.SearchBox:hover {
+  border-color: #007bff;
 }
 
 

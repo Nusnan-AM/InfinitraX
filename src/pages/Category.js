@@ -13,6 +13,8 @@ import CategoryView from "../components/modals/CategoryView";
 import BrandView from "../components/modals/BrandView";
 import EditCategory from "../components/modals/EditCategory";
 import EditBrand from "../components/modals/EditBrand";
+import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 
 function Category() {
   const datas = [
@@ -38,6 +40,20 @@ function Category() {
   const [showModal5, setShowModal5] = useState(false);
   const [showModal6, setShowModal6] = useState(false);
 
+  const [searchTerm3, setSearchTerm3] = useState("");
+  const [searchTerm4, setSearchTerm4] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
+
+  const handleChange3 = (event) => {
+    setSearchTerm3(event.target.value);
+  };
+  const handleChange4 = (event) => {
+    setSearchTerm4(event.target.value);
+  };
+
+  const handleStatusChange = (event) => {
+    setSelectedStatus(event.target.value);
+  };
   const addCategoryModal = () => {
     setShowModal(!showModal);
   };
@@ -67,10 +83,101 @@ function Category() {
             </span>
           </div>
         </nav>
-        <div className="container mb-3 Category-FilterSection">
-          <div></div>
-          <div></div>
-          <div></div>
+        <div className="mb-3 Category-FilterSection d-flex">
+          <h5 className="col-1">FilterList</h5>
+          <div className="col-3">
+            <div className="search-input-container mt-4">
+              <form>
+                <input
+                  className="SearchBox"
+                  type="text"
+                  placeholder="Filter by Category"
+                  value={searchTerm3}
+                  onChange={handleChange3}
+                />
+                <div
+                  className="search-icon"
+                  // onClick={handleSearchByDrugID}
+                >
+                  <SearchIcon />
+                </div>
+                {searchTerm3 && (
+                  <div
+                    className="search-icon si2"
+                    style={{
+                      zIndex: "100",
+                      backgroundColor: "white",
+                      right: "15px",
+                    }}
+                    onClick={() => setSearchTerm3("")}
+                  >
+                    <ClearIcon />
+                  </div>
+                )}
+              </form>
+            </div>
+          </div>
+          <div className="col-4">
+            {" "}
+            <div className="search-input-container mt-4 m-5">
+              <select
+                className="SearchBox"
+                value={selectedStatus}
+                onChange={handleStatusChange}
+              >
+                <option value={""}>Filter by Category</option>
+                <option value={"Active"}>Active</option>
+                <option value={"InActive"}>InActive</option>
+              </select>
+
+              {selectedStatus && (
+                <div
+                  className="search-icon"
+                  style={{
+                    zIndex: "100",
+                    backgroundColor: "white",
+                    right: "18px",
+                  }}
+                  onClick={() => setSelectedStatus("")}
+                >
+                  <ClearIcon />
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="col-3">
+            {" "}
+            <div className="search-input-container mt-4">
+              <form>
+                <input
+                  className="SearchBox"
+                  type="text"
+                  placeholder="Filter by Brand"
+                  value={searchTerm4}
+                  onChange={handleChange4}
+                />
+                <div
+                  className="search-icon"
+                  // onClick={handleSearchByDrugID}
+                >
+                  <SearchIcon />
+                </div>
+                {searchTerm4 && (
+                  <div
+                    className="search-icon si2"
+                    style={{
+                      zIndex: "100",
+                      backgroundColor: "white",
+                      right: "15px",
+                    }}
+                    onClick={() => setSearchTerm4("")}
+                  >
+                    <ClearIcon />
+                  </div>
+                )}
+              </form>
+            </div>
+          </div>
         </div>
         <div className="container mb-3">
           <div className="d-flex row mb-4">
@@ -122,10 +229,18 @@ function Category() {
                           </div>
                         </td>
                         <td className="col-2">
-                          <IconButton aria-label="delete" className="viewbutt" onClick={() => categoryViewModal()}>
+                          <IconButton
+                            aria-label="delete"
+                            className="viewbutt"
+                            onClick={() => categoryViewModal()}
+                          >
                             <VisibilityIcon className="text-" />
                           </IconButton>
-                          <IconButton aria-label="delete" className="viewbutt" onClick={() => categoryEditModal()}>
+                          <IconButton
+                            aria-label="delete"
+                            className="viewbutt"
+                            onClick={() => categoryEditModal()}
+                          >
                             <EditIcon className="text-success" />
                           </IconButton>
                           <IconButton aria-label="delete" className="viewbutt">
@@ -142,7 +257,10 @@ function Category() {
               <div className="d-flex mb-2 Category-AddedSection">
                 <h5 className="col-6">BrandList</h5>
                 <div className="col-6">
-                  <button className="d-flex gap-1 btn btn-success mt-3" onClick={addBrandModal}>
+                  <button
+                    className="d-flex gap-1 btn btn-success mt-3"
+                    onClick={addBrandModal}
+                  >
                     AddBrand
                     <AddCircleIcon />
                   </button>
@@ -167,11 +285,11 @@ function Category() {
                     </tr>
                   </thead>
                   <tbody>
-                    {datas.map((data,index) => (
+                    {datas.map((data, index) => (
                       <tr key={index}>
-                        <th scope="row">{index+1}</th>
+                        <th scope="row">{index + 1}</th>
                         <td>{data.category}</td>
-                        <td> 
+                        <td>
                           <div
                             className={
                               data.status === "Active"
@@ -180,12 +298,21 @@ function Category() {
                             }
                           >
                             {data.status}
-                          </div></td>
+                          </div>
+                        </td>
                         <td className="col-2">
-                          <IconButton aria-label="delete" className="viewbutt" onClick={() => brandViewModal()}>
+                          <IconButton
+                            aria-label="delete"
+                            className="viewbutt"
+                            onClick={() => brandViewModal()}
+                          >
                             <VisibilityIcon className="text-" />
                           </IconButton>
-                          <IconButton aria-label="delete" className="viewbutt" onClick={() => brandEditModal()}>
+                          <IconButton
+                            aria-label="delete"
+                            className="viewbutt"
+                            onClick={() => brandEditModal()}
+                          >
                             <EditIcon className="text-success" />
                           </IconButton>
                           <IconButton aria-label="delete" className="viewbutt">
@@ -201,24 +328,12 @@ function Category() {
           </div>
         </div>
       </div>
-      <CategoryView
-        show={showModal3}
-        onHide={() => setShowModal3(false)}
-      />
-        <BrandView
-        show={showModal4}
-        onHide={() => setShowModal4(false)}
-      />
-       <EditCategory
-        show={showModal5}
-        onHide={() => setShowModal5(false)}
-      />
-      <EditBrand
-        show={showModal6}
-        onHide={() => setShowModal6(false)}
-      />
+      <CategoryView show={showModal3} onHide={() => setShowModal3(false)} />
+      <BrandView show={showModal4} onHide={() => setShowModal4(false)} />
+      <EditCategory show={showModal5} onHide={() => setShowModal5(false)} />
+      <EditBrand show={showModal6} onHide={() => setShowModal6(false)} />
       <AddCategory show={showModal} onHide={addCategoryModal} />
-      <AddBrand show={showModal2} onHide={addBrandModal}/>
+      <AddBrand show={showModal2} onHide={addBrandModal} />
     </Sidebar>
   );
 }
