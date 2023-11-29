@@ -26,6 +26,41 @@ function Attributes() {
   const handleCloseDelete = () => setShowDelete(false);
   const handleShowDelete = () => setShowDelete(true);
 
+  const attributeTable = [
+    {
+      attribute: "Color",
+      value: "Grey",
+    },
+    {
+      attribute: "Storage",
+      value: "512 GB",
+    },
+    {
+      attribute: "Display",
+      value: "15 inch",
+    },
+    {
+      attribute: "Color",
+      value: "Black",
+    },
+    {
+      attribute: "Storage",
+      value: "2 TB",
+    },
+    {
+      attribute: "Color",
+      value: "White",
+    },
+    {
+      attribute: "Display",
+      value: "13.5 inch",
+    },
+    {
+      attribute: "Color",
+      value: "Gold",
+    },
+  ]; 
+
   return (
       <>
         <div className="Attributes">
@@ -97,10 +132,13 @@ function Attributes() {
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Color</td>
-                  <td>Grey</td>
+                {
+                  attributeTable.map((value, i)=>{
+                    return(
+                  <tr key={i}>
+                  <th scope="row">{i+1}</th>
+                  <td>{value?.attribute}</td>
+                  <td>{value?.value}</td>
                   <td>
                     <div className="d-flex">
                       <button className="btn h4" onClick={handleShowView}>
@@ -121,174 +159,9 @@ function Attributes() {
                     </div>
                   </td>
                 </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Storage</td>
-                  <td>512 GB</td>
-                  <td>
-                    <div className="d-flex">
-                      <button className="btn h4" onClick={handleShowView}>
-                        <FaEye />
-                      </button>
-                      <button className="btn">
-                        <FaEdit
-                            className="text-success h4"
-                            onClick={handleShowEdit}
-                        />
-                      </button>
-                      <button className="btn">
-                        <MdDelete
-                            className="text-danger h4"
-                            onClick={handleShowDelete}
-                        />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Display</td>
-                  <td>15 inch</td>
-                  <td>
-                    <div className="d-flex">
-                      <button className="btn h4" onClick={handleShowView}>
-                        <FaEye />
-                      </button>
-                      <button className="btn">
-                        <FaEdit
-                            className="text-success h4"
-                            onClick={handleShowEdit}
-                        />
-                      </button>
-                      <button className="btn">
-                        <MdDelete
-                            className="text-danger h4"
-                            onClick={handleShowDelete}
-                        />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                  <td>Color</td>
-                  <td>Black</td>
-                  <td>
-                    <div className="d-flex">
-                      <button className="btn h4" onClick={handleShowView}>
-                        <FaEye />
-                      </button>
-                      <button className="btn">
-                        <FaEdit
-                            className="text-success h4"
-                            onClick={handleShowEdit}
-                        />
-                      </button>
-                      <button className="btn">
-                        <MdDelete
-                            className="text-danger h4"
-                            onClick={handleShowDelete}
-                        />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">5</th>
-                  <td>Storage</td>
-                  <td>2 TB</td>
-                  <td>
-                    <div className="d-flex">
-                      <button className="btn h4" onClick={handleShowView}>
-                        <FaEye />
-                      </button>
-                      <button className="btn">
-                        <FaEdit
-                            className="text-success h4"
-                            onClick={handleShowEdit}
-                        />
-                      </button>
-                      <button className="btn">
-                        <MdDelete
-                            className="text-danger h4"
-                            onClick={handleShowDelete}
-                        />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">6</th>
-                  <td>Color</td>
-                  <td>White</td>
-                  <td>
-                    <div className="d-flex">
-                      <button className="btn h4" onClick={handleShowView}>
-                        <FaEye />
-                      </button>
-                      <button className="btn">
-                        <FaEdit
-                            className="text-success h4"
-                            onClick={handleShowEdit}
-                        />
-                      </button>
-                      <button className="btn">
-                        <MdDelete
-                            className="text-danger h4"
-                            onClick={handleShowDelete}
-                        />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">7</th>
-                  <td>Display</td>
-                  <td>13.5 inch</td>
-                  <td>
-                    <div className="d-flex">
-                      <button className="btn h4" onClick={handleShowView}>
-                        <FaEye />
-                      </button>
-                      <button className="btn">
-                        <FaEdit
-                            className="text-success h4"
-                            onClick={handleShowEdit}
-                        />
-                      </button>
-                      <button className="btn">
-                        <MdDelete
-                            className="text-danger h4"
-                            onClick={handleShowDelete}
-                        />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">8</th>
-                  <td>Color</td>
-                  <td>Gold</td>
-                  <td>
-                    <div className="d-flex">
-                      <button className="btn h4" onClick={handleShowView}>
-                        <FaEye />
-                      </button>
-                      <button className="btn">
-                        <FaEdit
-                            className="text-success h4"
-                            onClick={handleShowEdit}
-                        />
-                      </button>
-                      <button className="btn">
-                        <MdDelete
-                            className="text-danger h4"
-                            onClick={handleShowDelete}
-                        />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
+                    )
+                  })
+                }
                 </tbody>
               </table>
             </div>
