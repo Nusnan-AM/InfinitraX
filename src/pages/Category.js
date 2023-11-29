@@ -9,6 +9,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCategory from "../components/modals/AddCategory";
 import AddBrand from "../components/modals/AddBrand";
+import CategoryView from "../components/modals/CategoryView";
+import BrandView from "../components/modals/BrandView";
+import EditCategory from "../components/modals/EditCategory";
+import EditBrand from "../components/modals/EditBrand";
 
 function Category() {
   const datas = [
@@ -29,12 +33,29 @@ function Category() {
 
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
+  const [showModal3, setShowModal3] = useState(false);
+  const [showModal4, setShowModal4] = useState(false);
+  const [showModal5, setShowModal5] = useState(false);
+  const [showModal6, setShowModal6] = useState(false);
 
   const addCategoryModal = () => {
     setShowModal(!showModal);
   };
   const addBrandModal = () => {
     setShowModal2(!showModal2);
+  };
+  const categoryViewModal = () => {
+    setShowModal3(true);
+  };
+
+  const brandViewModal = () => {
+    setShowModal4(true);
+  };
+  const categoryEditModal = () => {
+    setShowModal5(true);
+  };
+  const brandEditModal = () => {
+    setShowModal6(true);
   };
   return (
     <Sidebar>
@@ -101,10 +122,10 @@ function Category() {
                           </div>
                         </td>
                         <td className="col-2">
-                          <IconButton aria-label="delete" className="viewbutt">
+                          <IconButton aria-label="delete" className="viewbutt" onClick={() => categoryViewModal()}>
                             <VisibilityIcon className="text-" />
                           </IconButton>
-                          <IconButton aria-label="delete" className="viewbutt">
+                          <IconButton aria-label="delete" className="viewbutt" onClick={() => categoryEditModal()}>
                             <EditIcon className="text-success" />
                           </IconButton>
                           <IconButton aria-label="delete" className="viewbutt">
@@ -161,10 +182,10 @@ function Category() {
                             {data.status}
                           </div></td>
                         <td className="col-2">
-                          <IconButton aria-label="delete" className="viewbutt">
+                          <IconButton aria-label="delete" className="viewbutt" onClick={() => brandViewModal()}>
                             <VisibilityIcon className="text-" />
                           </IconButton>
-                          <IconButton aria-label="delete" className="viewbutt">
+                          <IconButton aria-label="delete" className="viewbutt" onClick={() => brandEditModal()}>
                             <EditIcon className="text-success" />
                           </IconButton>
                           <IconButton aria-label="delete" className="viewbutt">
@@ -180,7 +201,22 @@ function Category() {
           </div>
         </div>
       </div>
-
+      <CategoryView
+        show={showModal3}
+        onHide={() => setShowModal3(false)}
+      />
+        <BrandView
+        show={showModal4}
+        onHide={() => setShowModal4(false)}
+      />
+       <EditCategory
+        show={showModal5}
+        onHide={() => setShowModal5(false)}
+      />
+      <EditBrand
+        show={showModal6}
+        onHide={() => setShowModal6(false)}
+      />
       <AddCategory show={showModal} onHide={addCategoryModal} />
       <AddBrand show={showModal2} onHide={addBrandModal}/>
     </Sidebar>
