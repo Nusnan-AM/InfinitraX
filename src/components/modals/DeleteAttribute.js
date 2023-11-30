@@ -13,7 +13,7 @@ export default function DeleteAttribute(props) {
         </Modal.Header>
         <Modal.Body>
           <form>
-            <div className="modal-body text-white">
+            <div className="modal-body">
               <p>Are you sure you want to delete this item?</p>
               <p>This action is not reversable.</p>
             </div>

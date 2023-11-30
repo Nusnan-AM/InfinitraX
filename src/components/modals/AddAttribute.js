@@ -46,10 +46,11 @@ export default function AddAttribute(props) {
           </form>
         </Modal.Body>
         <Modal.Footer>
+         
+          <Button variant="success">Add Attribute</Button>
           <Button variant="secondary" onClick={onHide}>
             Close
           </Button>
-          <Button variant="success">Add</Button>
         </Modal.Footer>
       </Modal>
     </>

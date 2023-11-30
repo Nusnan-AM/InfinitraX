@@ -12,7 +12,7 @@ export default function ViewAttribute(props) {
           <Modal.Title>View Attribute</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="modal-body text-white">
+          <div className="modal-body">
             <div className="form-outline mb-4">
               <label
                 className="form-label"

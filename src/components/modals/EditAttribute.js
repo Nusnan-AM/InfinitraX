@@ -13,7 +13,7 @@ export default function EditAttribute(props) {
         </Modal.Header>
         <Modal.Body>
           <form>
-            <div className="modal-body text-white">
+            <div className="modal-body">
               <div className="form-outline mb-4">
                 <label className="form-label" htmlFor="attribute">
                   Attribute

@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import Sidebar from "../layouts/Sidebar";
-import { FaEye } from "react-icons/fa";
-import { FaEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
 import { IoIosAddCircle } from "react-icons/io";
 import Button from "react-bootstrap/Button";
 import { Navbar } from "react-bootstrap";
@@ -11,6 +8,10 @@ import ViewAttribute from "../components/modals/ViewAttribute";
 import EditAttribute from "../components/modals/EditAttribute";
 import DeleteAttribute from "../components/modals/DeleteAttribute";
 import "../styles/attributes.css";
+import { IconButton } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function Attributes() {
   const [showAdd, setShowAdd] = useState(false);
@@ -119,8 +120,9 @@ function Attributes() {
                 <p className="navbar-brand fw-bold">Attribute List</p>
               </div>
             </Navbar>
+            <div className="Attribute-TableSection">
             <table className="table table-striped table-hover">
-              <thead>
+              <thead className="top-0 position-sticky z-1">
                 <tr>
                   <th scope="col" className="col-1">
                     No
@@ -144,32 +146,34 @@ function Attributes() {
                       <td>{value?.attribute}</td>
                       <td>{value?.value}</td>
                       <td>
-                        <div className="d-flex">
-                          <button
-                            className="btn h4"
-                            onClick={() => viewAttributeModal()}
-                          >
-                            <FaEye />
-                          </button>
-                          <button className="btn">
-                            <FaEdit
-                              className="text-success h4"
-                              onClick={() => editAttributeModal()}
-                            />
-                          </button>
-                          <button className="btn">
-                            <MdDelete
-                              className="text-danger h4"
-                              onClick={() => deleteAttributeModal()}
-                            />
-                          </button>
-                        </div>
+                        <IconButton
+                          aria-label="delete"
+                          className="viewbutt"
+                          onClick={() => viewAttributeModal()}
+                        >
+                          <VisibilityIcon className="text-" />
+                        </IconButton>
+                        <IconButton
+                          aria-label="delete"
+                          className="viewbutt"
+                          onClick={() => editAttributeModal()}
+                        >
+                          <EditIcon className="text-success" />
+                        </IconButton>
+                        <IconButton
+                          aria-label="delete"
+                          className="viewbutt"
+                          onClick={() => deleteAttributeModal()}
+                        >
+                          <DeleteIcon className="text-danger" />
+                        </IconButton>
                       </td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
+            </div>
           </div>
           <AddAttribute
             show={showAdd}
