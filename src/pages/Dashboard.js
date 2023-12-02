@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/Dashboard.css";
 import Sidebar from "../layouts/Sidebar";
 import DashboardIcon1 from "../assets/DashbaordIcon1.svg";
 import DashboardIcon2 from "../assets/DashbaordIcon2.svg";
@@ -91,7 +92,7 @@ function Dashboard() {
           </div>
           <div className="col-lg-6 col-md-6 col-sm-12 mb-4">
             <div className="DashboardGraphContainer">
-              <h4>Stock Overview</h4>
+              <h4>Product Overview</h4>
               <ProductOverViewChart />
             </div>
           </div>

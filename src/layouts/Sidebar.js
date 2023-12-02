@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../App.css";
+import "../styles/sidebar.css";
 import logo from "../assets/logo.png";
 import logos from "../assets/logo-small.png";
 import { NavLink } from "react-router-dom";
@@ -51,7 +52,7 @@ function Sidebar({ children }) {
           style={{ width: !open && windowSize[0] * 0.155 }}
         >
           <div className="">
-            <div className="close-btn-container" onClick={toggleDrawer}>
+            <div className="close-btn-container cursor-pointer" onClick={toggleDrawer}>
               <MenuOpenIcon className={!!open && "rotate-180"} sx={{fontSize:'30px'}}/>
             </div>
             {!open && windowSize[0] >= 800 ? (
@@ -116,7 +117,7 @@ function Sidebar({ children }) {
                     ? "side-menu-item side-menu-active "
                     : "side-menu-item "
                 }
-                to={"/"}
+                to={"/dashboard"}
               >
                 <div className={"d-flex"}>
                   <SpaceDashboardIcon
@@ -269,7 +270,7 @@ function Sidebar({ children }) {
                     ? "side-menu-item side-menu-active"
                     : "side-menu-item"
                 }
-                to={"/logout"}
+                to={"/"}
               >
                 <div className={"d-flex"}>
                   <LogoutIcon
