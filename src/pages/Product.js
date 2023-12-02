@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Form from 'react-bootstrap/Form';
+import { Container, Col, Row } from "react-bootstrap";
+
 
 
 const Product =() =>{
@@ -121,68 +123,101 @@ const Product =() =>{
   return (
     <Sidebar>
         {showDataTable ? 
-         <div className="container mt-3 d-flex justify-content-center content-bg-info">
-          <div className='container mt-3'>
-          <div className="container mt-3 d-flex justify-content-center">
+        
+         <div className="container d-flex justify-content-center content-bg-light">
+          <div className='container'>
+          <div className="container my-3 bg-dark p-2 rounded text-white d-flex justify-content-center">
             <h3>Products Section</h3>
           </div>  
-            <div id="filter" className="d-flex justify-content-around text-bg-info p-3">
-              <input type="text" placeholder="Filter by SerialNo" name="serialNo" onChange={handleFilter} />
-                <select name="category" onChange={handleFilter}>
-                    <option value="">Filter by Category</option> 
-                    <option value="laptops">Laptops</option>
-                    <option value="keyboard">Keyboard</option>
-                  </select>
-                  <select name="brand" onChange={handleFilter}>
-                    <option value="">Filter by Brand</option>
-                    <option value="Asus">Asus</option>
-                    <option value="hp">HP</option>
-                  </select>
+            <div id="filter" className="d-flex flex-column bg-white pt-1 ps-1">
+            <h6>Filter By</h6>
+            <div className="d-flex justify-content-around align-content-center p-2">
+            <Form.Control className="w-25" type="text" placeholder="Filter by SerialNo" name="serialNo" onChange={handleFilter} />
+            <Form.Select size="sm" aria-label="Default select example" className="w-25"  name="category" onChange={handleFilter}>
+            <option value="">Filter by Category</option> 
+                  <option value="laptops">Laptops</option>
+                  <option value="keyboard">Keyboard</option>
+            </Form.Select>
+
+            <Form.Select size="sm" aria-label="Default select example" className="w-25"  name="brand" onChange={handleFilter}>
+            <option value="">Filter by Brand</option>
+                  <option value="Asus">Asus</option>
+                  <option value="hp">HP</option>
+            </Form.Select>
+            </div>
               </div>
-         <div className='container mt-5 justify-content-center'>
-           <div className='text-end' onClick={() => {setShowDataTable(false)}}>
-               <button className="btn btn-success ms-2">Add Product</button>
+         <div className='my-2 justify-content-center bg-white pt-1 ps-1'>
+         <h6>Product List</h6>
+           <div className='text-end p-3 ' onClick={() => {setShowDataTable(false)}}>
+               <button className="btn btn-sm text-sm btn-success ms-2">Add Product</button>
            </div>
          </div>
-         <div className='container mt-3'>
+         <div className='mt-3'>
          <DataTable columns={columns} data={records} fixedHeader pagination />
          </div>
          </div>
        </div>
        :
+       
          <div className="container mt-3 content-bg-info">
-           <h3>Add Product Section</h3>
+          <div className=" my-3 bg-dark p-2 rounded text-white d-flex justify-content-center">
+            <h3>Add Products Section</h3>
+          </div>  
+           <h5>Add Product</h5>
            <div>
-           <Form>
+            <Form>
+            <Row>
+            <Col>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Product SerialNo</Form.Label>
               <Form.Control type="number" placeholder="Product SerialNo" />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Product Name</Form.Label>
-              <Form.Control type="text" placeholder="Product Name" />
-            </Form.Group>
+            </Col>
+            <Col>
             <Form.Group controlId="formFile" className="mb-3">
               <Form.Label>Product image</Form.Label>
               <Form.Control type="file" />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-              <Form.Label>Product Description</Form.Label>
-              <Form.Control as="textarea" rows={3} />
+            </Col>
+            </Row>
+
+            <Row>
+              <Col>
+              <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Product Name</Form.Label>
+              <Form.Control type="text" placeholder="Product Name" />
             </Form.Group>
-            <Form.Select aria-label="Default select example">
+              </Col>
+              
+            <Col>
+            
+            <Form.Label>Product Category</Form.Label>
+            <Form.Select aria-label="Default select example"> 
               <option>Select Product Category</option>
               <option value="1">Laptops</option>
               <option value="2">Mouse</option>
               <option value="3">Keyboard</option>
             </Form.Select>
+            </Col>
+            
+            <Col>
+            <Form.Label>Product Category</Form.Label>
             <Form.Select aria-label="Default select example">
               <option>Select the Brand</option>
               <option value="1">Asus</option>
               <option value="2">Hp</option>
               <option value="3">Dell</option>
             </Form.Select>
+            </Col>
+            
+          </Row>
+               
+            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+              <Form.Label>Product Description</Form.Label>
+              <Form.Control as="textarea" rows={3} />
+            </Form.Group>
         </Form>
+           
            </div>
          </div> 
          
