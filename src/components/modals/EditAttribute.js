@@ -7,7 +7,7 @@ export default function EditAttribute(props) {
 
   return (
     <>
-      <Modal show={show} onHide={onHide}>
+      <Modal show={show} onHide={onHide} centered backdrop="static">
         <Modal.Header closeButton>
           <Modal.Title>Edit Attribute</Modal.Title>
         </Modal.Header>

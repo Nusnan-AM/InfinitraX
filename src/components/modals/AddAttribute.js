@@ -7,7 +7,7 @@ export default function AddAttribute(props) {
 
   return (
     <>
-      <Modal show={show} onHide={onHide}>
+      <Modal show={show} onHide={onHide} centered backdrop="static">
         <Modal.Header closeButton>
           <Modal.Title>Add attributes</Modal.Title>
         </Modal.Header>

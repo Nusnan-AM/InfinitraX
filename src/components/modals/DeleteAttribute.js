@@ -7,7 +7,7 @@ export default function DeleteAttribute(props) {
 
   return (
     <>
-      <Modal show={show} onHide={onHide}>
+      <Modal show={show} onHide={onHide} centered backdrop="static">
         <Modal.Header closeButton>
           <Modal.Title>Delete Attribute</Modal.Title>
         </Modal.Header>
