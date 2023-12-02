@@ -4,9 +4,12 @@ import DataTable from "react-data-table-component";
 import { Link } from "react-router-dom"; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import Form from 'react-bootstrap/Form';
 
 
-function Product() {
+const Product =() =>{
+  const[showDataTable,setShowDataTable] = useState(true);
+
   const columns = [
     {
       name: 'No',
@@ -37,10 +40,10 @@ function Product() {
       name: 'Action',
       cell: row => (
         <>
-          <Link to={`/view-product/${row.no}`}>
+          <Link >
             <FontAwesomeIcon icon={faEye} className="me-2" title="View" />
           </Link>
-          <Link to={`/edit-product/${row.no}`}>
+          <Link>
             <FontAwesomeIcon icon={faEdit} className="me-2" title="Edit" />
           </Link>
           <FontAwesomeIcon icon={faTrash} className="text-danger" title="Delete" onClick={() => (row.no)} style={{ cursor: 'pointer' }} />
@@ -89,6 +92,7 @@ function Product() {
   const [categoryFilter, setCategoryFilter] = useState('');
   const [brandFilter, setBrandFilter] = useState('');
 
+
   function handleFilter(event) {
     const { name, value } = event.target;
 
@@ -114,34 +118,75 @@ function Product() {
     });
     setRecords(newData);
   }
-
   return (
     <Sidebar>
-      <div className='container mt-5'>
-        <div className="text-start ">
-          <input type="text" placeholder="Filter by SerialNo" name="serialNo" onChange={handleFilter} />
-          <select name="category" onChange={handleFilter}>
-            <option value="">Filter by Category</option>
-            
-            <option value="laptops">Laptops</option>
-            <option value="keyboard">Keyboard</option>
-          </select>
-          <select name="brand" onChange={handleFilter}>
-            <option value="">Filter by Brand</option>
-            
-            <option value="Asus">Asus</option>
-            <option value="hp">HP</option>
-          </select>
-        </div>
-        <div className='container mt-5'>
-          <div className='text-end'>
-            <Link to="/add-product">
-              <button className="btn btn-success ms-2">Add Product</button>
-            </Link>
-          </div>
-        </div>
-        <DataTable columns={columns} data={records} fixedHeader pagination />
-      </div>
+        {showDataTable ? 
+         <div className="container mt-3 d-flex justify-content-center content-bg-info">
+          <div className='container mt-3'>
+          <div className="container mt-3 d-flex justify-content-center">
+            <h3>Products Section</h3>
+          </div>  
+            <div id="filter" className="d-flex justify-content-around text-bg-info p-3">
+              <input type="text" placeholder="Filter by SerialNo" name="serialNo" onChange={handleFilter} />
+                <select name="category" onChange={handleFilter}>
+                    <option value="">Filter by Category</option> 
+                    <option value="laptops">Laptops</option>
+                    <option value="keyboard">Keyboard</option>
+                  </select>
+                  <select name="brand" onChange={handleFilter}>
+                    <option value="">Filter by Brand</option>
+                    <option value="Asus">Asus</option>
+                    <option value="hp">HP</option>
+                  </select>
+              </div>
+         <div className='container mt-5 justify-content-center'>
+           <div className='text-end' onClick={() => {setShowDataTable(false)}}>
+               <button className="btn btn-success ms-2">Add Product</button>
+           </div>
+         </div>
+         <div className='container mt-3'>
+         <DataTable columns={columns} data={records} fixedHeader pagination />
+         </div>
+         </div>
+       </div>
+       :
+         <div className="container mt-3 content-bg-info">
+           <h3>Add Product Section</h3>
+           <div>
+           <Form>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Product SerialNo</Form.Label>
+              <Form.Control type="number" placeholder="Product SerialNo" />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Product Name</Form.Label>
+              <Form.Control type="text" placeholder="Product Name" />
+            </Form.Group>
+            <Form.Group controlId="formFile" className="mb-3">
+              <Form.Label>Product image</Form.Label>
+              <Form.Control type="file" />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+              <Form.Label>Product Description</Form.Label>
+              <Form.Control as="textarea" rows={3} />
+            </Form.Group>
+            <Form.Select aria-label="Default select example">
+              <option>Select Product Category</option>
+              <option value="1">Laptops</option>
+              <option value="2">Mouse</option>
+              <option value="3">Keyboard</option>
+            </Form.Select>
+            <Form.Select aria-label="Default select example">
+              <option>Select the Brand</option>
+              <option value="1">Asus</option>
+              <option value="2">Hp</option>
+              <option value="3">Dell</option>
+            </Form.Select>
+        </Form>
+           </div>
+         </div> 
+         
+       }      
     </Sidebar>
   );
 }
