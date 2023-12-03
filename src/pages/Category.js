@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "../App.css";
 import "../styles/Category.css";
 import Sidebar from "../layouts/Sidebar";
@@ -16,6 +16,8 @@ import EditBrand from "../components/modals/EditBrand";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 
+import axios from 'axios';
+
 function Category() {
   const datas = [
     { category: "laptops", status: "Active" },
@@ -32,6 +34,9 @@ function Category() {
     { category: "laptops", status: "Active" },
     { category: "laptops", status: "Active" },
   ];
+
+  const [updateTrigger, setUpdateTrigger] = useState(false);
+  const [Category, setCategory] = useState([]);
 
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
@@ -56,6 +61,7 @@ function Category() {
   };
   const addCategoryModal = () => {
     setShowModal(!showModal);
+    fetchData();
   };
   const addBrandModal = () => {
     setShowModal2(!showModal2);
@@ -73,6 +79,22 @@ function Category() {
   const brandEditModal = () => {
     setShowModal6(true);
   };
+
+
+  useEffect(() => {
+    (async () => await fetchData())();
+    }, []);
+    
+    
+    async function  fetchData()
+    {
+       const result = await axios.get(
+           "http://127.0.0.1:8000/category");
+           setCategory(result.data);
+           console.log(result.data);
+    }
+
+    
   return (
     <Sidebar>
       <div className="container">
@@ -213,10 +235,10 @@ function Category() {
                     </tr>
                   </thead>
                   <tbody>
-                    {datas.map((data, index) => (
+                    {Category.map((data, index) => (
                       <tr key={index}>
                         <th scope="row">{index + 1}</th>
-                        <td>{data.category}</td>
+                        <td>{data.categories}</td>
                         <td>
                           <div
                             className={

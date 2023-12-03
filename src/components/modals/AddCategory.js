@@ -1,9 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../../App.css";
 import { Modal, Button } from "react-bootstrap";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AddCategory(props) {
   const { show, onHide } = props;
+  const [id, setId] = useState("");
+  const [categories, setcategories] = useState("");
+  const [status, setStatus] = useState("");
+  const [updateTrigger, setUpdateTrigger] = useState(false);
+
+  const resetForm = () => {
+    setId("");
+    setcategories("");
+    setStatus("");
+  };
+
+  async function addCategory(event) {
+    event.preventDefault();
+    if (categories.length === 0) {
+      toast.warning("Fill the Categories Field");
+    } else if (status.length === 0) {
+      toast.warning("Fill the Status Field");
+    } else {
+      try {
+        await axios.post("http://127.0.0.1:8000/category", {
+          categories: categories,
+          status: status,
+        });
+        toast.success("Categories added Succesfully");
+        resetForm();
+        setUpdateTrigger(!updateTrigger);
+      } catch (err) {
+        toast.error("Categories added Failed");
+      }
+    }
+  }
 
   return (
     <Modal show={show} onHide={onHide} centered backdrop="static">
@@ -21,6 +55,8 @@ function AddCategory(props) {
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="laptops..."
+              onChange={(e) => setcategories(e.target.value)}
+              value={categories}
             />
           </div>
           <div class="mb-3">
@@ -34,7 +70,8 @@ function AddCategory(props) {
                   type="radio"
                   name="flexRadioDefault"
                   id="flexRadioDefault1"
-                  defaultChecked
+                  onChange={(e) => setStatus(e.target.value)}
+                  value="Active"
                 />
                 <label className="form-check-label" htmlFor="flexRadioDefault1">
                   Active
@@ -46,6 +83,8 @@ function AddCategory(props) {
                   type="radio"
                   name="flexRadioDefault"
                   id="flexRadioDefault2"
+                  onChange={(e) => setStatus(e.target.value)}
+                  value="Inactive"
                 />
                 <label className="form-check-label" htmlFor="flexRadioDefault2">
                   InActive
@@ -57,8 +96,13 @@ function AddCategory(props) {
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="success">ADD Category</Button>
-        <Button variant="secondary">Reset</Button>
+        <Button variant="success" onClick={addCategory}>
+          ADD Category
+        </Button>
+        <Button variant="secondary" onClick={resetForm}>
+          Reset
+        </Button>
+        <ToastContainer />
       </Modal.Footer>
     </Modal>
   );
