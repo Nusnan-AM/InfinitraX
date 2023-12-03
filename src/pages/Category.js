@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "../App.css";
 import "../styles/Category.css";
 import Sidebar from "../layouts/Sidebar";
@@ -18,7 +18,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import axios from 'axios';
+import axios from "axios";
 import DeleteConfirmationModal from "../components/modals/confirmationmodal/DeleteConfirmationModal";
 
 function Category() {
@@ -39,7 +39,8 @@ function Category() {
   ];
 
   const [updateTrigger, setUpdateTrigger] = useState(false);
-  const [categoryToDelete, setCategoryToDelete] = useState(null); 
+  const [categoryToDelete, setCategoryToDelete] = useState(null);
+  const [brandToDelete, setbrandToDelete] = useState(null);
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const [Category, setCategory] = useState([]);
   const [Brand, setBrand] = useState([]);
@@ -79,8 +80,8 @@ function Category() {
     setShowModal3(true);
   };
 
-  const brandViewModal = () => {
-    
+  const brandViewModal = (brand) => {
+    setSelectedBrand(brand);
     setShowModal4(true);
   };
   const categoryEditModal = (categories) => {
@@ -92,46 +93,48 @@ function Category() {
     setShowModal6(true);
   };
 
-
   useEffect(() => {
     (async () => await fetchData())();
-    }, []);
+  }, []);
 
-    useEffect(() => {
-      (async () => await fetchData2())();
-      }, []);
+  useEffect(() => {
+    (async () => await fetchData2())();
+  }, []);
 
-    
-    
-   
-    async function  fetchData()
-    {
-       const result = await axios.get(
-           "http://127.0.0.1:8000/category");
-           setCategory(result.data);
-    }
+  async function fetchData() {
+    const result = await axios.get("http://127.0.0.1:8000/category");
+    setCategory(result.data);
+  }
 
-    async function  fetchData2()
-    {
-       const result = await axios.get(
-           "http://127.0.0.1:8000/brand");
-           setBrand(result.data);
-    }
+  async function fetchData2() {
+    const result = await axios.get("http://127.0.0.1:8000/brand");
+    setBrand(result.data);
+  }
 
-    const handleDelete = async (id) => {
-      setConfirmModalVisible(true);
-      setCategoryToDelete(id);
-    };
+  const handleDelete = async (id) => {
+    setConfirmModalVisible(true);
+    setCategoryToDelete(id);
+  };
 
-    async function DeleteCategory(id)
-    {  
-      setConfirmModalVisible(false);
-         await axios.delete("http://127.0.0.1:8000/category/" + id);
-         toast.success("Category deleted successfully");
-         fetchData();
-    }
+  async function DeleteCategory(id) {
+    setConfirmModalVisible(false);
+    await axios.delete("http://127.0.0.1:8000/category/" + id);
+    toast.success("Category deleted successfully");
+    fetchData();
+  }
 
-    
+  const handleDelete2 = async (id) => {
+    setConfirmModalVisible(true);
+    setbrandToDelete(id);
+  };
+
+  async function DeleteBrand(id) {
+    setConfirmModalVisible(false);
+    await axios.delete("http://127.0.0.1:8000/brand/" + id);
+    toast.success("Brand deleted successfully");
+    fetchData2();
+  }
+
   return (
     <Sidebar>
       <div className="container">
@@ -302,7 +305,11 @@ function Category() {
                           >
                             <EditIcon className="text-success" />
                           </IconButton>
-                          <IconButton aria-label="delete" className="viewbutt" onClick={() => handleDelete(data.id)}>
+                          <IconButton
+                            aria-label="delete"
+                            className="viewbutt"
+                            onClick={() => handleDelete(data.id)}
+                          >
                             <DeleteIcon className="text-danger" />
                           </IconButton>
                         </td>
@@ -374,7 +381,11 @@ function Category() {
                           >
                             <EditIcon className="text-success" />
                           </IconButton>
-                          <IconButton aria-label="delete" className="viewbutt">
+                          <IconButton
+                            aria-label="delete"
+                            className="viewbutt"
+                            onClick={() => handleDelete2(data.id)}
+                          >
                             <DeleteIcon className="text-danger" />
                           </IconButton>
                         </td>
@@ -388,9 +399,21 @@ function Category() {
         </div>
         <ToastContainer />
       </div>
-      <CategoryView show={showModal3} onHide={() => setShowModal3(false)} categoryDetails={selectedCategory} />
-      <BrandView show={showModal4} onHide={() => setShowModal4(false)} />
-      <EditCategory show={showModal5} onHide={() => setShowModal5(false)}  categoryDetails={selectedCategory} />
+      <CategoryView
+        show={showModal3}
+        onHide={() => setShowModal3(false)}
+        categoryDetails={selectedCategory}
+      />
+      <BrandView
+        show={showModal4}
+        onHide={() => setShowModal4(false)}
+        brandDetails={selectedBrand}
+      />
+      <EditCategory
+        show={showModal5}
+        onHide={() => setShowModal5(false)}
+        categoryDetails={selectedCategory}
+      />
       <EditBrand show={showModal6} onHide={() => setShowModal6(false)} />
       <AddCategory show={showModal} onHide={addCategoryModal} />
       <AddBrand show={showModal2} onHide={addBrandModal} />
@@ -398,7 +421,12 @@ function Category() {
       <DeleteConfirmationModal
         show={confirmModalVisible}
         onHide={() => setConfirmModalVisible(false)}
-       onConfirm={() => DeleteCategory(categoryToDelete)}
+        onConfirm={() => DeleteCategory(categoryToDelete)}
+      />
+      <DeleteConfirmationModal
+        show={confirmModalVisible}
+        onHide={() => setConfirmModalVisible(false)}
+        onConfirm={() => DeleteBrand(brandToDelete)}
       />
     </Sidebar>
   );

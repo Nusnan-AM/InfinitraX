@@ -3,7 +3,7 @@ import "../../App.css";
 import { Modal, Button } from "react-bootstrap";
 
 function BrandView(props) {
-  const { show, onHide } = props;
+  const { show, onHide,brandDetails } = props;
 
   return (
     <Modal show={show} onHide={onHide} centered backdrop="static">
@@ -21,7 +21,7 @@ function BrandView(props) {
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="laptops..."
-              value={"Hp"}
+              value={brandDetails && brandDetails.brand}
               readOnly
             />
           </div>
@@ -36,7 +36,7 @@ function BrandView(props) {
                   type="radio"
                   name="flexRadioDefault"
                   id="flexRadioDefault1"
-                  defaultChecked
+                  checked={brandDetails && brandDetails.status === "Active"}
                   readOnly
                 />
                 <label className="form-check-label" htmlFor="flexRadioDefault1">
@@ -49,6 +49,7 @@ function BrandView(props) {
                   type="radio"
                   name="flexRadioDefault"
                   id="flexRadioDefault2"
+                  checked={brandDetails && brandDetails.status === "InActive"}
                   readOnly
                 />
                 <label className="form-check-label" htmlFor="flexRadioDefault2">
