@@ -42,7 +42,9 @@ function Category() {
   const [categoryToDelete, setCategoryToDelete] = useState(null); 
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const [Category, setCategory] = useState([]);
+  const [Brand, setBrand] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedBrand, setSelectedBrand] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
   const [showModal3, setShowModal3] = useState(false);
@@ -70,6 +72,7 @@ function Category() {
   };
   const addBrandModal = () => {
     setShowModal2(!showModal2);
+    fetchData2();
   };
   const categoryViewModal = (categories) => {
     setSelectedCategory(categories);
@@ -93,6 +96,12 @@ function Category() {
   useEffect(() => {
     (async () => await fetchData())();
     }, []);
+
+    useEffect(() => {
+      (async () => await fetchData2())();
+      }, []);
+
+    
     
    
     async function  fetchData()
@@ -100,6 +109,13 @@ function Category() {
        const result = await axios.get(
            "http://127.0.0.1:8000/category");
            setCategory(result.data);
+    }
+
+    async function  fetchData2()
+    {
+       const result = await axios.get(
+           "http://127.0.0.1:8000/brand");
+           setBrand(result.data);
     }
 
     const handleDelete = async (id) => {
@@ -328,10 +344,10 @@ function Category() {
                     </tr>
                   </thead>
                   <tbody>
-                    {datas.map((data, index) => (
+                    {Brand.map((data, index) => (
                       <tr key={index}>
                         <th scope="row">{index + 1}</th>
-                        <td>{data.category}</td>
+                        <td>{data.brand}</td>
                         <td>
                           <div
                             className={
