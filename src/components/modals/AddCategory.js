@@ -84,7 +84,7 @@ function AddCategory(props) {
                   name="flexRadioDefault"
                   id="flexRadioDefault2"
                   onChange={(e) => setStatus(e.target.value)}
-                  value="Inactive"
+                  value="InActive"
                 />
                 <label className="form-check-label" htmlFor="flexRadioDefault2">
                   InActive

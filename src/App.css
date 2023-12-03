@@ -33,6 +33,14 @@ thead,tbody{
   font-weight: 700 !important;
   color: #103434 !important;
 }
+.Modal-Title-Confirm{
+  text-transform: uppercase;
+  font-weight: 700 !important;
+}
+
+.Modal-Body-Confirm p{
+   font-weight: 600;
+}
 .search-input-container {
   position: relative;
 }
@@ -65,6 +73,7 @@ thead,tbody{
 .SearchBox:hover {
   border-color: #007bff;
 }
+
 
 
 

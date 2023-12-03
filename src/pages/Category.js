@@ -15,8 +15,11 @@ import EditCategory from "../components/modals/EditCategory";
 import EditBrand from "../components/modals/EditBrand";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import axios from 'axios';
+import DeleteConfirmationModal from "../components/modals/confirmationmodal/DeleteConfirmationModal";
 
 function Category() {
   const datas = [
@@ -36,8 +39,10 @@ function Category() {
   ];
 
   const [updateTrigger, setUpdateTrigger] = useState(false);
+  const [categoryToDelete, setCategoryToDelete] = useState(null); 
+  const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const [Category, setCategory] = useState([]);
-
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
   const [showModal3, setShowModal3] = useState(false);
@@ -66,15 +71,19 @@ function Category() {
   const addBrandModal = () => {
     setShowModal2(!showModal2);
   };
-  const categoryViewModal = () => {
+  const categoryViewModal = (categories) => {
+    setSelectedCategory(categories);
     setShowModal3(true);
   };
 
   const brandViewModal = () => {
+    
     setShowModal4(true);
   };
-  const categoryEditModal = () => {
+  const categoryEditModal = (categories) => {
+    setSelectedCategory(categories);
     setShowModal5(true);
+    fetchData();
   };
   const brandEditModal = () => {
     setShowModal6(true);
@@ -85,13 +94,25 @@ function Category() {
     (async () => await fetchData())();
     }, []);
     
-    
+   
     async function  fetchData()
     {
        const result = await axios.get(
            "http://127.0.0.1:8000/category");
            setCategory(result.data);
-           console.log(result.data);
+    }
+
+    const handleDelete = async (id) => {
+      setConfirmModalVisible(true);
+      setCategoryToDelete(id);
+    };
+
+    async function DeleteCategory(id)
+    {  
+      setConfirmModalVisible(false);
+         await axios.delete("http://127.0.0.1:8000/category/" + id);
+         toast.success("Category deleted successfully");
+         fetchData();
     }
 
     
@@ -254,18 +275,18 @@ function Category() {
                           <IconButton
                             aria-label="delete"
                             className="viewbutt"
-                            onClick={() => categoryViewModal()}
+                            onClick={() => categoryViewModal(data)}
                           >
                             <VisibilityIcon className="text-" />
                           </IconButton>
                           <IconButton
                             aria-label="delete"
                             className="viewbutt"
-                            onClick={() => categoryEditModal()}
+                            onClick={() => categoryEditModal(data)}
                           >
                             <EditIcon className="text-success" />
                           </IconButton>
-                          <IconButton aria-label="delete" className="viewbutt">
+                          <IconButton aria-label="delete" className="viewbutt" onClick={() => handleDelete(data.id)}>
                             <DeleteIcon className="text-danger" />
                           </IconButton>
                         </td>
@@ -326,14 +347,14 @@ function Category() {
                           <IconButton
                             aria-label="delete"
                             className="viewbutt"
-                            onClick={() => brandViewModal()}
+                            onClick={() => brandViewModal(data)}
                           >
                             <VisibilityIcon className="text-" />
                           </IconButton>
                           <IconButton
                             aria-label="delete"
                             className="viewbutt"
-                            onClick={() => brandEditModal()}
+                            onClick={() => brandEditModal(data)}
                           >
                             <EditIcon className="text-success" />
                           </IconButton>
@@ -349,13 +370,20 @@ function Category() {
             </div>
           </div>
         </div>
+        <ToastContainer />
       </div>
-      <CategoryView show={showModal3} onHide={() => setShowModal3(false)} />
+      <CategoryView show={showModal3} onHide={() => setShowModal3(false)} categoryDetails={selectedCategory} />
       <BrandView show={showModal4} onHide={() => setShowModal4(false)} />
-      <EditCategory show={showModal5} onHide={() => setShowModal5(false)} />
+      <EditCategory show={showModal5} onHide={() => setShowModal5(false)}  categoryDetails={selectedCategory} />
       <EditBrand show={showModal6} onHide={() => setShowModal6(false)} />
       <AddCategory show={showModal} onHide={addCategoryModal} />
       <AddBrand show={showModal2} onHide={addBrandModal} />
+
+      <DeleteConfirmationModal
+        show={confirmModalVisible}
+        onHide={() => setConfirmModalVisible(false)}
+       onConfirm={() => DeleteCategory(categoryToDelete)}
+      />
     </Sidebar>
   );
 }

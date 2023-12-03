@@ -3,12 +3,13 @@ import "../../App.css";
 import { Modal, Button } from "react-bootstrap";
 
 function CategoryView(props) {
-  const { show, onHide } = props;
+  const { show, onHide, categoryDetails } = props;
 
   return (
     <Modal show={show} onHide={onHide} centered backdrop="static">
       <Modal.Header>
         <Modal.Title className="Modal-Title">Category View</Modal.Title>
+        
       </Modal.Header>
       <Modal.Body>
         <form>
@@ -21,7 +22,7 @@ function CategoryView(props) {
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="laptops..."
-              value={"Laptops"}
+              value={categoryDetails && categoryDetails.categories}
               readOnly
             />
           </div>
@@ -36,7 +37,7 @@ function CategoryView(props) {
                   type="radio"
                   name="flexRadioDefault"
                   id="flexRadioDefault1"
-                  defaultChecked
+                  checked={categoryDetails && categoryDetails.status === "Active"}
                   readOnly
                 />
                 <label className="form-check-label" htmlFor="flexRadioDefault1">
@@ -50,11 +51,13 @@ function CategoryView(props) {
                   name="flexRadioDefault"
                   id="flexRadioDefault2"
                   readOnly
+                  checked={categoryDetails && categoryDetails.status === "InActive"}
                 />
                 <label className="form-check-label" htmlFor="flexRadioDefault2">
                   InActive
                 </label>
               </div>
+              
             </div>
           </div>
         </form>
