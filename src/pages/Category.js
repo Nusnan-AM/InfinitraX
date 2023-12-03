@@ -135,6 +135,14 @@ function Category() {
     fetchData2();
   }
 
+  useEffect(() => {
+    fetchData();
+  }, [updateTrigger]);
+
+  useEffect(() => {
+    fetchData2();
+  }, [updateTrigger]);
+
   return (
     <Sidebar>
       <div className="container">
@@ -411,7 +419,11 @@ function Category() {
       />
       <EditCategory
         show={showModal5}
-        onHide={() => setShowModal5(false)}
+        onHide={() => {
+          setShowModal5(false);
+          setUpdateTrigger(!updateTrigger);
+        }}
+        
         categoryDetails={selectedCategory}
       />
       <EditBrand show={showModal6} onHide={() => setShowModal6(false)} />

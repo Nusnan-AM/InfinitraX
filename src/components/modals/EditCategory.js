@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../App.css";
 import { Modal, Button } from "react-bootstrap";
 import axios from "axios";
@@ -6,32 +6,40 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function EditCategory(props) {
-  const { show, onHide,categoryDetails } = props;
+  const { show, onHide, categoryDetails } = props;
   const [categories, setCategory] = useState("");
-  const [status, setStatus] = useState(""); // Set a default value, or fetch it from props if needed
+  const [status, setStatus] = useState("");
   const [id, setId] = useState("");
+  const [updateTrigger, setUpdateTrigger] = useState(false);
 
+  useEffect(() => {
+    if (categoryDetails) {
+      setCategory(categoryDetails.categories);
+      setStatus(categoryDetails.status);
+      setId(categoryDetails.id);
+    }
+  }, [categoryDetails]);
 
-
- 
   async function update(e) {
     e.preventDefault();
     try {
       const updatedCategory = {
-        id:id,
+        id: id,
         categories: categories,
         status: status,
       };
-
-      console.log(updatedCategory);
-      
-      await axios.put(`http://127.0.0.1:8000/category/${id}`, updatedCategory);
-  
-      alert("Category Updated successfully");
+      await axios
+        .put(`http://127.0.0.1:8000/category/${id}`, updatedCategory)
+        .then((response) => {
+          toast.success("Category Updated successfully");
+          onHide();
+          setUpdateTrigger(!updateTrigger);
+        });
     } catch (err) {
       alert("Category Update Failed");
     }
   }
+
   
 
   return (
@@ -50,8 +58,8 @@ function EditCategory(props) {
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="laptops..."
-              defaultValue={categoryDetails && categoryDetails.categories} 
-              onChange={(e) => setCategory(e.target.value)} 
+              value={categories}
+              onChange={(e) => setCategory(e.target.value)}
             />
           </div>
           <div class="mb-3">
@@ -65,8 +73,8 @@ function EditCategory(props) {
                   type="radio"
                   name="flexRadioDefault"
                   id="flexRadioDefault1"
-                  checked={categoryDetails && categoryDetails.status === "Active"}
-                  onChange={(e) => setStatus("Active")}
+                  checked={status === "Active"}
+                  onChange={() => setStatus("Active")}
                 />
                 <label className="form-check-label" htmlFor="flexRadioDefault1">
                   Active
@@ -78,8 +86,8 @@ function EditCategory(props) {
                   type="radio"
                   name="flexRadioDefault"
                   id="flexRadioDefault2"
-                  checked={categoryDetails && categoryDetails.status === "InActive"}
-                  onChange={(e) => setStatus("InActive")}
+                  checked={status === "InActive"}
+                  onChange={() => setStatus("InActive")}
                 />
                 <label className="form-check-label" htmlFor="flexRadioDefault2">
                   InActive
@@ -91,8 +99,11 @@ function EditCategory(props) {
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="success" onClick={update}>Update</Button>
+        <Button variant="success" onClick={update}>
+          Update
+        </Button>
         <Button variant="danger">Delete</Button>
+        <ToastContainer />
       </Modal.Footer>
     </Modal>
   );
