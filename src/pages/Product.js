@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import Sidebar from "../layouts/Sidebar";
 import DataTable from "react-data-table-component";
 import { Link } from "react-router-dom"; 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Form from 'react-bootstrap/Form';
 import { Container, Col, Row } from "react-bootstrap";
 
@@ -43,12 +45,12 @@ const Product =() =>{
       cell: row => (
         <>
           <Link >
-            <FontAwesomeIcon icon={faEye} className="me-2" title="View" />
+            <VisibilityIcon  className="me-2" title="View" />
           </Link>
           <Link>
-            <FontAwesomeIcon icon={faEdit} className="me-2" title="Edit" />
+            <EditIcon className="me-2" title="Edit" />
           </Link>
-          <FontAwesomeIcon icon={faTrash} className="text-danger" title="Delete" onClick={() => (row.no)} style={{ cursor: 'pointer' }} />
+          <DeleteIcon className="text-danger" title="Delete" onClick={() => (row.no)} style={{ cursor: 'pointer' }} />
         </>
       )
     }
@@ -126,20 +128,24 @@ const Product =() =>{
         
          <div className="container d-flex justify-content-center content-bg-light">
           <div className='container'>
-          <div className="container my-3 bg-dark p-2 rounded text-white d-flex justify-content-center">
-            <h3>Products Section</h3>
-          </div>  
+          <nav className="navbar mt-3 py-1 mb-3 rounded">
+          <div className="container-fluid d-flex align-items-center justify-content-center">
+            <span className="navbar-brand mb-0 h1 text-white">
+              Products Section
+            </span>
+          </div>
+        </nav>
             <div id="filter" className="d-flex flex-column bg-white pt-1 ps-1">
             <h6>Filter By</h6>
-            <div className="d-flex justify-content-around align-content-center p-2">
+            <div className="d-flex justify-content-around align-content-center p-2 ">
             <Form.Control className="w-25" type="text" placeholder="Filter by SerialNo" name="serialNo" onChange={handleFilter} />
             <Form.Select size="sm" aria-label="Default select example" className="w-25"  name="category" onChange={handleFilter}>
-            <option value="">Filter by Category</option> 
+            <option value="" >Filter by Category</option> 
                   <option value="laptops">Laptops</option>
                   <option value="keyboard">Keyboard</option>
             </Form.Select>
 
-            <Form.Select size="sm" aria-label="Default select example" className="w-25"  name="brand" onChange={handleFilter}>
+            <Form.Select size="sm" aria-label="select example" className="w-25"  name="brand" onChange={handleFilter}>
             <option value="">Filter by Brand</option>
                   <option value="Asus">Asus</option>
                   <option value="hp">HP</option>
@@ -149,7 +155,7 @@ const Product =() =>{
          <div className='my-2 justify-content-center bg-white pt-1 ps-1'>
          <h6>Product List</h6>
            <div className='text-end p-3 ' onClick={() => {setShowDataTable(false)}}>
-               <button className="btn btn-sm text-sm btn-success ms-2">Add Product</button>
+               <button className="btn btn-sm text-sm btn-success ms-2">Add Product<AddCircleIcon /></button>
            </div>
          </div>
          <div className='mt-3'>
@@ -161,7 +167,9 @@ const Product =() =>{
        
          <div className="container mt-3 content-bg-info">
           <div className=" my-3 bg-dark p-2 rounded text-white d-flex justify-content-center">
-            <h3>Add Products Section</h3>
+          <span className="navbar-brand mb-0 h1 text-white">
+              Add Product Section
+            </span>
           </div>  
            <h5>Add Product</h5>
            <div>
