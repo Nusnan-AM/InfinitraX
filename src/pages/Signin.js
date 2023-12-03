@@ -3,18 +3,50 @@ import Logo from "../assets/logo.png";
 import BackgroundImage from "../assets/SigninBackground.svg";
 import { useState } from "react";
 import "../styles/signin.css";
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios";
+import Cookies from 'js-cookie';
 
 export default function Signin() {
     const [fieldError, setFieldError] = useState(null);
+    const [isChecked, setIsChecked] = useState(false);
 
     function submitForm(e) {
         e.preventDefault();
         const data = Object.fromEntries(new FormData(e.target).entries());
+        const formData = new FormData(e.target);
 
         if (data.username === "" && data.password === "") {
             setFieldError("Please fill all fields!");
         } else {
-            window.location.href = "/dashboard";
+            setFieldError(null)
+            axios
+                .post("http://127.0.0.1:8000/login/", formData)
+                .then((response) => {
+                    if (response.status === 200) {
+                        const token = response.data.token;
+                        if(isChecked){
+                            Cookies.set('token', token, { expires: 7, path: '/' });
+                        }
+                        else{
+                            Cookies.set('token', token, { path: '/' });
+                        }
+                        window.location.href = "/dashboard";
+                    }
+                })
+                .catch((error) => {
+                    toast.error('Username or Password is incorrect', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
+                });
         }
         console.log(data);
     }
@@ -81,13 +113,12 @@ export default function Signin() {
                                             <input
                                                 className="form-check-input"
                                                 type="checkbox"
-                                                value=""
                                                 id="rememberMe"
-                                                defaultChecked
+                                                checked={isChecked}
+                                                    onChange={()=>setIsChecked(!isChecked)}
                                             />
                                             <label className="form-check-label" htmlFor="rememberMe">
-                                                {" "}
-                                                Remember me{" "}
+                                                Remember me
                                             </label>
                                         </div>
                                     </div>
