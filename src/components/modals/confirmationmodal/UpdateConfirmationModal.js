@@ -6,7 +6,7 @@ import UpdateIcon from '@mui/icons-material/Update';
 
 const UpdateConfirmationModal = ({ show, onHide, onConfirm }) => {
   return (
-    <Modal show={show} onHide={onHide} size="lg" centered backdrop="static" className="confirmmodal-Back" >
+    <Modal show={show} onHide={onHide} size="lg" centered backdrop="static" className="confirmmodal-Back">
       <Modal.Header>
         <Modal.Title className="Modal-Title-Confirm" style={{color:'Green'}}>Conformation to Update Details !</Modal.Title>
         <IconButton style={{color:'darkgreen'}}><UpdateIcon sx={{ fontSize: "40px" }}/></IconButton>

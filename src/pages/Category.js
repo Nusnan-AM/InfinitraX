@@ -89,8 +89,12 @@ function Category() {
     setShowModal5(true);
     fetchData();
   };
-  const brandEditModal = () => {
+
+  const brandEditModal = (brand) => {
+    setSelectedBrand(brand);
     setShowModal6(true);
+    fetchData();
+   
   };
 
   useEffect(() => {
@@ -423,10 +427,16 @@ function Category() {
           setShowModal5(false);
           setUpdateTrigger(!updateTrigger);
         }}
-        
         categoryDetails={selectedCategory}
       />
-      <EditBrand show={showModal6} onHide={() => setShowModal6(false)} />
+      <EditBrand
+        show={showModal6}
+        onHide={() => {
+          setShowModal6(false);
+          setUpdateTrigger(!updateTrigger);
+        }}
+        brandDetails={selectedBrand}
+      />
       <AddCategory show={showModal} onHide={addCategoryModal} />
       <AddBrand show={showModal2} onHide={addBrandModal} />
 
