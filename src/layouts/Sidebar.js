@@ -16,10 +16,19 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import StorageIcon from "@mui/icons-material/Storage";
 import WebStoriesIcon from "@mui/icons-material/WebStories";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
-import { fontSize } from "@mui/system";
+import axios from "axios";
+import Cookies from "js-cookie";
+import {toast} from "react-toastify";
+import PrivateRoute from "../components/Private-Route";
 
 function Sidebar({ children }) {
   const dispatch = useDispatch();
+  const token = Cookies.get('token', { path: '/' });
+  
+  if(!token){
+    window.location.href = "/";
+  }
+
   const open = useSelector((state) => {
     return state.setting.toggle;
   });
@@ -44,7 +53,36 @@ function Sidebar({ children }) {
     };
   }, []);
 
+  function signout() {
+
+    axios.post("http://127.0.0.1:8000/logout/", "", {
+      headers: {
+        'authorization': `Token ${token}`,
+        'Accept' : 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+        .then(response => {
+          Cookies.remove('token', { path: '/' });
+          window.location.href = "/";
+        })
+        .catch((error) => {
+          toast.error('' + error, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        });
+  }
+
   return (
+    <>
+    <PrivateRoute />
     <div className="row">
       <div className={"col-2"}>
         <div
@@ -270,11 +308,12 @@ function Sidebar({ children }) {
                     ? "side-menu-item side-menu-active"
                     : "side-menu-item"
                 }
-                to={"/"}
+                onClick={()=>signout()}
               >
                 <div className={"d-flex"}>
                   <LogoutIcon
                     className={!open && windowSize[0] >= 800 ? "me-2" : "ms-1"}
+
                   />
                   {!open && windowSize[0] >= 800 ? (
                     <div className={"trans-1"}>Logout</div>
@@ -297,6 +336,7 @@ function Sidebar({ children }) {
         </div>
       )}
     </div>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../layouts/Sidebar";
 import { IoIosAddCircle } from "react-icons/io";
 import Button from "react-bootstrap/Button";
@@ -6,12 +6,15 @@ import { Navbar } from "react-bootstrap";
 import AddAttribute from "../components/modals/AddAttribute";
 import ViewAttribute from "../components/modals/ViewAttribute";
 import EditAttribute from "../components/modals/EditAttribute";
-import DeleteAttribute from "../components/modals/DeleteAttribute";
+import DeleteConfirmationModal from "../components/modals/confirmationmodal/DeleteConfirmationModal";
 import "../styles/attributes.css";
 import { IconButton } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 function Attributes() {
   const [showAdd, setShowAdd] = useState(false);
@@ -19,56 +22,51 @@ function Attributes() {
   const [showEdit, setShowEdit] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
 
+  const [selectedAttribute, setSelectedAttribute] = useState(null);
+  const [attribute, setAttribute] = useState([]);
+  const [attributeToDelete, setAttributeToDelete] = useState(null);
+  const [updateTrigger, setUpdateTrigger] = useState(false);
+
   const addAttributeModal = () => {
     setShowAdd(!showAdd);
+    fetchData();
   };
 
-  const viewAttributeModal = () => {
+  const viewAttributeModal = (attributes) => {
+    setSelectedAttribute(attributes);
     setShowView(!showView);
   };
 
-  const editAttributeModal = () => {
+  const editAttributeModal = (attributes) => {
+    setSelectedAttribute(attributes);
     setShowEdit(!showEdit);
+    fetchData();
   };
 
-  const deleteAttributeModal = () => {
-    setShowDelete(!showDelete);
+  useEffect(() => {
+    (async () => await fetchData())();
+  }, []);
+
+  async function fetchData() {
+    const result = await axios.get("http://127.0.0.1:8000/attribute");
+    setAttribute(result.data);
+  }
+
+    async function deleteAttributeModal(id) {
+    setShowDelete(false);
+    await axios.delete("http://127.0.0.1:8000/attribute" + id);
+    toast.success("Attribute deleted successfully");
+    fetchData();
   };
 
-  const attributeTable = [
-    {
-      attribute: "Color",
-      value: "Grey",
-    },
-    {
-      attribute: "Storage",
-      value: "512 GB",
-    },
-    {
-      attribute: "Display",
-      value: "15 inch",
-    },
-    {
-      attribute: "Color",
-      value: "Black",
-    },
-    {
-      attribute: "Storage",
-      value: "2 TB",
-    },
-    {
-      attribute: "Color",
-      value: "White",
-    },
-    {
-      attribute: "Display",
-      value: "13.5 inch",
-    },
-    {
-      attribute: "Color",
-      value: "Gold",
-    },
-  ];
+  const handleDelete = async (id) => {
+    setShowDelete(true);
+    setAttributeToDelete(id);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [updateTrigger]);
 
   return (
     <>
@@ -95,6 +93,9 @@ function Attributes() {
                         className="form-select"
                       >
                         <option>Filter by Attribute</option>
+                  <option value={"Color"}>Color</option>
+                  <option value={"Storage"}>Storage</option>
+                  <option value={"Display"}>Display</option>
                       </select>
                     </div>
                   </div>
@@ -139,31 +140,31 @@ function Attributes() {
                 </tr>
               </thead>
               <tbody>
-                {attributeTable.map((value, i) => {
+                {attribute.map((data, i) => {
                   return (
                     <tr key={i}>
                       <th scope="row">{i + 1}</th>
-                      <td>{value?.attribute}</td>
-                      <td>{value?.value}</td>
+                      <td>{data.attribute}</td>
+                      <td>{data.value}</td>
                       <td>
                         <IconButton
                           aria-label="delete"
                           className="viewbutt"
-                          onClick={() => viewAttributeModal()}
+                          onClick={() => viewAttributeModal(data)}
                         >
                           <VisibilityIcon className="text-" />
                         </IconButton>
                         <IconButton
                           aria-label="delete"
                           className="viewbutt"
-                          onClick={() => editAttributeModal()}
+                          onClick={() => editAttributeModal(data)}
                         >
                           <EditIcon className="text-success" />
                         </IconButton>
                         <IconButton
                           aria-label="delete"
                           className="viewbutt"
-                          onClick={() => deleteAttributeModal()}
+                          onClick={() => handleDelete(data.id)}
                         >
                           <DeleteIcon className="text-danger" />
                         </IconButton>
@@ -182,14 +183,17 @@ function Attributes() {
           <ViewAttribute
             show={showView}
             onHide={() => viewAttributeModal(false)}
+            attributeDetails={selectedAttribute}
           />
           <EditAttribute
             show={showEdit}
-            onHide={() => editAttributeModal(false)}
+            onHide={() => {editAttributeModal(false);setUpdateTrigger(!updateTrigger);}}
+            attributeDetails={selectedAttribute}
           />
-          <DeleteAttribute
+          <DeleteConfirmationModal
             show={showDelete}
-            onHide={() => deleteAttributeModal(false)}
+            onHide={() => setShowDelete(false)}
+            onConfirm={() => deleteAttributeModal(attributeToDelete)}
           />
         </Sidebar>
       </div>
