@@ -28,7 +28,7 @@ export default function AddAttribute(props) {
     } else {
       try {
         await axios.post("http://127.0.0.1:8000/attribute", {
-          attributes: attributes,
+          attribute: attributes,
           value: value,
         });
         toast.success("Attributes added Succesfully");
