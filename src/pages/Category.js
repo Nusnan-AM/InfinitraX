@@ -173,6 +173,36 @@ function Category() {
     setFilteredbrandList(filteredData2);
   }, [searchTerm4, selectedStatus, brandList]);
 
+
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    const searchedCategory = categoryList.find(
+      (category) => category.categories === searchTerm3
+    );
+    if (searchedCategory) {
+      setSelectedCategory(searchedCategory);
+      setShowModal3(true);
+      setSearchTerm3("");
+    } else {
+      toast.error("Category not Found");
+    }
+  };
+
+  const handleSearchSubmit2 = (event) => {
+    event.preventDefault();
+    const searchedBrand = brandList.find(
+      (brand) => brand.brand === searchTerm4
+    );
+    if (searchedBrand) {
+      setSelectedBrand(searchedBrand);
+      setShowModal4(true);
+      setSearchTerm3("");
+    } else {
+      toast.error("Brand not Found");
+    }
+  };
+
   return (
     <Sidebar>
       <div className="container">
@@ -187,7 +217,7 @@ function Category() {
           <h5 className="col-1">FilterList</h5>
           <div className="col-3">
             <div className="search-input-container mt-4">
-              <form>
+              <form onSubmit={handleSearchSubmit}>
                 <input
                   className="SearchBox"
                   type="text"
@@ -197,7 +227,7 @@ function Category() {
                 />
                 <div
                   className="search-icon"
-                  // onClick={handleSearchByDrugID}
+                  onClick={handleSearchSubmit}
                 >
                   <SearchIcon />
                 </div>
@@ -248,7 +278,7 @@ function Category() {
           <div className="col-3">
             {" "}
             <div className="search-input-container mt-4">
-              <form>
+              <form onSubmit={handleSearchSubmit2}>
                 <input
                   className="SearchBox"
                   type="text"
@@ -258,7 +288,7 @@ function Category() {
                 />
                 <div
                   className="search-icon"
-                  // onClick={handleSearchByDrugID}
+                  onClick={handleSearchSubmit2}
                 >
                   <SearchIcon />
                 </div>
