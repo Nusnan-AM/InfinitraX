@@ -1,9 +1,44 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../../App.css";
 import { Modal, Button } from "react-bootstrap";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function EditAttribute(props) {
-  const { show, onHide } = props;
+  const { show, onHide, attributeDetails } = props;
+  const [attributes, setAttributes] = useState("");
+  const [value, setValue] = useState("");
+  const [id, setId] = useState("");
+  const [updateTrigger, setUpdateTrigger] = useState(false);
+
+  useEffect(() => {
+    if (attributeDetails) {
+      setAttributes(attributeDetails.attributes);
+      setValue(attributeDetails.value);
+      setId(attributeDetails.id);
+    }
+  }, [attributeDetails]);
+
+  async function update(e) {
+    e.preventDefault();
+    try {
+      const updatedAttribute = {
+        id: id,
+        attributes: attributes,
+        value: value,
+      };
+      await axios
+        .put(`http://127.0.0.1:8000/attribute/${id}`, updatedAttribute)
+        .then((response) => {
+          toast.success("Attribute updated successfully");
+          onHide();
+          setUpdateTrigger(!updateTrigger);
+        });
+    } catch (err) {
+      alert("Attribute Update Failed");
+    }
+  }
 
   return (
     <>
@@ -21,6 +56,7 @@ export default function EditAttribute(props) {
                 <select
                   id="selectEditAttribute-attribute"
                   className="form-select"
+                  onChange={() => setAttributes("Active")}
                 >
                   <option>--Select an Attribute--</option>
                   <option value={"Color"}>Color</option>
@@ -36,6 +72,8 @@ export default function EditAttribute(props) {
                   type="text"
                   id="inputEditAttribute-value"
                   className="form-control"
+                  value={attributes}
+                  onChange={(e) => setValue(e.target.value)}
                   required
                 />
               </div>
@@ -46,7 +84,7 @@ export default function EditAttribute(props) {
           <Button variant="secondary" onClick={onHide}>
             Close
           </Button>
-          <Button variant="success">Edit</Button>
+          <Button variant="success" onClick={update}>Edit</Button>
         </Modal.Footer>
       </Modal>
     </>
