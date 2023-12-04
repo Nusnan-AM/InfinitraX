@@ -57,6 +57,12 @@ function Category() {
   const [searchTerm4, setSearchTerm4] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
 
+  const [filteredcategoryList, setFilteredcategoryList] = useState([]);
+  const [filteredbrandList, setFilteredbrandList] = useState([]);
+  const [categoryList, setcategoryList] = useState([]);
+  const [brandList, setbrandList] = useState([]);
+
+
   const handleChange3 = (event) => {
     setSearchTerm3(event.target.value);
   };
@@ -94,7 +100,6 @@ function Category() {
     setSelectedBrand(brand);
     setShowModal6(true);
     fetchData();
-   
   };
 
   useEffect(() => {
@@ -106,12 +111,14 @@ function Category() {
   }, []);
 
   async function fetchData() {
-    const result = await axios.get("http://127.0.0.1:8000/category");
-    setCategory(result.data);
+    const response = await axios.get("http://127.0.0.1:8000/category");
+    setcategoryList(response.data);
+    setCategory(response.data);
   }
 
   async function fetchData2() {
     const result = await axios.get("http://127.0.0.1:8000/brand");
+    setbrandList(result.data);
     setBrand(result.data);
   }
 
@@ -146,6 +153,25 @@ function Category() {
   useEffect(() => {
     fetchData2();
   }, [updateTrigger]);
+
+  useEffect(() => {
+    const filteredData = categoryList.filter(
+      (category) =>
+        category.categories.toLowerCase().includes(searchTerm3.toLowerCase()) &&
+        (selectedStatus === "" || category.status === selectedStatus)
+    );
+    setFilteredcategoryList(filteredData);
+  }, [searchTerm3, selectedStatus, categoryList]);
+
+
+  useEffect(() => {
+    const filteredData2 = brandList.filter(
+      (brand) =>
+        brand.brand.toLowerCase().includes(searchTerm4.toLowerCase()) &&
+        (selectedStatus === "" || brand.status === selectedStatus)
+    );
+    setFilteredbrandList(filteredData2);
+  }, [searchTerm4, selectedStatus, brandList]);
 
   return (
     <Sidebar>
@@ -287,46 +313,52 @@ function Category() {
                     </tr>
                   </thead>
                   <tbody>
-                    {Category.map((data, index) => (
-                      <tr key={index}>
-                        <th scope="row">{index + 1}</th>
-                        <td>{data.categories}</td>
-                        <td>
-                          <div
-                            className={
-                              data.status === "Active"
-                                ? "Category-ActiveField"
-                                : "Category-InActiveField"
-                            }
-                          >
-                            {data.status}
-                          </div>
-                        </td>
-                        <td className="col-2">
-                          <IconButton
-                            aria-label="delete"
-                            className="viewbutt"
-                            onClick={() => categoryViewModal(data)}
-                          >
-                            <VisibilityIcon className="text-" />
-                          </IconButton>
-                          <IconButton
-                            aria-label="delete"
-                            className="viewbutt"
-                            onClick={() => categoryEditModal(data)}
-                          >
-                            <EditIcon className="text-success" />
-                          </IconButton>
-                          <IconButton
-                            aria-label="delete"
-                            className="viewbutt"
-                            onClick={() => handleDelete(data.id)}
-                          >
-                            <DeleteIcon className="text-danger" />
-                          </IconButton>
-                        </td>
+                    {filteredcategoryList.length > 0 ? (
+                      filteredcategoryList.map((data, index) => (
+                        <tr key={index}>
+                          <th scope="row">{index + 1}</th>
+                          <td>{data.categories}</td>
+                          <td>
+                            <div
+                              className={
+                                data.status === "Active"
+                                  ? "Category-ActiveField"
+                                  : "Category-InActiveField"
+                              }
+                            >
+                              {data.status}
+                            </div>
+                          </td>
+                          <td className="col-2">
+                            <IconButton
+                              aria-label="delete"
+                              className="viewbutt"
+                              onClick={() => categoryViewModal(data)}
+                            >
+                              <VisibilityIcon className="text-" />
+                            </IconButton>
+                            <IconButton
+                              aria-label="delete"
+                              className="viewbutt"
+                              onClick={() => categoryEditModal(data)}
+                            >
+                              <EditIcon className="text-success" />
+                            </IconButton>
+                            <IconButton
+                              aria-label="delete"
+                              className="viewbutt"
+                              onClick={() => handleDelete(data.id)}
+                            >
+                              <DeleteIcon className="text-danger" />
+                            </IconButton>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="7">No results found</td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -363,46 +395,52 @@ function Category() {
                     </tr>
                   </thead>
                   <tbody>
-                    {Brand.map((data, index) => (
-                      <tr key={index}>
-                        <th scope="row">{index + 1}</th>
-                        <td>{data.brand}</td>
-                        <td>
-                          <div
-                            className={
-                              data.status === "Active"
-                                ? "Category-ActiveField"
-                                : "Category-InActiveField"
-                            }
-                          >
-                            {data.status}
-                          </div>
-                        </td>
-                        <td className="col-2">
-                          <IconButton
-                            aria-label="delete"
-                            className="viewbutt"
-                            onClick={() => brandViewModal(data)}
-                          >
-                            <VisibilityIcon className="text-" />
-                          </IconButton>
-                          <IconButton
-                            aria-label="delete"
-                            className="viewbutt"
-                            onClick={() => brandEditModal(data)}
-                          >
-                            <EditIcon className="text-success" />
-                          </IconButton>
-                          <IconButton
-                            aria-label="delete"
-                            className="viewbutt"
-                            onClick={() => handleDelete2(data.id)}
-                          >
-                            <DeleteIcon className="text-danger" />
-                          </IconButton>
-                        </td>
+                    {filteredbrandList.length > 0 ? (
+                      filteredbrandList.map((data, index) => (
+                        <tr key={index}>
+                          <th scope="row">{index + 1}</th>
+                          <td>{data.brand}</td>
+                          <td>
+                            <div
+                              className={
+                                data.status === "Active"
+                                  ? "Category-ActiveField"
+                                  : "Category-InActiveField"
+                              }
+                            >
+                              {data.status}
+                            </div>
+                          </td>
+                          <td className="col-2">
+                            <IconButton
+                              aria-label="delete"
+                              className="viewbutt"
+                              onClick={() => brandViewModal(data)}
+                            >
+                              <VisibilityIcon className="text-" />
+                            </IconButton>
+                            <IconButton
+                              aria-label="delete"
+                              className="viewbutt"
+                              onClick={() => brandEditModal(data)}
+                            >
+                              <EditIcon className="text-success" />
+                            </IconButton>
+                            <IconButton
+                              aria-label="delete"
+                              className="viewbutt"
+                              onClick={() => handleDelete2(data.id)}
+                            >
+                              <DeleteIcon className="text-danger" />
+                            </IconButton>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="7">No results found</td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </table>
               </div>
