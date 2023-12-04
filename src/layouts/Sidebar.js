@@ -308,6 +308,7 @@ function Sidebar({ children }) {
                     ? "side-menu-item side-menu-active"
                     : "side-menu-item"
                 }
+                to={"/"}
                 onClick={()=>signout()}
               >
                 <div className={"d-flex"}>
