@@ -25,7 +25,7 @@ export default function EditAttribute(props) {
     try {
       const updatedAttribute = {
         id: id,
-        attributes: attributes,
+        attribute: attributes,
         value: value,
       };
       await axios
