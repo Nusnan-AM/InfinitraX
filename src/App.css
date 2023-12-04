@@ -11,6 +11,11 @@ nav{
   background-color: #103434;
 }
 
+.confirmmodal-Back {
+  background-color: rgba(0, 0, 0, .5);
+  z-index: 99999;
+}
+
 .test{
   background-color: green;
   height: 100%;

@@ -16,7 +16,7 @@ const DeleteConfirmationModal = ({ show, onHide, onConfirm }) => {
         <p>Are you sure you want to delete this Data ?</p>
       </Modal.Body>
       <Modal.Footer>
-      <Button variant="danger" onClick={onConfirm}>
+      <Button variant="danger" onClick={onConfirm} style={{width:'200px'}}>
           Confirm
         </Button>
         <Button variant="secondary" onClick={onHide}>

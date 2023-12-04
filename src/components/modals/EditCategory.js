@@ -4,12 +4,15 @@ import { Modal, Button } from "react-bootstrap";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import UpdateConfirmationModal from "./confirmationmodal/UpdateConfirmationModal";
 
 function EditCategory(props) {
   const { show, onHide, categoryDetails } = props;
   const [categories, setCategory] = useState("");
   const [status, setStatus] = useState("");
   const [id, setId] = useState("");
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showUpdateConfirmModal, setShowUpdateConfirmModal] = useState(false);
   const [updateTrigger, setUpdateTrigger] = useState(false);
 
   useEffect(() => {
@@ -20,8 +23,18 @@ function EditCategory(props) {
     }
   }, [categoryDetails]);
 
-  async function update(e) {
+  const handleUpdate = (e) => {
+    setShowUpdateConfirmModal(true);
+  
+  };
+
+  async function handleUpdateConfirmed(e) {
     e.preventDefault();
+    if (categories === categoryDetails.categories && status === categoryDetails.status) {
+      toast.info("No data to update");
+      setShowUpdateConfirmModal(false);
+      return;
+    }
     try {
       const updatedCategory = {
         id: id,
@@ -35,14 +48,15 @@ function EditCategory(props) {
           onHide();
           setUpdateTrigger(!updateTrigger);
         });
-    } catch (err) {
+    } catch (error) {
       alert("Category Update Failed");
+      console.error(error);
     }
+    setShowUpdateConfirmModal(false);
   }
 
-  
-
   return (
+    <>
     <Modal show={show} onHide={onHide} centered backdrop="static">
       <Modal.Header closeButton>
         <Modal.Title className="Modal-Title">Category Edit</Modal.Title>
@@ -99,13 +113,19 @@ function EditCategory(props) {
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="success" onClick={update}>
+        <Button variant="success" onClick={handleUpdate}>
           Update
         </Button>
         <Button variant="danger">Delete</Button>
         <ToastContainer />
+        <UpdateConfirmationModal
+          show={showUpdateConfirmModal}
+          onHide={() => setShowUpdateConfirmModal(false)}
+          onConfirm={handleUpdateConfirmed}
+        />
       </Modal.Footer>
     </Modal>
+    </>
   );
 }
 
