@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import "../styles/Dashboard.css";
 import Sidebar from "../layouts/Sidebar";
 import DashboardIcon1 from "../assets/DashbaordIcon1.svg";
@@ -8,8 +8,43 @@ import DashboardIcon4 from "../assets/DashbaordIcon4.svg";
 import SalesOverviewChart from "../components/charts/SalesOverViewChart";
 import StockOverViewChart from "../components/charts/StockOverViewChart";
 import ProductOverViewChart from "../components/charts/ProductOverViewChart";
+import axios from "axios";
+
 
 function Dashboard() {
+
+
+  const [categoriesData, setCategoriesData] = useState([]);
+  const [brandData, setBrandData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/category");
+        setCategoriesData(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+
+  useEffect(() => {
+    const fetchData2 = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/brand");
+        setBrandData(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData2();
+  }, []);
+
+  const activeCategoriesCount = categoriesData.filter(category => category.status === 'Active').length;
+  const activeBrandCount = brandData.filter(brand => brand.status === 'Active').length;
+
   return (
     <Sidebar>
       <div className="container">
@@ -60,7 +95,7 @@ function Dashboard() {
               ></div>
               <div className="col-7 d-flex flex-column align-items-center justify-content-md-center">
                 <h3>Categories</h3>
-                <p>15</p>
+                <p>{activeCategoriesCount}</p>
               </div>
               <div className="col-5 d-flex align-items-center justify-content-md-center">
                 <img src={DashboardIcon3} alt="" />
@@ -75,7 +110,7 @@ function Dashboard() {
               ></div>
               <div className="col-7 d-flex flex-column align-items-center justify-content-md-center">
                 <h3>Brands</h3>
-                <p>30</p>
+                <p>{activeBrandCount}</p>
               </div>
               <div className="col-5 d-flex align-items-center justify-content-md-center">
                 <img src={DashboardIcon4} alt="" />

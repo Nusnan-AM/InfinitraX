@@ -22,21 +22,6 @@ import axios from "axios";
 import DeleteConfirmationModal from "../components/modals/confirmationmodal/DeleteConfirmationModal";
 
 function Category() {
-  const datas = [
-    { category: "laptops", status: "Active" },
-    { category: "Monitors", status: "Active" },
-    { category: "Processors", status: "Active" },
-    { category: "Motherboards", status: "Active" },
-    { category: "RAM", status: "InActive" },
-    { category: "Mouse", status: "Active" },
-    { category: "Keyboard", status: "Active" },
-    { category: "Mousepad", status: "Active" },
-    { category: "laptops", status: "InActive" },
-    { category: "laptops", status: "Active" },
-    { category: "laptops", status: "Active" },
-    { category: "laptops", status: "Active" },
-    { category: "laptops", status: "Active" },
-  ];
 
   const [updateTrigger, setUpdateTrigger] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState(null);
