@@ -25,10 +25,10 @@ export default function AddAttribute(props) {
                   id="selectAddAttribute-attribute"
                   className="form-select"
                 >
-                  <option selected>--Select an Attribute--</option>
-                  <option>Color</option>
-                  <option>Storage</option>
-                  <option>Display</option>
+                  <option>--Select an Attribute--</option>
+                  <option value={"Color"}>Color</option>
+                  <option value={"Storage"}>Storage</option>
+                  <option value={"Display"}>Display</option>
                 </select>
               </div>
               <div className="form-outline mb-4">
