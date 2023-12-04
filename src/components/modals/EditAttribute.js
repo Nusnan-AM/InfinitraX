@@ -14,7 +14,7 @@ export default function EditAttribute(props) {
 
   useEffect(() => {
     if (attributeDetails) {
-      setAttributes(attributeDetails.attributes);
+      setAttributes(attributeDetails.attribute);
       setValue(attributeDetails.value);
       setId(attributeDetails.id);
     }
@@ -25,7 +25,7 @@ export default function EditAttribute(props) {
     try {
       const updatedAttribute = {
         id: id,
-        attributes: attributes,
+        attribute: attributes,
         value: value,
       };
       await axios
@@ -56,9 +56,10 @@ export default function EditAttribute(props) {
                 <select
                   id="selectEditAttribute-attribute"
                   className="form-select"
-                  onChange={() => setAttributes("Active")}
+                  value={attributes}
+                  onChange={(e) => setAttributes(e.target.value)}
                 >
-                  <option>--Select an Attribute--</option>
+                  <option value={""}>--Select an Attribute--</option>
                   <option value={"Color"}>Color</option>
                   <option value={"Storage"}>Storage</option>
                   <option value={"Display"}>Display</option>
@@ -72,7 +73,7 @@ export default function EditAttribute(props) {
                   type="text"
                   id="inputEditAttribute-value"
                   className="form-control"
-                  value={attributes}
+                  value={value}
                   onChange={(e) => setValue(e.target.value)}
                   required
                 />

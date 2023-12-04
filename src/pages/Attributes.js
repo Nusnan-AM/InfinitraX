@@ -54,7 +54,7 @@ function Attributes() {
 
     async function deleteAttributeModal(id) {
     setShowDelete(false);
-    await axios.delete("http://127.0.0.1:8000/attribute" + id);
+    await axios.delete("http://127.0.0.1:8000/attribute/" + id);
     toast.success("Attribute deleted successfully");
     fetchData();
   };

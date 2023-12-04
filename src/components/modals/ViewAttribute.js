@@ -36,17 +36,14 @@ export default function ViewAttribute(props) {
                 type="text"
                 id="inputViewAttribute-value"
                 className="form-control"
-                checked={attributeDetails && attributeDetails.value}
+                value={attributeDetails && attributeDetails.value}
                 readOnly
               />
             </div>
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={onHide}>
-            Close
-          </Button>
-          <Button variant="success">Done</Button>
+          <Button variant="success" onClick={onHide}>Done</Button>
         </Modal.Footer>
       </Modal>
     </>
