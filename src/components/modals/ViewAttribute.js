@@ -3,7 +3,7 @@ import "../../App.css";
 import { Modal, Button } from "react-bootstrap";
 
 export default function ViewAttribute(props) {
-  const { show, onHide } = props;
+  const { show, onHide, attributeDetails } = props;
 
   return (
     <>
@@ -24,6 +24,7 @@ export default function ViewAttribute(props) {
                 type="text"
                 id="inputViewAttribute-attribute"
                 className="form-control"
+                value={attributeDetails && attributeDetails.attribute}
                 readOnly
               />
             </div>
@@ -35,6 +36,7 @@ export default function ViewAttribute(props) {
                 type="text"
                 id="inputViewAttribute-value"
                 className="form-control"
+                checked={attributeDetails && attributeDetails.value}
                 readOnly
               />
             </div>
