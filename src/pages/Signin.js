@@ -104,8 +104,8 @@ export default function Signin() {
               </div>
             </nav>
             <section className="vh-100">
-              <div className="container py-5">
-                <div className="text-center p-3 pt-5">
+              <div className="container pt-3">
+                <div className="text-center p-3 pt-5 mb-5">
                   <h2 className="heading">Welcome to InfinitraX</h2>
                 </div>
                 <div className="row d-flex align-items-center justify-content-center h-100">
