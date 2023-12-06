@@ -12,7 +12,8 @@ import { IconButton } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { ToastContainer, toast } from "react-toastify";
+import ClearIcon from "@mui/icons-material/Clear";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
@@ -26,6 +27,10 @@ function Attributes() {
   const [attribute, setAttribute] = useState([]);
   const [attributeToDelete, setAttributeToDelete] = useState(null);
   const [updateTrigger, setUpdateTrigger] = useState(false);
+
+  const [selectedStatus, setSelectedStatus] = useState("");
+  const [filteredAttributeList, setFilteredAttributeList] = useState([]);
+  const [attributeList, setAttributeList] = useState([]);
 
   const addAttributeModal = () => {
     setShowAdd(!showAdd);
@@ -43,13 +48,14 @@ function Attributes() {
     fetchData();
   };
 
-  useEffect(() => {
-    (async () => await fetchData())();
-  }, []);
+  const handleStatusChange = (event) => {
+    setSelectedStatus(event.target.value);
+  };
 
   async function fetchData() {
     const result = await axios.get("http://127.0.0.1:8000/attribute");
     setAttribute(result.data);
+    setAttributeList(result.data);
   }
 
     async function deleteAttributeModal(id) {
@@ -65,8 +71,21 @@ function Attributes() {
   };
 
   useEffect(() => {
+    (async () => await fetchData())();
+  }, []);
+
+  useEffect(() => {
     fetchData();
   }, [updateTrigger]);
+
+  useEffect(() => {
+    const filteredData = attributeList.filter(
+      (attribute) =>
+        attribute.attribute.toLowerCase() &&
+        (selectedStatus === "" || attribute.attribute === selectedStatus)
+    );
+    setFilteredAttributeList(filteredData);
+  }, [selectedStatus, attributeList]);
 
   return (
     <>
@@ -91,12 +110,27 @@ function Attributes() {
                       <select
                         id="selectFilterByAttribute"
                         className="form-select"
+                        value={selectedStatus}
+                onChange={handleStatusChange}
                       >
                         <option>Filter by Attribute</option>
                   <option value={"Color"}>Color</option>
                   <option value={"Storage"}>Storage</option>
                   <option value={"Display"}>Display</option>
                       </select>
+                      {selectedStatus && (
+                <div
+                  className="search-icon"
+                  style={{
+                    zIndex: "100",
+                    backgroundColor: "white",
+                    right: "18px",
+                  }}
+                  onClick={() => setSelectedStatus("")}
+                >
+                  <ClearIcon />
+                </div>
+              )}
                     </div>
                   </div>
                 </div>
@@ -140,7 +174,8 @@ function Attributes() {
                 </tr>
               </thead>
               <tbody>
-                {attribute.map((data, i) => {
+                {filteredAttributeList.length > 0 ? (
+                  filteredAttributeList.map((data, i) => {
                   return (
                     <tr key={i}>
                       <th scope="row">{i + 1}</th>
@@ -171,7 +206,12 @@ function Attributes() {
                       </td>
                     </tr>
                   );
-                })}
+                })
+                    ) : (
+                      <tr>
+                        <td colSpan="7">No results found</td>
+                      </tr>
+                    )}
               </tbody>
             </table>
             </div>
