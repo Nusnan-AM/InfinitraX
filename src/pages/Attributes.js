@@ -8,12 +8,13 @@ import ViewAttribute from "../components/modals/ViewAttribute";
 import EditAttribute from "../components/modals/EditAttribute";
 import DeleteConfirmationModal from "../components/modals/confirmationmodal/DeleteConfirmationModal";
 import "../styles/attributes.css";
+import "../App.css";
 import { IconButton } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ClearIcon from "@mui/icons-material/Clear";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
@@ -58,12 +59,12 @@ function Attributes() {
     setAttributeList(result.data);
   }
 
-    async function deleteAttributeModal(id) {
+  async function deleteAttributeModal(id) {
     setShowDelete(false);
     await axios.delete("http://127.0.0.1:8000/attribute/" + id);
     toast.success("Attribute deleted successfully");
     fetchData();
-  };
+  }
 
   const handleDelete = async (id) => {
     setShowDelete(true);
@@ -111,26 +112,26 @@ function Attributes() {
                         id="selectFilterByAttribute"
                         className="form-select"
                         value={selectedStatus}
-                onChange={handleStatusChange}
+                        onChange={handleStatusChange}
                       >
-                        <option>Filter by Attribute</option>
-                  <option value={"Color"}>Color</option>
-                  <option value={"Storage"}>Storage</option>
-                  <option value={"Display"}>Display</option>
+                        <option value={""}>Filter by Attribute</option>
+                        <option value={"Color"}>Color</option>
+                        <option value={"Storage"}>Storage</option>
+                        <option value={"Display"}>Display</option>
                       </select>
                       {selectedStatus && (
-                <div
-                  className="search-icon"
-                  style={{
-                    zIndex: "100",
-                    backgroundColor: "white",
-                    right: "18px",
-                  }}
-                  onClick={() => setSelectedStatus("")}
-                >
-                  <ClearIcon />
-                </div>
-              )}
+                        <div
+                          className="search-icon"
+                          style={{
+                            zIndex: "100",
+                            backgroundColor: "white",
+                            right: "18px",
+                          }}
+                          onClick={() => setSelectedStatus("")}
+                        >
+                          <ClearIcon />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -156,65 +157,66 @@ function Attributes() {
               </div>
             </Navbar>
             <div className="Attribute-TableSection">
-            <table className="table table-striped table-hover">
-              <thead className="top-0 position-sticky z-1">
-                <tr>
-                  <th scope="col" className="col-1">
-                    No
-                  </th>
-                  <th scope="col" className="col-1">
-                    Attribute
-                  </th>
-                  <th scope="col" className="col-1">
-                    Value
-                  </th>
-                  <th scope="col" className="col-1">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredAttributeList.length > 0 ? (
-                  filteredAttributeList.map((data, i) => {
-                  return (
-                    <tr key={i}>
-                      <th scope="row">{i + 1}</th>
-                      <td>{data.attribute}</td>
-                      <td>{data.value}</td>
-                      <td>
-                        <IconButton
-                          aria-label="delete"
-                          className="viewbutt"
-                          onClick={() => viewAttributeModal(data)}
-                        >
-                          <VisibilityIcon className="text-" />
-                        </IconButton>
-                        <IconButton
-                          aria-label="delete"
-                          className="viewbutt"
-                          onClick={() => editAttributeModal(data)}
-                        >
-                          <EditIcon className="text-success" />
-                        </IconButton>
-                        <IconButton
-                          aria-label="delete"
-                          className="viewbutt"
-                          onClick={() => handleDelete(data.id)}
-                        >
-                          <DeleteIcon className="text-danger" />
-                        </IconButton>
-                      </td>
+              <table className="table table-striped table-hover">
+                <thead className="top-0 position-sticky z-1">
+                  <tr>
+                    <th scope="col" className="col-1">
+                      No
+                    </th>
+                    <th scope="col" className="col-1">
+                      Attribute
+                    </th>
+                    <th scope="col" className="col-1">
+                      Value
+                    </th>
+                    <th scope="col" className="col-1">
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredAttributeList.length > 0 ? (
+                    filteredAttributeList.map((data, i) => {
+                      return (
+                        <tr key={i}>
+                          <th scope="row">{i + 1}</th>
+                          <td>{data.attribute}</td>
+                          <td>{data.value}</td>
+                          <td>
+                            <IconButton
+                              aria-label="delete"
+                              className="viewbutt"
+                              onClick={() => viewAttributeModal(data)}
+                            >
+                              <VisibilityIcon className="text-" />
+                            </IconButton>
+                            <IconButton
+                              aria-label="delete"
+                              className="viewbutt"
+                              onClick={() => editAttributeModal(data)}
+                            >
+                              <EditIcon className="text-success" />
+                            </IconButton>
+                            <IconButton
+                              aria-label="delete"
+                              className="viewbutt"
+                              onClick={() => handleDelete(data.id)}
+                            >
+                              <DeleteIcon className="text-danger" />
+                            </IconButton>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td colSpan="7">No results found</td>
                     </tr>
-                  );
-                })
-                    ) : (
-                      <tr>
-                        <td colSpan="7">No results found</td>
-                      </tr>
-                    )}
-              </tbody>
-            </table>
+                  )}
+                </tbody>
+              </table>
             </div>
+            <ToastContainer />
           </div>
           <AddAttribute
             show={showAdd}
@@ -227,7 +229,10 @@ function Attributes() {
           />
           <EditAttribute
             show={showEdit}
-            onHide={() => {editAttributeModal(false);setUpdateTrigger(!updateTrigger);}}
+            onHide={() => {
+              editAttributeModal(false);
+              setUpdateTrigger(!updateTrigger);
+            }}
             attributeDetails={selectedAttribute}
           />
           <DeleteConfirmationModal

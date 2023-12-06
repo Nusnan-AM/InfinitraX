@@ -22,7 +22,6 @@ import axios from "axios";
 import DeleteConfirmationModal from "../components/modals/confirmationmodal/DeleteConfirmationModal";
 
 function Category() {
-
   const [updateTrigger, setUpdateTrigger] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState(null);
   const [brandToDelete, setbrandToDelete] = useState(null);
@@ -46,7 +45,6 @@ function Category() {
   const [filteredbrandList, setFilteredbrandList] = useState([]);
   const [categoryList, setcategoryList] = useState([]);
   const [brandList, setbrandList] = useState([]);
-
 
   const handleChange3 = (event) => {
     setSearchTerm3(event.target.value);
@@ -148,7 +146,6 @@ function Category() {
     setFilteredcategoryList(filteredData);
   }, [searchTerm3, selectedStatus, categoryList]);
 
-
   useEffect(() => {
     const filteredData2 = brandList.filter(
       (brand) =>
@@ -157,8 +154,6 @@ function Category() {
     );
     setFilteredbrandList(filteredData2);
   }, [searchTerm4, selectedStatus, brandList]);
-
-
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
@@ -210,10 +205,7 @@ function Category() {
                   value={searchTerm3}
                   onChange={handleChange3}
                 />
-                <div
-                  className="search-icon"
-                  onClick={handleSearchSubmit}
-                >
+                <div className="search-icon" onClick={handleSearchSubmit}>
                   <SearchIcon />
                 </div>
                 {searchTerm3 && (
@@ -271,10 +263,7 @@ function Category() {
                   value={searchTerm4}
                   onChange={handleChange4}
                 />
-                <div
-                  className="search-icon"
-                  onClick={handleSearchSubmit2}
-                >
+                <div className="search-icon" onClick={handleSearchSubmit2}>
                   <SearchIcon />
                 </div>
                 {searchTerm4 && (

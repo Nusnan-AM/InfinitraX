@@ -82,10 +82,12 @@ export default function EditAttribute(props) {
           </form>
         </Modal.Body>
         <Modal.Footer>
+          <Button variant="success" onClick={update}>
+            Update
+          </Button>
           <Button variant="secondary" onClick={onHide}>
             Close
           </Button>
-          <Button variant="success" onClick={update}>Edit</Button>
         </Modal.Footer>
       </Modal>
     </>

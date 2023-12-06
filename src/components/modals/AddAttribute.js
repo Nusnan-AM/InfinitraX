@@ -60,6 +60,7 @@ export default function AddAttribute(props) {
                   id="selectAddAttribute-attribute"
                   className="form-select"
                   onChange={(e) => setAttributes(e.target.value)}
+                  value={attributes}
                 >
                   <option>--Select an Attribute--</option>
                   <option value={"Color"}>Color</option>
@@ -84,10 +85,11 @@ export default function AddAttribute(props) {
           </form>
         </Modal.Body>
         <Modal.Footer>
-         
-          <Button variant="success" onClick={addAttribute}>Add Attribute</Button>
-          <Button variant="secondary" onClick={onHide}>
-            Close
+          <Button variant="success" onClick={addAttribute}>
+            Add Attribute
+          </Button>
+          <Button variant="secondary" onClick={resetForm}>
+            Reset
           </Button>
         </Modal.Footer>
       </Modal>
