@@ -3,6 +3,7 @@ body {
   overflow-x: hidden;
   color: black;
 }
+
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
   background-color: rgb(236, 255, 237);
 }
@@ -26,7 +27,6 @@ background-color: red;
 height: 100%;
 }
 
-
 thead,tbody{
   align-items: center;
   justify-content: center;
@@ -38,6 +38,7 @@ thead,tbody{
   font-weight: 700 !important;
   color: #103434 !important;
 }
+
 .Modal-Title-Confirm{
   text-transform: uppercase;
   font-weight: 700 !important;
@@ -46,10 +47,10 @@ thead,tbody{
 .Modal-Body-Confirm p{
    font-weight: 600;
 }
+
 .search-input-container {
   position: relative;
 }
-
 
 .SearchBox {
   width: 300px;
