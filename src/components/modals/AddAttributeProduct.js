@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../App.css";
 import { Modal, Button } from "react-bootstrap";
 import axios from "axios";
@@ -12,6 +11,9 @@ export default function AddAttributeProduct(props) {
   const [attributes, setAttributes] = useState("");
   const [value, setValue] = useState("");
   const [updateTrigger, setUpdateTrigger] = useState(false);
+  const [attribute, setAttribute] = useState([]);
+  const [attributeList, setAttributeList] = useState([]);
+  const [attributeValues, setAttributeValues] = useState([]);
 
   const resetForm = () => {
     setId("");
@@ -27,7 +29,7 @@ export default function AddAttributeProduct(props) {
       toast.warning("Fill the Status Field");
     } else {
       try {
-        await axios.post("http://127.0.0.1:8000/attribute", {
+        await axios.post("http://127.0.0.1:8000/", {
           attribute: attributes,
           value: value,
         });
@@ -39,6 +41,26 @@ export default function AddAttributeProduct(props) {
       }
     }
   }
+
+  useEffect(() => {
+    (async () => await fetchData())();
+  }, []);
+
+  async function fetchData() {
+    const result = await axios.get("http://127.0.0.1:8000/attribute");
+    setAttribute(result.data);
+    setAttributeList(result.data);
+  }
+
+  const handleAttributeChange = (selectedAttribute) => {
+    const filteredValues = attributeList
+      .filter((item) => item.attribute === selectedAttribute)
+      .map((item) => item.value);
+
+    setAttributeValues(filteredValues);
+    setAttributes(selectedAttribute);
+    setValue(""); // Reset the value when the attribute changes
+  };
 
   return (
     <>
@@ -61,7 +83,10 @@ export default function AddAttributeProduct(props) {
                     <select
                       id="selectAddAttribute-attribute"
                       className="form-select"
-                      onChange={(e) => setAttributes(e.target.value)}
+                      onChange={(e) => {
+                        setAttributes(e.target.value);
+                        handleAttributeChange(e.target.value);
+                      }}
                       value={attributes}
                     >
                       <option>--Select an Attribute--</option>
@@ -82,13 +107,15 @@ export default function AddAttributeProduct(props) {
                     <select
                       id="selectAddAttribute-attribute"
                       className="form-select"
-                      onChange={(e) => setAttributes(e.target.value)}
-                      value={attributes}
+                      onChange={(e) => setValue(e.target.value)}
+                      value={value}
                     >
                       <option>--Select an Value--</option>
-                      <option value={"Color"}>Color</option>
-                      <option value={"Storage"}>Storage</option>
-                      <option value={"Display"}>Display</option>
+                      {attributeValues.map((attrValue, index) => (
+                        <option key={index} value={attrValue}>
+                          {attrValue}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
