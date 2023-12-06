@@ -36,7 +36,7 @@ export default function Signin() {
             window.location.href = "/dashboard";
           }
         })
-        .catch((error) => {
+        .catch(() => {
           toast.error("Username or Password is incorrect", {
             position: "top-right",
             autoClose: 5000,
@@ -49,7 +49,6 @@ export default function Signin() {
           });
         });
     }
-    console.log(data);
   }
 
   const [done, setDone] = useState(undefined);
