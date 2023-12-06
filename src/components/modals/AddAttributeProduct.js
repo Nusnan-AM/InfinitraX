@@ -59,7 +59,7 @@ export default function AddAttributeProduct(props) {
 
     setAttributeValues(filteredValues);
     setAttributes(selectedAttribute);
-    setValue(""); // Reset the value when the attribute changes
+    setValue(""); 
   };
 
   return (
