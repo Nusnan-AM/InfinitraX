@@ -17,6 +17,29 @@ function AddProduct(props) {
     { categories: "hgdsd", status: "dshud" },
     { categories: "hgdsd", status: "dshud" },
   ];
+  const [Category, setCategory] = useState([]);
+  const [Brand, setBrand] = useState([]);
+  const [categoryList, setcategoryList] = useState([]);
+  const [brandList, setbrandList] = useState([]);
+
+  useEffect(() => {
+    (async () => await fetchData())();
+  }, []);
+
+  useEffect(() => {
+    (async () => await fetchData2())();
+  }, []);
+  async function fetchData() {
+    const response = await axios.get("http://127.0.0.1:8000/category");
+    setcategoryList(response.data);
+    setCategory(response.data);
+  }
+
+  async function fetchData2() {
+    const result = await axios.get("http://127.0.0.1:8000/brand");
+    setbrandList(result.data);
+    setBrand(result.data);
+  }
   return (
     <>
       <div>
@@ -92,10 +115,12 @@ function AddProduct(props) {
                   //   onChange={(e) => setAttributes(e.target.value)}
                   //   value={attributes}
                 >
-                  <option>--Select an Attribute--</option>
-                  <option value={"Color"}>Color</option>
-                  <option value={"Storage"}>Storage</option>
-                  <option value={"Display"}>Display</option>
+                  <option value={""}>--Select the Category--</option>
+                  {categoryList.map((category) => (
+                    <option key={category.id} value={category.categories}>
+                      {category.categories}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -110,10 +135,12 @@ function AddProduct(props) {
                   //   onChange={(e) => setAttributes(e.target.value)}
                   //   value={attributes}
                 >
-                  <option>--Select an Attribute--</option>
-                  <option value={"Color"}>Color</option>
-                  <option value={"Storage"}>Storage</option>
-                  <option value={"Display"}>Display</option>
+                  <option>--Select the Brand--</option>
+                  {brandList.map((brand) => (
+                    <option key={brand.id} value={brand.brand}>
+                      {brand.brand}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -215,7 +242,7 @@ function AddProduct(props) {
             </tbody>
           </table>
         </div>
-        <hr/>
+        <hr />
         <div className="d-flex gap-3 mb-5 align-items-end justify-content-end">
           <button
             className="d-flex gap-1 btn btn-success"
