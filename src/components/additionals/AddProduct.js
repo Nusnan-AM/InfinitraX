@@ -10,6 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import axios from "axios";
+import AddAttributeProduct from "../modals/AddAttributeProduct";
 
 function AddProduct(props) {
   const datas = [
@@ -21,6 +22,7 @@ function AddProduct(props) {
   const [Brand, setBrand] = useState([]);
   const [categoryList, setcategoryList] = useState([]);
   const [brandList, setbrandList] = useState([]);
+  const [showAdd, setShowAdd] = useState(false);
 
   useEffect(() => {
     (async () => await fetchData())();
@@ -40,6 +42,11 @@ function AddProduct(props) {
     setbrandList(result.data);
     setBrand(result.data);
   }
+
+  const addAttributeModal = () => {
+    setShowAdd(!showAdd);
+    fetchData();
+  };
   return (
     <>
       <div>
@@ -170,7 +177,7 @@ function AddProduct(props) {
           <div className="col-6 d-flex">
             <button
               className="d-flex gap-1 btn btn-success"
-              //   onClick={handleOpen}
+              onClick={addAttributeModal}
             >
               AddAttribute
               <AddCircleIcon />
@@ -258,6 +265,10 @@ function AddProduct(props) {
           </button>
         </div>
       </div>
+      <AddAttributeProduct
+        show={showAdd}
+        onHide={() => addAttributeModal(false)}
+      />
     </>
   );
 }

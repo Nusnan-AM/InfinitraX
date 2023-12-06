@@ -44,7 +44,7 @@ export default function AddAttribute(props) {
     <>
       <Modal show={show} onHide={onHide} centered backdrop="static">
         <Modal.Header closeButton>
-          <Modal.Title>Add attributes</Modal.Title>
+          <Modal.Title className="Modal-Title">Add attributes</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form>
