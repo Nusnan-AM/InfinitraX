@@ -1,0 +1,13 @@
+.Product-Main-Section{
+    border-radius: 2px;
+    background: #FFF;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+
+.AddProduct-Form-section{
+    width: 100%;
+    border-radius: 2px;
+    background: #FFF;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
