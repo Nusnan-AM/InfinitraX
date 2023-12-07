@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "../App.css";
 import "../styles/sidebar.css";
 import logo from "../assets/logo.png";
@@ -6,7 +6,7 @@ import logos from "../assets/logo-small.png";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { changeToggle } from "../redux/actions";
-import profilepic from "../assets/powsi.jpeg";
+import profilepic from "../assets/anonymous-user.png";
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -23,6 +23,7 @@ import PrivateRoute from "../components/Private-Route";
 
 function Sidebar({ children }) {
   const dispatch = useDispatch();
+  const [user, setUser] = useState(null);
   const token = Cookies.get('token', { path: '/' });
   
   if(!token){
@@ -53,7 +54,7 @@ function Sidebar({ children }) {
     };
   }, []);
 
-  function signout() {
+  const signout = () => {
 
     axios.post("http://127.0.0.1:8000/logout/", "", {
       headers: {
@@ -79,6 +80,38 @@ function Sidebar({ children }) {
           });
         });
   }
+
+  const getUserDetails = useCallback(() => {
+        axios
+            .post(`http://127.0.0.1:8000/user/`, "", {
+                headers: {
+        'authorization': `Token ${token}`,
+        'Accept' : 'application/json',
+        'Content-Type': 'application/json'
+      }
+            })
+            .then((response) => {
+                if (response.status === 200) {
+                    setUser(response.data);
+                }
+            })
+            .catch(() => {
+                toast.error('Error loading data!', {
+                    position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+                });
+            });
+    }, [])
+
+    useEffect(() => {
+        getUserDetails()
+    }, [getUserDetails])
 
   return (
     <>
@@ -129,8 +162,8 @@ function Sidebar({ children }) {
                 </div>
                 <div className="d-flex align-items-center justify-content-center">
                   <div className="DashbaordProfile">
-                    <h5 className="m-0">Powsi</h5>
-                    <p className="txt m-0">powsi@gmail.com</p>
+                    <h5 className="m-0">{user?.username}</h5>
+                    <p className="txt m-0">{user?.email}</p>
                   </div>
                 </div>
               </div>

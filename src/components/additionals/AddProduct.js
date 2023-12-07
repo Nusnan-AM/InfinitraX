@@ -65,7 +65,7 @@ function AddProduct(props) {
         </div>
         <div className="container mb-2 AddProduct-Form-section">
           <div className="row mb-2">
-            <div className="col-6">
+            <div className="col-lg-3 col-md-6 col-sm-12">
               <div className="form-outline mb-2">
                 <label className="form-label" htmlFor="inputAddAttribute-value">
                   Product SerialNo
@@ -80,23 +80,7 @@ function AddProduct(props) {
                 />
               </div>
             </div>
-            <div className="col-6">
-              <div className="form-outline mb-2">
-                <label className="form-label" htmlFor="inputAddAttribute-value">
-                  Product Image
-                </label>
-                <input
-                  type="file"
-                  id="inputAddAttribute-value"
-                  className="form-control"
-                  //   onChange={(e) => handleFileUpload(e)}
-                  required
-                />
-              </div>
-            </div>
-          </div>
-          <div className="row mb-2">
-            <div className="col-lg-4 col-md-4 col-sm-12">
+            <div className="col-lg-3 col-md-6 col-sm-12">
               <div className="form-outline mb-2">
                 <label className="form-label" htmlFor="inputAddAttribute-value">
                   Product Name
@@ -111,7 +95,7 @@ function AddProduct(props) {
                 />
               </div>
             </div>
-            <div className="col-lg-4 col-md-4 col-sm-12">
+            <div className="col-lg-3 col-md-6 col-sm-12">
               <div className="form-outline mb-2">
                 <label className="form-label" htmlFor="inputAddAttribute-value">
                   Product Category
@@ -131,7 +115,7 @@ function AddProduct(props) {
                 </select>
               </div>
             </div>
-            <div className="col-lg-4 col-md-4 col-sm-12">
+            <div className="col-lg-3 col-md-6 col-sm-12">
               <div className="form-outline mb-2">
                 <label className="form-label" htmlFor="inputAddAttribute-value">
                   Product Brand
@@ -152,6 +136,9 @@ function AddProduct(props) {
               </div>
             </div>
           </div>
+          {/* <div className="row mb-2"> */}
+
+          {/* </div> */}
           <div className="row mb-2">
             <div className="col-12">
               <div className="form-outline mb-2">
