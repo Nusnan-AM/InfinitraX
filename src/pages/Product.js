@@ -17,6 +17,12 @@ import DeleteConfirmationModal from "../components/modals/confirmationmodal/Dele
 import AddProduct from "../components/additionals/AddProduct";
 
 function Product() {
+  const [updateTrigger, setUpdateTrigger] = useState(false);
+  const [productData, setProductData] = useState({
+    products: [],
+    inventory: [],
+  });
+  const [productList, setproductList] = useState([]);
   const datas = [
     { categories: "hgdsd", status: "dshud" },
     { categories: "hgdsd", status: "dshud" },
@@ -26,6 +32,24 @@ function Product() {
     { categories: "hgdsd", status: "dshud" },
     { categories: "hgdsd", status: "dshud" },
   ];
+
+  useEffect(() => {
+    (async () => await fetchData())();
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [updateTrigger]);
+
+  async function fetchData() {
+    try {
+      const result = await axios.get("http://127.0.0.1:8000/product");
+      setProductData(result.data);
+    } catch (error) {
+      // Handle error
+      console.error("Error fetching product data:", error);
+    }
+  }
 
   const [addCategoryModal, setAddCategoryModal] = useState(false);
 
@@ -44,7 +68,7 @@ function Product() {
         </nav>
         {addCategoryModal ? (
           <div className="Product-Main-Section p-2">
-            <AddProduct handleClose={handleOpen}/>
+            <AddProduct handleClose={handleOpen} />
           </div>
         ) : (
           <div className="Product-Main-Section p-2">
@@ -169,43 +193,57 @@ function Product() {
                       Brand
                     </th>
                     <th scope="col" className="col-1">
+                      Attribute
+                    </th>
+                    <th scope="col" className="col-1">
+                      Inventory
+                    </th>
+                    <th scope="col" className="col-1">
                       Action
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {datas.map((data, index) => (
-                    <tr key={index}>
-                      <th scope="row">{index + 1}</th>
-                      <td>{data.categories}</td>
-                      <td>{data.categories}</td>
-                      <td>{data.categories}</td>
-                      <td>{data.categories}</td>
-                      <td className="col-2">
-                        <IconButton
-                          aria-label="delete"
-                          className="viewbutt"
-                          // onClick={() => categoryViewModal(data)}
-                        >
-                          <VisibilityIcon className="text-" />
-                        </IconButton>
-                        <IconButton
-                          aria-label="delete"
-                          className="viewbutt"
-                          // onClick={() => categoryEditModal(data)}
-                        >
-                          <EditIcon className="text-success" />
-                        </IconButton>
-                        <IconButton
-                          aria-label="delete"
-                          className="viewbutt"
-                          // onClick={() => handleDelete(data.id)}
-                        >
-                          <DeleteIcon className="text-danger" />
-                        </IconButton>
-                      </td>
-                    </tr>
-                  ))}
+                  {productData.products &&
+                    productData.inventory.map((inventoryItem, index) => {
+                      const product = productData.products.find(
+                        (product) => product.serialno === inventoryItem.product
+                      );
+                      return (
+                        <tr key={index}>
+                          <th scope="row">{index + 1}</th>
+                          <td>{product.serialno}</td>
+                          <td>{product.name}</td>
+                          <td>{product.categories}</td>
+                          <td>{product.brand}</td>
+                          <td>{inventoryItem.attribute}</td>
+                          <td>{inventoryItem.inventory}</td>
+                          <td className="col-2">
+                            <IconButton
+                              aria-label="delete"
+                              className="viewbutt"
+                              // onClick={() => categoryViewModal(product)}
+                            >
+                              <VisibilityIcon className="text-" />
+                            </IconButton>
+                            <IconButton
+                              aria-label="delete"
+                              className="viewbutt"
+                              // onClick={() => categoryEditModal(product)}
+                            >
+                              <EditIcon className="text-success" />
+                            </IconButton>
+                            <IconButton
+                              aria-label="delete"
+                              className="viewbutt"
+                              // onClick={() => handleDelete(product.id)}
+                            >
+                              <DeleteIcon className="text-danger" />
+                            </IconButton>
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             </div>
