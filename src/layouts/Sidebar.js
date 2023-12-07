@@ -6,7 +6,7 @@ import logos from "../assets/logo-small.png";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { changeToggle } from "../redux/actions";
-import profilepic from "../assets/powsi.jpeg";
+import profilepic from "../assets/anonymous-user.png";
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import SettingsIcon from "@mui/icons-material/Settings";
