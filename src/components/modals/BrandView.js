@@ -62,7 +62,7 @@ function BrandView(props) {
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="success" onClick={onHide}>Close</Button>
+        <Button variant="secondary" onClick={onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
   );

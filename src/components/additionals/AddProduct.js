@@ -13,16 +13,15 @@ import axios from "axios";
 import AddAttributeProduct from "../modals/AddAttributeProduct";
 
 function AddProduct(props) {
-  const datas = [
-    { categories: "hgdsd", status: "dshud" },
-    { categories: "hgdsd", status: "dshud" },
-    { categories: "hgdsd", status: "dshud" },
-  ];
-  const [Category, setCategory] = useState([]);
-  const [Brand, setBrand] = useState([]);
+  const [datas, setDatas] = useState([]);
   const [categoryList, setcategoryList] = useState([]);
   const [brandList, setbrandList] = useState([]);
   const [showAdd, setShowAdd] = useState(false);
+  const [serialno, setSerialno] = useState("");
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState([]);
+  const [brand, setBrand] = useState("");
+  const [description, setDescription] = useState("");
 
   useEffect(() => {
     (async () => await fetchData())();
@@ -34,19 +33,49 @@ function AddProduct(props) {
   async function fetchData() {
     const response = await axios.get("http://127.0.0.1:8000/category");
     setcategoryList(response.data);
-    setCategory(response.data);
   }
 
   async function fetchData2() {
     const result = await axios.get("http://127.0.0.1:8000/brand");
     setbrandList(result.data);
-    setBrand(result.data);
   }
 
   const addAttributeModal = () => {
     setShowAdd(!showAdd);
     fetchData();
   };
+
+  const addAttribute = (attribute) => {
+    setDatas([...datas, attribute]);
+  };
+
+  const handleDelete = (index) => {
+    const updatedDatas = [...datas];
+    updatedDatas.splice(index, 1);
+    setDatas(updatedDatas);
+  };
+
+  const handleADDProduct = async () => {
+    try {
+      const productData = {
+        serialno: serialno,
+        name: name,
+        categories: category, 
+        brand: brand, 
+        description: description,
+        inventory: datas,
+      };
+     
+      const response = await axios.post("http://127.0.0.1:8000/product", productData);
+      toast.success("Added Successful");
+      console.log(response.data); 
+     
+  
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
+  };
+  
   return (
     <>
       <div>
@@ -54,14 +83,14 @@ function AddProduct(props) {
           <div className="col-6">
             <h5>Add Product</h5>
           </div>
-          <div className="col-6 d-flex">
+          {/* <div className="col-6 d-flex">
             <button
               className="d-flex gap-1 btn btn-success"
               onClick={props.handleClose}
             >
               View Product
             </button>
-          </div>
+          </div> */}
         </div>
         <div className="container mb-2 AddProduct-Form-section">
           <div className="row mb-2">
@@ -74,8 +103,8 @@ function AddProduct(props) {
                   type="text"
                   id="inputAddAttribute-value"
                   className="form-control"
-                  //   onChange={(e) => setValue(e.target.value)}
-                  //   value={value}
+                  onChange={(e) => setSerialno(e.target.value)}
+                  value={serialno}
                   required
                 />
               </div>
@@ -89,8 +118,8 @@ function AddProduct(props) {
                   type="text"
                   id="inputAddAttribute-value"
                   className="form-control"
-                  //   onChange={(e) => setValue(e.target.value)}
-                  //   value={value}
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}
                   required
                 />
               </div>
@@ -103,8 +132,8 @@ function AddProduct(props) {
                 <select
                   id="selectAddAttribute-attribute"
                   className="form-select"
-                  //   onChange={(e) => setAttributes(e.target.value)}
-                  //   value={attributes}
+                    onChange={(e) => setCategory(e.target.value)}
+                    value={category}
                 >
                   <option value={""}>--Select the Category--</option>
                   {categoryList.map((category) => (
@@ -123,8 +152,8 @@ function AddProduct(props) {
                 <select
                   id="selectAddAttribute-attribute"
                   className="form-select"
-                  //   onChange={(e) => setAttributes(e.target.value)}
-                  //   value={attributes}
+                    onChange={(e) => setBrand(e.target.value)}
+                    value={brand}
                 >
                   <option>--Select the Brand--</option>
                   {brandList.map((brand) => (
@@ -149,19 +178,19 @@ function AddProduct(props) {
                   type="text"
                   id="inputAddAttribute-value"
                   className="form-control"
-                  //   onChange={(e) => setValue(e.target.value)}
-                  //   value={value}
+                    onChange={(e) => setDescription(e.target.value)}
+                    value={description}
                   required
                 />
               </div>
             </div>
           </div>
         </div>
-        <div className="d-flex mb-2 Category-AddedSection">
+        <div className="d-flex mb-2 Product-AddedSection">
           <div className="col-6">
             <h5>AttributeList</h5>
           </div>
-          <div className="col-6 d-flex">
+          <div className="col-6 d-flex AddAttribute-Button-Section p-4">
             <button
               className="d-flex gap-1 btn btn-success"
               onClick={addAttributeModal}
@@ -200,39 +229,47 @@ function AddProduct(props) {
               </tr>
             </thead>
             <tbody>
-              {datas.map((data, index) => (
-                <tr key={index}>
-                  <th scope="row">{index + 1}</th>
-                  <td>{data.categories}</td>
-                  <td>{data.categories}</td>
-                  <td>{data.categories}</td>
-                  <td>{data.categories}</td>
-                  <td>{data.categories}</td>
-                  <td className="col-2">
-                    <IconButton
-                      aria-label="delete"
-                      className="viewbutt"
-                      // onClick={() => categoryViewModal(data)}
-                    >
-                      <VisibilityIcon className="text-" />
-                    </IconButton>
-                    <IconButton
-                      aria-label="delete"
-                      className="viewbutt"
-                      // onClick={() => categoryEditModal(data)}
-                    >
-                      <EditIcon className="text-success" />
-                    </IconButton>
-                    <IconButton
-                      aria-label="delete"
-                      className="viewbutt"
-                      // onClick={() => handleDelete(data.id)}
-                    >
-                      <DeleteIcon className="text-danger" />
-                    </IconButton>
+              {datas.length === 0 ? (
+                <tr>
+                  <td colSpan="7" className="text-center" style={{fontWeight:'600'}}>
+                    Add Attributes here...
                   </td>
                 </tr>
-              ))}
+              ) : (
+                datas.map((data, index) => (
+                  <tr key={index}>
+                    <th scope="row">{index + 1}</th>
+                    <td>{data.attribute}</td>
+                    <td>{data.value}</td>
+                    <td>{data.price}</td>
+                    <td>{data.inventory}</td>
+                    <td>{data.taxrate}</td>
+                    <td className="col-2">
+                      <IconButton
+                        aria-label="delete"
+                        className="viewbutt"
+                        // onClick={() => categoryViewModal(data)}
+                      >
+                        <VisibilityIcon className="text-" />
+                      </IconButton>
+                      <IconButton
+                        aria-label="delete"
+                        className="viewbutt"
+                        // onClick={() => categoryEditModal(data)}
+                      >
+                        <EditIcon className="text-success" />
+                      </IconButton>
+                      <IconButton
+                        aria-label="delete"
+                        className="viewbutt"
+                        onClick={() => handleDelete(index)}
+                      >
+                        <DeleteIcon className="text-danger" />
+                      </IconButton>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -240,13 +277,13 @@ function AddProduct(props) {
         <div className="d-flex gap-3 mb-5 align-items-end justify-content-end">
           <button
             className="d-flex gap-1 btn btn-success"
-            //   onClick={handleOpen}
+            onClick={handleADDProduct}
           >
             Add Product
           </button>
           <button
             className="d-flex gap-1 btn btn-secondary"
-            //   onClick={handleOpen}
+            onClick={props.handleClose}
           >
             Cancel
           </button>
@@ -255,6 +292,7 @@ function AddProduct(props) {
       <AddAttributeProduct
         show={showAdd}
         onHide={() => addAttributeModal(false)}
+        addAttribute={addAttribute}
       />
     </>
   );
