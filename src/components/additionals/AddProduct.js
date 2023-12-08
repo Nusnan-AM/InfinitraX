@@ -246,7 +246,7 @@ function AddProduct(props) {
           </button>
           <button
             className="d-flex gap-1 btn btn-secondary"
-            //   onClick={handleOpen}
+            onClick={props.handleClose}
           >
             Cancel
           </button>

@@ -15,6 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import DeleteConfirmationModal from "../components/modals/confirmationmodal/DeleteConfirmationModal";
 import AddProduct from "../components/additionals/AddProduct";
+import ProductViewModal from "../components/modals/ProductViewModal";
 
 function Product() {
   const [updateTrigger, setUpdateTrigger] = useState(false);
@@ -22,16 +23,13 @@ function Product() {
     products: [],
     inventory: [],
   });
-  const [productList, setproductList] = useState([]);
-  const datas = [
-    { categories: "hgdsd", status: "dshud" },
-    { categories: "hgdsd", status: "dshud" },
-    { categories: "hgdsd", status: "dshud" },
-    { categories: "hgdsd", status: "dshud" },
-    { categories: "hgdsd", status: "dshud" },
-    { categories: "hgdsd", status: "dshud" },
-    { categories: "hgdsd", status: "dshud" },
-  ];
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  const productViewModal = (product) => {
+    setSelectedProduct(product);
+    setShowModal(true);
+  };
 
   useEffect(() => {
     (async () => await fetchData())();
@@ -192,23 +190,23 @@ function Product() {
                     <th scope="col" className="col-1">
                       Brand
                     </th>
-                    <th scope="col" className="col-1">
+                    {/* <th scope="col" className="col-1">
                       Attribute
                     </th>
                     <th scope="col" className="col-1">
-                      Inventory
+                      Value
                     </th>
+                    <th scope="col" className="col-1">
+                      Inventory
+                    </th> */}
                     <th scope="col" className="col-1">
                       Action
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {productData.products &&
-                    productData.inventory.map((inventoryItem, index) => {
-                      const product = productData.products.find(
-                        (product) => product.serialno === inventoryItem.product
-                      );
+                  {/* {productData.products && */}
+                   {productData.products.map((product, index) => {
                       return (
                         <tr key={index}>
                           <th scope="row">{index + 1}</th>
@@ -216,13 +214,14 @@ function Product() {
                           <td>{product.name}</td>
                           <td>{product.categories}</td>
                           <td>{product.brand}</td>
-                          <td>{inventoryItem.attribute}</td>
-                          <td>{inventoryItem.inventory}</td>
+                          {/* <td>{inventoryItem.attribute}</td>
+                          <td>{inventoryItem.value}</td>
+                          <td>{inventoryItem.inventory}</td> */}
                           <td className="col-2">
                             <IconButton
                               aria-label="delete"
                               className="viewbutt"
-                              // onClick={() => categoryViewModal(product)}
+                              onClick={() => productViewModal(product)}
                             >
                               <VisibilityIcon className="text-" />
                             </IconButton>
@@ -250,6 +249,12 @@ function Product() {
           </div>
         )}
       </div>
+
+      <ProductViewModal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        productDetails={selectedProduct}
+      />
     </Sidebar>
   );
 }

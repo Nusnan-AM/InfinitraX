@@ -12,7 +12,6 @@ export default function ViewAttribute(props) {
           <Modal.Title>View Attribute</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="modal-body">
             <div className="form-outline mb-4">
               <label
                 className="form-label"
@@ -40,10 +39,9 @@ export default function ViewAttribute(props) {
                 readOnly
               />
             </div>
-          </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="success" onClick={onHide}>Done</Button>
+          <Button variant="secondary" onClick={onHide}>Close</Button>
         </Modal.Footer>
       </Modal>
     </>
