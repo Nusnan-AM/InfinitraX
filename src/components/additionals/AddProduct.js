@@ -14,11 +14,14 @@ import AddAttributeProduct from "../modals/AddAttributeProduct";
 
 function AddProduct(props) {
   const [datas, setDatas] = useState([]);
-  const [Category, setCategory] = useState([]);
-  const [Brand, setBrand] = useState([]);
   const [categoryList, setcategoryList] = useState([]);
   const [brandList, setbrandList] = useState([]);
   const [showAdd, setShowAdd] = useState(false);
+  const [serialno, setSerialno] = useState("");
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState([]);
+  const [brand, setBrand] = useState("");
+  const [description, setDescription] = useState("");
 
   useEffect(() => {
     (async () => await fetchData())();
@@ -30,13 +33,11 @@ function AddProduct(props) {
   async function fetchData() {
     const response = await axios.get("http://127.0.0.1:8000/category");
     setcategoryList(response.data);
-    setCategory(response.data);
   }
 
   async function fetchData2() {
     const result = await axios.get("http://127.0.0.1:8000/brand");
     setbrandList(result.data);
-    setBrand(result.data);
   }
 
   const addAttributeModal = () => {
@@ -53,6 +54,28 @@ function AddProduct(props) {
     updatedDatas.splice(index, 1);
     setDatas(updatedDatas);
   };
+
+  const handleADDProduct = async () => {
+    try {
+      const productData = {
+        serialno: serialno,
+        name: name,
+        categories: category, 
+        brand: brand, 
+        description: description,
+        inventory: datas,
+      };
+     
+      const response = await axios.post("http://127.0.0.1:8000/product", productData);
+      toast.success("Added Successful");
+      console.log(response.data); 
+     
+  
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
+  };
+  
   return (
     <>
       <div>
@@ -80,8 +103,8 @@ function AddProduct(props) {
                   type="text"
                   id="inputAddAttribute-value"
                   className="form-control"
-                  //   onChange={(e) => setValue(e.target.value)}
-                  //   value={value}
+                  onChange={(e) => setSerialno(e.target.value)}
+                  value={serialno}
                   required
                 />
               </div>
@@ -95,8 +118,8 @@ function AddProduct(props) {
                   type="text"
                   id="inputAddAttribute-value"
                   className="form-control"
-                  //   onChange={(e) => setValue(e.target.value)}
-                  //   value={value}
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}
                   required
                 />
               </div>
@@ -109,8 +132,8 @@ function AddProduct(props) {
                 <select
                   id="selectAddAttribute-attribute"
                   className="form-select"
-                  //   onChange={(e) => setAttributes(e.target.value)}
-                  //   value={attributes}
+                    onChange={(e) => setCategory(e.target.value)}
+                    value={category}
                 >
                   <option value={""}>--Select the Category--</option>
                   {categoryList.map((category) => (
@@ -129,8 +152,8 @@ function AddProduct(props) {
                 <select
                   id="selectAddAttribute-attribute"
                   className="form-select"
-                  //   onChange={(e) => setAttributes(e.target.value)}
-                  //   value={attributes}
+                    onChange={(e) => setBrand(e.target.value)}
+                    value={brand}
                 >
                   <option>--Select the Brand--</option>
                   {brandList.map((brand) => (
@@ -155,8 +178,8 @@ function AddProduct(props) {
                   type="text"
                   id="inputAddAttribute-value"
                   className="form-control"
-                  //   onChange={(e) => setValue(e.target.value)}
-                  //   value={value}
+                    onChange={(e) => setDescription(e.target.value)}
+                    value={description}
                   required
                 />
               </div>
@@ -254,7 +277,7 @@ function AddProduct(props) {
         <div className="d-flex gap-3 mb-5 align-items-end justify-content-end">
           <button
             className="d-flex gap-1 btn btn-success"
-            //   onClick={handleOpen}
+            onClick={handleADDProduct}
           >
             Add Product
           </button>

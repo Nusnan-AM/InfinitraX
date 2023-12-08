@@ -16,6 +16,7 @@ function Dashboard() {
 
   const [categoriesData, setCategoriesData] = useState([]);
   const [brandData, setBrandData] = useState([]);
+  const [productData, setProductData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,6 +31,9 @@ function Dashboard() {
   }, []);
 
 
+ 
+
+
   useEffect(() => {
     const fetchData2 = async () => {
       try {
@@ -42,8 +46,21 @@ function Dashboard() {
     fetchData2();
   }, []);
 
+  useEffect(() => {
+    const fetchData3 = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/product");
+        setProductData(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData3();
+  }, []);
+
   const activeCategoriesCount = categoriesData.filter(category => category.status === 'Active').length;
   const activeBrandCount = brandData.filter(brand => brand.status === 'Active').length;
+  const activeProductCount = productData.products ? productData.products.length : 0;
 
   return (
     <Sidebar>
@@ -80,7 +97,7 @@ function Dashboard() {
               ></div>
               <div className="col-7 d-flex flex-column align-items-center justify-content-md-center">
                 <h3>Products</h3>
-                <p>145</p>
+                <p>{activeProductCount}</p>
               </div>
               <div className="col-5 d-flex align-items-center justify-content-md-center">
                 <img src={DashboardIcon2} alt="" />
