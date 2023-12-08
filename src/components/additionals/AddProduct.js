@@ -13,11 +13,7 @@ import axios from "axios";
 import AddAttributeProduct from "../modals/AddAttributeProduct";
 
 function AddProduct(props) {
-  const datas = [
-    { categories: "hgdsd", status: "dshud" },
-    { categories: "hgdsd", status: "dshud" },
-    { categories: "hgdsd", status: "dshud" },
-  ];
+  const [datas, setDatas] = useState([]);
   const [Category, setCategory] = useState([]);
   const [Brand, setBrand] = useState([]);
   const [categoryList, setcategoryList] = useState([]);
@@ -47,6 +43,16 @@ function AddProduct(props) {
     setShowAdd(!showAdd);
     fetchData();
   };
+
+  const addAttribute = (attribute) => {
+    setDatas([...datas, attribute]);
+  };
+
+  const handleDelete = (index) => {
+    const updatedDatas = [...datas];
+    updatedDatas.splice(index, 1);
+    setDatas(updatedDatas);
+  };
   return (
     <>
       <div>
@@ -54,14 +60,14 @@ function AddProduct(props) {
           <div className="col-6">
             <h5>Add Product</h5>
           </div>
-          <div className="col-6 d-flex">
+          {/* <div className="col-6 d-flex">
             <button
               className="d-flex gap-1 btn btn-success"
               onClick={props.handleClose}
             >
               View Product
             </button>
-          </div>
+          </div> */}
         </div>
         <div className="container mb-2 AddProduct-Form-section">
           <div className="row mb-2">
@@ -157,11 +163,11 @@ function AddProduct(props) {
             </div>
           </div>
         </div>
-        <div className="d-flex mb-2 Category-AddedSection">
+        <div className="d-flex mb-2 Product-AddedSection">
           <div className="col-6">
             <h5>AttributeList</h5>
           </div>
-          <div className="col-6 d-flex">
+          <div className="col-6 d-flex AddAttribute-Button-Section p-4">
             <button
               className="d-flex gap-1 btn btn-success"
               onClick={addAttributeModal}
@@ -200,39 +206,47 @@ function AddProduct(props) {
               </tr>
             </thead>
             <tbody>
-              {datas.map((data, index) => (
-                <tr key={index}>
-                  <th scope="row">{index + 1}</th>
-                  <td>{data.categories}</td>
-                  <td>{data.categories}</td>
-                  <td>{data.categories}</td>
-                  <td>{data.categories}</td>
-                  <td>{data.categories}</td>
-                  <td className="col-2">
-                    <IconButton
-                      aria-label="delete"
-                      className="viewbutt"
-                      // onClick={() => categoryViewModal(data)}
-                    >
-                      <VisibilityIcon className="text-" />
-                    </IconButton>
-                    <IconButton
-                      aria-label="delete"
-                      className="viewbutt"
-                      // onClick={() => categoryEditModal(data)}
-                    >
-                      <EditIcon className="text-success" />
-                    </IconButton>
-                    <IconButton
-                      aria-label="delete"
-                      className="viewbutt"
-                      // onClick={() => handleDelete(data.id)}
-                    >
-                      <DeleteIcon className="text-danger" />
-                    </IconButton>
+              {datas.length === 0 ? (
+                <tr>
+                  <td colSpan="7" className="text-center" style={{fontWeight:'600'}}>
+                    Add Attributes here...
                   </td>
                 </tr>
-              ))}
+              ) : (
+                datas.map((data, index) => (
+                  <tr key={index}>
+                    <th scope="row">{index + 1}</th>
+                    <td>{data.attribute}</td>
+                    <td>{data.value}</td>
+                    <td>{data.price}</td>
+                    <td>{data.inventory}</td>
+                    <td>{data.taxrate}</td>
+                    <td className="col-2">
+                      <IconButton
+                        aria-label="delete"
+                        className="viewbutt"
+                        // onClick={() => categoryViewModal(data)}
+                      >
+                        <VisibilityIcon className="text-" />
+                      </IconButton>
+                      <IconButton
+                        aria-label="delete"
+                        className="viewbutt"
+                        // onClick={() => categoryEditModal(data)}
+                      >
+                        <EditIcon className="text-success" />
+                      </IconButton>
+                      <IconButton
+                        aria-label="delete"
+                        className="viewbutt"
+                        onClick={() => handleDelete(index)}
+                      >
+                        <DeleteIcon className="text-danger" />
+                      </IconButton>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -255,6 +269,7 @@ function AddProduct(props) {
       <AddAttributeProduct
         show={showAdd}
         onHide={() => addAttributeModal(false)}
+        addAttribute={addAttribute}
       />
     </>
   );

@@ -6,41 +6,26 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function AddAttributeProduct(props) {
-  const { show, onHide } = props;
-  const [id, setId] = useState("");
+  const { show, onHide,addAttribute} = props;
   const [attributes, setAttributes] = useState("");
   const [value, setValue] = useState("");
+  const [price, setPrice] = useState("");
+  const [inventory, setInventory] = useState("");
+  const [taxrate, setTaxrate] = useState("");
   const [updateTrigger, setUpdateTrigger] = useState(false);
   const [attribute, setAttribute] = useState([]);
   const [attributeList, setAttributeList] = useState([]);
   const [attributeValues, setAttributeValues] = useState([]);
 
   const resetForm = () => {
-    setId("");
     setAttributes("");
     setValue("");
+    setPrice("");
+    setInventory("");
+    setTaxrate("");
   };
 
-  async function addAttribute(event) {
-    event.preventDefault();
-    if (attributes.length === 0) {
-      toast.warning("Fill the attributes Field");
-    } else if (value.length === 0) {
-      toast.warning("Fill the Status Field");
-    } else {
-      try {
-        await axios.post("http://127.0.0.1:8000/", {
-          attribute: attributes,
-          value: value,
-        });
-        toast.success("Attributes added Succesfully");
-        resetForm();
-        setUpdateTrigger(!updateTrigger);
-      } catch (err) {
-        toast.error("Attributes added Failed");
-      }
-    }
-  }
+  
 
   useEffect(() => {
     (async () => await fetchData())();
@@ -60,6 +45,22 @@ export default function AddAttributeProduct(props) {
     setAttributeValues(filteredValues);
     setAttributes(selectedAttribute);
     setValue(""); 
+  };
+
+  const handleAddAttribute = () => {
+    const attributedata = {
+      attribute: attributes,
+      value: value,
+      price: price,
+      inventory: inventory,
+      taxrate: taxrate,
+    };
+    if (!attributedata.attribute || !attributedata.value || !attributedata.price || !attributedata.inventory || !attributedata.taxrate) {
+      toast.warning("Fill in all fields");
+    } else{
+      addAttribute(attributedata);
+      resetForm(); 
+    } 
   };
 
   return (
@@ -133,8 +134,8 @@ export default function AddAttributeProduct(props) {
                       type="text"
                       id="inputAddAttribute-value"
                       className="form-control"
-                      //   onChange={(e) => setValue(e.target.value)}
-                      //   value={value}
+                        onChange={(e) => setPrice(e.target.value)}
+                        value={price}
                       required
                     />
                   </div>
@@ -151,8 +152,8 @@ export default function AddAttributeProduct(props) {
                       type="text"
                       id="inputAddAttribute-value"
                       className="form-control"
-                      //   onChange={(e) => setValue(e.target.value)}
-                      //   value={value}
+                        onChange={(e) => setInventory(e.target.value)}
+                        value={inventory}
                       required
                     />
                   </div>
@@ -169,8 +170,8 @@ export default function AddAttributeProduct(props) {
                       type="text"
                       id="inputAddAttribute-value"
                       className="form-control"
-                      //   onChange={(e) => setValue(e.target.value)}
-                      //   value={value}
+                        onChange={(e) => setTaxrate(e.target.value)}
+                        value={taxrate}
                       required
                     />
                   </div>
@@ -180,7 +181,7 @@ export default function AddAttributeProduct(props) {
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="success" onClick={addAttribute}>
+          <Button variant="success" onClick={handleAddAttribute}>
             Add Attribute
           </Button>
           <Button variant="secondary" onClick={resetForm}>

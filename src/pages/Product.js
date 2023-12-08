@@ -157,11 +157,11 @@ function Product() {
                 </div>
               </div>
             </div>
-            <div className="d-flex mb-2 Category-AddedSection">
+            <div className="d-flex mb-2 Product-AddedSection">
               <div className="col-6">
                 <h5>ProductList</h5>
               </div>
-              <div className="col-6 d-flex">
+              <div className="col-6 d-flex AddAttribute-Button-Section p-4">
                 <button
                   className="d-flex gap-1 btn btn-success"
                   onClick={handleOpen}
