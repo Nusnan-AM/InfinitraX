@@ -16,6 +16,7 @@ import axios from "axios";
 import DeleteConfirmationModal from "../components/modals/confirmationmodal/DeleteConfirmationModal";
 import AddProduct from "../components/additionals/AddProduct";
 import ProductViewModal from "../components/modals/ProductViewModal";
+import EditProduct from "../components/additionals/EditProduct";
 
 function Product() {
   const [updateTrigger, setUpdateTrigger] = useState(false);
@@ -25,6 +26,7 @@ function Product() {
   });
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
   const [searchTerm3, setSearchTerm3] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedBrand, setSelectedBrand] = useState("");
@@ -151,6 +153,12 @@ function Product() {
     setShowDeleteConfirmationModal(false);
   };
 
+
+  const productEditModal = (product) => {
+    setSelectedProduct(product);
+    setShowModal2(true);
+    fetchData();
+  };
   
   return (
     <Sidebar>
@@ -319,7 +327,7 @@ function Product() {
                           <IconButton
                             aria-label="delete"
                             className="viewbutt"
-                            // onClick={() => categoryEditModal(product)}
+                            onClick={() => productEditModal(product)}
                           >
                             <EditIcon className="text-success" />
                           </IconButton>
@@ -352,6 +360,14 @@ function Product() {
       <ProductViewModal
         show={showModal}
         onHide={() => setShowModal(false)}
+        productDetails={selectedProduct}
+      />\
+       <EditProduct
+        show={showModal2}
+        onHide={() => {
+          setShowModal2(false);
+          setUpdateTrigger(!updateTrigger);
+        }}
         productDetails={selectedProduct}
       />
       <ToastContainer/>
