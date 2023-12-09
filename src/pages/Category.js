@@ -232,7 +232,7 @@ function Category() {
                 value={selectedStatus}
                 onChange={handleStatusChange}
               >
-                <option value={""}>Filter by Category</option>
+                <option value={""}>Filter by Status</option>
                 <option value={"Active"}>Active</option>
                 <option value={"InActive"}>InActive</option>
               </select>

@@ -26,7 +26,6 @@ function Product() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [searchTerm3, setSearchTerm3] = useState("");
-  const [searchTerm4, setSearchTerm4] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedBrand, setSelectedBrand] = useState("");
   const [filteredproductList, setFilteredproductList] = useState([]);
@@ -94,8 +93,19 @@ function Product() {
   const handleChange3 = (event) => {
     setSearchTerm3(event.target.value);
   };
-  const handleChange4 = (event) => {
-    setSearchTerm4(event.target.value);
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    const searchedProduct = productData.products.find(
+      (product) => product.serialno === searchTerm3
+    );
+    if (searchedProduct) {
+      setSelectedProduct(searchedProduct);
+      setShowModal(true);
+      setSearchTerm3("");
+    } else {
+      toast.error("Product not Found");
+    }
   };
 
   const handleCategoryChange = (event) => {
@@ -134,7 +144,7 @@ function Product() {
               <h5 className="col-1">FilterList</h5>
               <div className="col-3">
                 <div className="search-input-container mt-4">
-                  <form>
+                  <form onSubmit={handleSearchSubmit}>
                     <input
                       className="SearchBox"
                       type="text"
@@ -142,10 +152,10 @@ function Product() {
                       value={searchTerm3}
                       onChange={handleChange3}
                     />
-                    <div className="search-icon">
+                    <div className="search-icon" onClick={handleSearchSubmit}>
                       <SearchIcon />
                     </div>
-                    {/* {searchTerm3 && (
+                    {searchTerm3 && (
                   <div
                     className="search-icon si2"
                     style={{
@@ -153,11 +163,11 @@ function Product() {
                       backgroundColor: "white",
                       right: "15px",
                     }}
-                    // onClick={() => setSearchTerm3("")}
+                    onClick={() => setSearchTerm3("")}
                   >
                     <ClearIcon />
                   </div>
-                )} */}
+                )}
                   </form>
                 </div>
               </div>
@@ -177,19 +187,19 @@ function Product() {
                   ))}
                   </select>
 
-                  {/* {selectedStatus && (
+                  {selectedCategory && (
                 <div
                   className="search-icon"
                   style={{
                     zIndex: "100",
                     backgroundColor: "white",
-                    right: "18px",
+                    right: "8px",
                   }}
-                  onClick={() => setSelectedStatus("")}
+                  onClick={() => setSelectedCategory("")}
                 >
                   <ClearIcon />
                 </div>
-              )} */}
+              )}
                 </div>
               </div>
               <div className="col-3">
@@ -207,19 +217,19 @@ function Product() {
                     </option>
                   ))}
                   </select>
-                  {/* {searchTerm4 && (
+                  {selectedBrand && (
                   <div
                     className="search-icon si2"
                     style={{
                       zIndex: "100",
                       backgroundColor: "white",
-                      right: "15px",
+                      right: "5px",
                     }}
-                    onClick={() => setSearchTerm4("")}
+                    onClick={() => setSelectedBrand("")}
                   >
                     <ClearIcon />
                   </div>
-                )} */}
+                )}
                 </div>
               </div>
             </div>
