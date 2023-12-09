@@ -361,7 +361,7 @@ function Product() {
         show={showModal}
         onHide={() => setShowModal(false)}
         productDetails={selectedProduct}
-      />\
+      />
        <EditProduct
         show={showModal2}
         onHide={() => {

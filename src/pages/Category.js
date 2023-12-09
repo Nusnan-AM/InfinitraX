@@ -20,7 +20,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import axios from "axios";
 import DeleteConfirmationModal from "../components/modals/confirmationmodal/DeleteConfirmationModal";
-// import DeleteConfirmationModal2 from "../components/modals/confirmationmodal/DeleteConfirmationModal2";
+
 
 function Category() {
   const [updateTrigger, setUpdateTrigger] = useState(false);

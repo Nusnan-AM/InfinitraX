@@ -191,7 +191,7 @@ function EditProduct(props) {
                         className="form-control"
                         onChange={(e) => setSerialno(e.target.value)}
                         value={serialno}
-                        required
+                        readOnly
                       />
                     </div>
                   </div>
