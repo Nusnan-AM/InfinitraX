@@ -4,11 +4,8 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import SearchIcon from "@mui/icons-material/Search";
-import ClearIcon from "@mui/icons-material/Clear";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import axios from "axios";
 import AddAttributeProduct from "../modals/AddAttributeProduct";
 
@@ -30,14 +27,34 @@ function AddProduct(props) {
   useEffect(() => {
     (async () => await fetchData2())();
   }, []);
+
   async function fetchData() {
-    const response = await axios.get("http://127.0.0.1:8000/category");
-    setcategoryList(response.data);
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/category");
+      const activeCategories = response.data.filter(category => category.status === "Active");
+      setcategoryList(activeCategories);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  }
+
+  const resetform = ()=>{
+    setSerialno("");
+    setName("");
+    setCategory("");
+    setBrand("");
+    setDescription("");
+    setDatas([]);
   }
 
   async function fetchData2() {
-    const result = await axios.get("http://127.0.0.1:8000/brand");
-    setbrandList(result.data);
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/brand");
+      const activeBrand = response.data.filter(brand => brand.status === "Active");
+      setbrandList(activeBrand);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
   }
 
   const addAttributeModal = () => {
@@ -67,9 +84,16 @@ function AddProduct(props) {
       };
      
       const response = await axios.post("http://127.0.0.1:8000/product", productData);
-      toast.success("Added Successful");
-      console.log(response.data); 
-     
+      if (response.data) {
+        toast.success("Product Added Successfully");
+        resetform();
+        setTimeout(() => {
+          window.location.reload(); 
+        }, 2000);
+        console.log(response.data);
+      } else {
+        toast.error("Product Already added");
+      }
   
     } catch (error) {
       console.error("Error adding product:", error);
@@ -165,9 +189,6 @@ function AddProduct(props) {
               </div>
             </div>
           </div>
-          {/* <div className="row mb-2"> */}
-
-          {/* </div> */}
           <div className="row mb-2">
             <div className="col-12">
               <div className="form-outline mb-2">
@@ -294,6 +315,7 @@ function AddProduct(props) {
         onHide={() => addAttributeModal(false)}
         addAttribute={addAttribute}
       />
+      <ToastContainer/>
     </>
   );
 }

@@ -25,6 +25,13 @@ function Product() {
   });
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [searchTerm3, setSearchTerm3] = useState("");
+  const [searchTerm4, setSearchTerm4] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedBrand, setSelectedBrand] = useState("");
+  const [filteredproductList, setFilteredproductList] = useState([]);
+  const [categoryList, setcategoryList] = useState([]);
+  const [brandList, setbrandList] = useState([]);
 
   const productViewModal = (product) => {
     setSelectedProduct(product);
@@ -33,6 +40,14 @@ function Product() {
 
   useEffect(() => {
     (async () => await fetchData())();
+  }, []);
+
+  useEffect(() => {
+    (async () => await fetchCategory())();
+  }, []);
+
+  useEffect(() => {
+    (async () => await fetchBrand())();
   }, []);
 
   useEffect(() => {
@@ -49,11 +64,56 @@ function Product() {
     }
   }
 
+
+  async function fetchCategory() {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/category");
+      const activeCategories = response.data.filter(category => category.status === "Active");
+      setcategoryList(activeCategories);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  }
+
+  async function fetchBrand() {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/brand");
+      const activeBrand = response.data.filter(brand => brand.status === "Active");
+      setbrandList(activeBrand);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  }
+
   const [addCategoryModal, setAddCategoryModal] = useState(false);
 
   const handleOpen = () => {
     setAddCategoryModal(!addCategoryModal);
   };
+
+  const handleChange3 = (event) => {
+    setSearchTerm3(event.target.value);
+  };
+  const handleChange4 = (event) => {
+    setSearchTerm4(event.target.value);
+  };
+
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+  };
+  const handleBrandChange = (event) => {
+    setSelectedBrand(event.target.value);
+  };
+
+  useEffect(() => {
+    const filteredData = productData.products.filter(
+      (product) =>
+        product.serialno.toLowerCase().includes(searchTerm3.toLowerCase()) &&
+        (selectedCategory === "" || product.categories === selectedCategory) &&
+        (selectedBrand === "" || product.brand === selectedBrand)
+    );
+    setFilteredproductList(filteredData);
+  }, [searchTerm3,selectedCategory,selectedBrand,productData]);
   return (
     <Sidebar>
       <div className="container">
@@ -79,8 +139,8 @@ function Product() {
                       className="SearchBox"
                       type="text"
                       placeholder="Filter by Serial Number"
-                      // value={searchTerm3}
-                      // onChange={handleChange3}
+                      value={searchTerm3}
+                      onChange={handleChange3}
                     />
                     <div className="search-icon">
                       <SearchIcon />
@@ -106,12 +166,15 @@ function Product() {
                 <div className="search-input-container mt-4 m-5">
                   <select
                     className="SearchBox"
-                    // value={selectedStatus}
-                    // onChange={handleStatusChange}
+                    value={selectedCategory}
+                    onChange={handleCategoryChange}
                   >
-                    <option value={""}>Filter by Category</option>
-                    <option value={"Active"}>Active</option>
-                    <option value={"InActive"}>InActive</option>
+                    <option value={""}>--Select the Category--</option>
+                  {categoryList.map((category) => (
+                    <option key={category.id} value={category.categories}>
+                      {category.categories}
+                    </option>
+                  ))}
                   </select>
 
                   {/* {selectedStatus && (
@@ -134,12 +197,15 @@ function Product() {
                 <div className="search-input-container mt-4">
                   <select
                     className="SearchBox"
-                    // value={selectedStatus}
-                    // onChange={handleStatusChange}
+                    value={selectedBrand}
+                    onChange={handleBrandChange}
                   >
-                    <option value={""}>Filter by Brand</option>
-                    <option value={"Active"}>Active</option>
-                    <option value={"InActive"}>InActive</option>
+                    <option value={""}>--Select the Category--</option>
+                  {brandList.map((brand) => (
+                    <option key={brand.id} value={brand.brand}>
+                      {brand.brand}
+                    </option>
+                  ))}
                   </select>
                   {/* {searchTerm4 && (
                   <div
@@ -190,59 +256,50 @@ function Product() {
                     <th scope="col" className="col-1">
                       Brand
                     </th>
-                    {/* <th scope="col" className="col-1">
-                      Attribute
-                    </th>
-                    <th scope="col" className="col-1">
-                      Value
-                    </th>
-                    <th scope="col" className="col-1">
-                      Inventory
-                    </th> */}
                     <th scope="col" className="col-1">
                       Action
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {productData.products && */}
-                   {productData.products.map((product, index) => {
-                      return (
-                        <tr key={index}>
-                          <th scope="row">{index + 1}</th>
-                          <td>{product.serialno}</td>
-                          <td>{product.name}</td>
-                          <td>{product.categories}</td>
-                          <td>{product.brand}</td>
-                          {/* <td>{inventoryItem.attribute}</td>
-                          <td>{inventoryItem.value}</td>
-                          <td>{inventoryItem.inventory}</td> */}
-                          <td className="col-2">
-                            <IconButton
-                              aria-label="delete"
-                              className="viewbutt"
-                              onClick={() => productViewModal(product)}
-                            >
-                              <VisibilityIcon className="text-" />
-                            </IconButton>
-                            <IconButton
-                              aria-label="delete"
-                              className="viewbutt"
-                              // onClick={() => categoryEditModal(product)}
-                            >
-                              <EditIcon className="text-success" />
-                            </IconButton>
-                            <IconButton
-                              aria-label="delete"
-                              className="viewbutt"
-                              // onClick={() => handleDelete(product.id)}
-                            >
-                              <DeleteIcon className="text-danger" />
-                            </IconButton>
-                          </td>
-                        </tr>
-                      );
-                    })}
+                  {filteredproductList.length > 0 ? (
+                    filteredproductList.map((product, index) => (
+                      <tr key={index}>
+                        <th scope="row">{index + 1}</th>
+                        <td>{product.serialno}</td>
+                        <td>{product.name}</td>
+                        <td>{product.categories}</td>
+                        <td>{product.brand}</td>
+                        <td className="col-2">
+                          <IconButton
+                            aria-label="delete"
+                            className="viewbutt"
+                            onClick={() => productViewModal(product)}
+                          >
+                            <VisibilityIcon className="text-" />
+                          </IconButton>
+                          <IconButton
+                            aria-label="delete"
+                            className="viewbutt"
+                            // onClick={() => categoryEditModal(product)}
+                          >
+                            <EditIcon className="text-success" />
+                          </IconButton>
+                          <IconButton
+                            aria-label="delete"
+                            className="viewbutt"
+                            // onClick={() => handleDelete(product.id)}
+                          >
+                            <DeleteIcon className="text-danger" />
+                          </IconButton>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="7">No results found</td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
