@@ -19,7 +19,7 @@ function EditProduct(props) {
   const [categoryList, setcategoryList] = useState([]);
   const [brandList, setbrandList] = useState([]);
   const [showAdd, setShowAdd] = useState(false);
-
+  const [id, setId] = useState("");
   const [serialno, setSerialno] = useState("");
   const [name, setName] = useState("");
   const [category, setCategory] = useState([]);
@@ -29,6 +29,10 @@ function EditProduct(props) {
     products: [],
     inventory: [],
   });
+
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showUpdateConfirmModal, setShowUpdateConfirmModal] = useState(false);
+  const [updateTrigger, setUpdateTrigger] = useState(false);
 
   useEffect(() => {
     (async () => await fetchData())();
@@ -91,9 +95,77 @@ function EditProduct(props) {
       setCategory(productDetails.categories);
       setBrand(productDetails.brand);
       setDescription(productDetails.description);
+      setId(productDetails.id);
+      setDatas(
+        productData.inventory.filter(
+          (data) => data.product === productDetails.serialno
+        )
+      );
     }
   }, [productDetails]);
 
+  const handleDelete = (e) => {
+    setShowConfirmModal(true);
+  };
+
+
+
+
+  async function handleConfirmed(e) {
+    e.preventDefault();
+    try {
+      await axios
+        .delete(`http://127.0.0.1:8000/product/${id}`)
+        .then((response) => {
+          toast.success("Product deleted successfully");
+          onHide();
+        });
+    } catch (error) {
+      alert("Product Delete Failed");
+      console.error(error);
+    }
+    setShowConfirmModal(false);
+  }
+
+  const handleUpdate = (e) => {
+    setShowUpdateConfirmModal(true);
+  };
+
+  async function handleUpdateConfirmed(e) {
+    e.preventDefault();
+    setShowUpdateConfirmModal(false);
+    if (!serialno || !name || !category || !brand || !description) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+
+    try {
+      const updatedProduct = {
+        serialno: serialno,
+        name: name,
+        categories: category,
+        brand: brand,
+        description: description,
+        inventory: datas,
+      };
+      await axios
+        .put(`http://127.0.0.1:8000/product/${id}`, updatedProduct)
+        .then((response) => {
+          toast.success("Product Updated successfully");
+          onHide();
+          fetchData3();
+        });
+    } catch (error) {
+      toast.error("Product Update Failed");
+      console.error(error);
+    }
+  }
+
+  const handleDelete2 = (index) => {
+    const updatedDatas = [...datas];
+    updatedDatas.splice(index, 1);
+    setDatas(updatedDatas);
+  };
   return (
     <>
       <Modal show={show} onHide={onHide} centered backdrop="static" size="xl">
@@ -117,7 +189,7 @@ function EditProduct(props) {
                         type="text"
                         id="inputAddAttribute-value"
                         className="form-control"
-                        //   onChange={(e) => setSerialno(e.target.value)}
+                        onChange={(e) => setSerialno(e.target.value)}
                         value={serialno}
                         required
                       />
@@ -135,7 +207,7 @@ function EditProduct(props) {
                         type="text"
                         id="inputAddAttribute-value"
                         className="form-control"
-                        // onChange={(e) => setName(e.target.value)}
+                        onChange={(e) => setName(e.target.value)}
                         value={name}
                         required
                       />
@@ -152,7 +224,7 @@ function EditProduct(props) {
                       <select
                         id="selectAddAttribute-attribute"
                         className="form-select"
-                        // onChange={(e) => setCategory(e.target.value)}
+                        onChange={(e) => setCategory(e.target.value)}
                         value={category}
                       >
                         <option value={""}>--Select the Category--</option>
@@ -175,7 +247,7 @@ function EditProduct(props) {
                       <select
                         id="selectAddAttribute-attribute"
                         className="form-select"
-                        // onChange={(e) => setBrand(e.target.value)}
+                        onChange={(e) => setBrand(e.target.value)}
                         value={brand}
                       >
                         <option>--Select the Brand--</option>
@@ -201,7 +273,7 @@ function EditProduct(props) {
                         type="text"
                         id="inputAddAttribute-value"
                         className="form-control"
-                        // onChange={(e) => setDescription(e.target.value)}
+                        onChange={(e) => setDescription(e.target.value)}
                         value={description}
                         required
                       />
@@ -252,62 +324,37 @@ function EditProduct(props) {
                     </tr>
                   </thead>
                   <tbody>
-                    {productDetails &&
-                      productDetails.serialno &&
-                      productData.inventory
-                        .filter(
-                          (data) => data.product === productDetails.serialno
-                        )
-                        .map((data, index) => (
-                          <tr key={index}>
-                            <th scope="row">{index + 1}</th>
-                            <td>{data.attribute}</td>
-                            <td>{data.value}</td>
-                            <td>{data.price}</td>
-                            <td>{data.inventory}</td>
-                            <td>{data.taxrate}</td>
-                            <td className="col-2">
-                              <IconButton
-                                aria-label="delete"
-                                className="viewbutt"
-                                // onClick={() => categoryViewModal(data)}
-                              >
-                                <VisibilityIcon className="text-" />
-                              </IconButton>
-                              <IconButton
-                                aria-label="delete"
-                                className="viewbutt"
-                                // onClick={() => categoryEditModal(data)}
-                              >
-                                <EditIcon className="text-success" />
-                              </IconButton>
-                              <IconButton
-                                aria-label="delete"
-                                className="viewbutt"
-                                // onClick={() => handleDelete(index)}
-                              >
-                                <DeleteIcon className="text-danger" />
-                              </IconButton>
-                            </td>
-                          </tr>
-                        ))}
+                    {datas.map((data, index) => (
+                      <tr key={index}>
+                        <th scope="row">{index + 1}</th>
+                        <td>{data.attribute}</td>
+                        <td>{data.value}</td>
+                        <td>{data.price}</td>
+                        <td>{data.inventory}</td>
+                        <td>{data.taxrate}</td>
+                        <td className="col-2">
+                          <IconButton
+                            aria-label="delete"
+                            className="viewbutt"
+                            // onClick={() => categoryViewModal(data)}
+                          >
+                            <VisibilityIcon className="text-" />
+                          </IconButton>
+                          <IconButton aria-label="delete" className="viewbutt">
+                            <EditIcon className="text-success" />
+                          </IconButton>
+                          <IconButton
+                            aria-label="delete"
+                            className="viewbutt"
+                            onClick={() => handleDelete2(index)}
+                          >
+                            <DeleteIcon className="text-danger" />
+                          </IconButton>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
-              </div>
-              <hr />
-              <div className="d-flex gap-3 mb-5 align-items-end justify-content-end">
-                <button
-                  className="d-flex gap-1 btn btn-success"
-                  // onClick={handleADDProduct}
-                >
-                  Add Product
-                </button>
-                <button
-                  className="d-flex gap-1 btn btn-secondary"
-                  onClick={props.handleClose}
-                >
-                  Cancel
-                </button>
               </div>
             </div>
             <AddAttributeProduct
@@ -320,18 +367,21 @@ function EditProduct(props) {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="success">Update</Button>
-          <Button variant="danger">Delete</Button>
-          <ToastContainer />
+          <Button variant="success" onClick={handleUpdate}>
+            Update
+          </Button>
+          <Button variant="danger" onClick={handleDelete}>
+            Delete
+          </Button>
           <UpdateConfirmationModal
-          // show={showUpdateConfirmModal}
-          // onHide={() => setShowUpdateConfirmModal(false)}
-          // onConfirm={handleUpdateConfirmed}
+            show={showUpdateConfirmModal}
+            onHide={() => setShowUpdateConfirmModal(false)}
+            onConfirm={handleUpdateConfirmed}
           />
           <DeleteConfirmationModal
-          // show={showConfirmModal}
-          // onHide={() => setShowConfirmModal(false)}
-          // onConfirm={handleConfirmed}
+            show={showConfirmModal}
+            onHide={() => setShowConfirmModal(false)}
+            onConfirm={handleConfirmed}
           />
         </Modal.Footer>
       </Modal>

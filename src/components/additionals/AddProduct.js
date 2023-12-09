@@ -107,14 +107,6 @@ function AddProduct(props) {
           <div className="col-6">
             <h5>Add Product</h5>
           </div>
-          {/* <div className="col-6 d-flex">
-            <button
-              className="d-flex gap-1 btn btn-success"
-              onClick={props.handleClose}
-            >
-              View Product
-            </button>
-          </div> */}
         </div>
         <div className="container mb-2 AddProduct-Form-section">
           <div className="row mb-2">
