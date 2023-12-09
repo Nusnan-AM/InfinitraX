@@ -124,6 +124,34 @@ function Product() {
     );
     setFilteredproductList(filteredData);
   }, [searchTerm3,selectedCategory,selectedBrand,productData]);
+
+
+  const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState(false);
+  const [selectedProductIdToDelete, setSelectedProductIdToDelete] = useState(null);
+
+  const handleDelete = (productId) => {
+    setSelectedProductIdToDelete(productId);
+    setShowDeleteConfirmationModal(true);
+  };
+
+  const handleDeleteConfirmed = async () => {
+    try {
+      await axios.delete(`http://127.0.0.1:8000/product/${selectedProductIdToDelete}`);
+      toast.success("Product deleted successfully");
+      setShowDeleteConfirmationModal(false);
+      setUpdateTrigger(!updateTrigger);
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      toast.error("Error deleting product");
+      setShowDeleteConfirmationModal(false);
+    }
+  };
+
+  const handleDeleteCanceled = () => {
+    setShowDeleteConfirmationModal(false);
+  };
+
+  
   return (
     <Sidebar>
       <div className="container">
@@ -298,7 +326,7 @@ function Product() {
                           <IconButton
                             aria-label="delete"
                             className="viewbutt"
-                            // onClick={() => handleDelete(product.id)}
+                            onClick={() => handleDelete(product.id)}
                           >
                             <DeleteIcon className="text-danger" />
                           </IconButton>
@@ -316,12 +344,17 @@ function Product() {
           </div>
         )}
       </div>
-
+      <DeleteConfirmationModal
+        show={showDeleteConfirmationModal}
+        onHide={handleDeleteCanceled}
+        onConfirm={handleDeleteConfirmed}
+      />
       <ProductViewModal
         show={showModal}
         onHide={() => setShowModal(false)}
         productDetails={selectedProduct}
       />
+      <ToastContainer/>
     </Sidebar>
   );
 }
