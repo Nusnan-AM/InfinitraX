@@ -12,6 +12,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditAttributeTabledata from "./EditAttributeTableData";
 
 function EditProduct(props) {
   const { show, onHide, productDetails } = props;
@@ -33,6 +34,29 @@ function EditProduct(props) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showUpdateConfirmModal, setShowUpdateConfirmModal] = useState(false);
   const [updateTrigger, setUpdateTrigger] = useState(false);
+
+  const [showAttributeEditModal, setShowAttributeEditModal] = useState(false);
+  const [selectedAttributeIndex, setSelectedAttributeIndex] = useState(null);
+  const [editedAttribute, setEditedAttribute] = useState({
+    attribute: "",
+    value: "",
+    price: "",
+    inventory: "",
+    taxrate: "",
+  });
+
+  const handleEdit = (index) => {
+    setSelectedAttributeIndex(index);
+    setEditedAttribute(datas[index]);
+    setShowAttributeEditModal(true);
+  };
+
+  const handleAttributeEditConfirmed = () => {
+    const updatedDatas = [...datas];
+    updatedDatas[selectedAttributeIndex] = editedAttribute;
+    setDatas(updatedDatas);
+    setShowAttributeEditModal(false);
+  };
 
   useEffect(() => {
     (async () => await fetchData())();
@@ -108,9 +132,6 @@ function EditProduct(props) {
     setShowConfirmModal(true);
   };
 
-
-
-
   async function handleConfirmed(e) {
     e.preventDefault();
     try {
@@ -170,7 +191,7 @@ function EditProduct(props) {
     <>
       <Modal show={show} onHide={onHide} centered backdrop="static" size="xl">
         <Modal.Header closeButton>
-          <Modal.Title className="Modal-Title">Category Edit</Modal.Title>
+          <Modal.Title className="Modal-Title">Product Edit</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <>
@@ -336,11 +357,8 @@ function EditProduct(props) {
                           <IconButton
                             aria-label="delete"
                             className="viewbutt"
-                            // onClick={() => categoryViewModal(data)}
+                            onClick={() => handleEdit(index)}
                           >
-                            <VisibilityIcon className="text-" />
-                          </IconButton>
-                          <IconButton aria-label="delete" className="viewbutt">
                             <EditIcon className="text-success" />
                           </IconButton>
                           <IconButton
@@ -382,6 +400,13 @@ function EditProduct(props) {
             show={showConfirmModal}
             onHide={() => setShowConfirmModal(false)}
             onConfirm={handleConfirmed}
+          />
+          <EditAttributeTabledata
+            show={showAttributeEditModal}
+            onHide={() => setShowAttributeEditModal(false)}
+            editedAttribute={editedAttribute}
+            setEditedAttribute={setEditedAttribute}
+            onConfirm={handleAttributeEditConfirmed}
           />
         </Modal.Footer>
       </Modal>
