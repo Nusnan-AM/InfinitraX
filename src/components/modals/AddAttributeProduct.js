@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function AddAttributeProduct(props) {
-  const { show, onHide,addAttribute} = props;
+  const { show, onHide, addAttribute } = props;
   const [attributes, setAttributes] = useState("");
   const [value, setValue] = useState("");
   const [price, setPrice] = useState("");
@@ -25,8 +25,6 @@ export default function AddAttributeProduct(props) {
     setTaxrate("");
   };
 
-  
-
   useEffect(() => {
     (async () => await fetchData())();
   }, []);
@@ -44,7 +42,7 @@ export default function AddAttributeProduct(props) {
 
     setAttributeValues(filteredValues);
     setAttributes(selectedAttribute);
-    setValue(""); 
+    setValue("");
   };
 
   const handleAddAttribute = () => {
@@ -55,12 +53,18 @@ export default function AddAttributeProduct(props) {
       inventory: inventory,
       taxrate: taxrate,
     };
-    if (!attributedata.attribute || !attributedata.value || !attributedata.price || !attributedata.inventory || !attributedata.taxrate) {
+    if (
+      !attributedata.attribute ||
+      !attributedata.value ||
+      !attributedata.price ||
+      !attributedata.inventory ||
+      !attributedata.taxrate
+    ) {
       toast.warning("Fill in all fields");
-    } else{
+    } else {
       addAttribute(attributedata);
-      resetForm(); 
-    } 
+      resetForm();
+    }
   };
 
   return (
@@ -90,7 +94,7 @@ export default function AddAttributeProduct(props) {
                       }}
                       value={attributes}
                     >
-                      <option>--Select an Attribute--</option>
+                      <option value={""}>Select an Attribute</option>
                       <option value={"Color"}>Color</option>
                       <option value={"Storage"}>Storage</option>
                       <option value={"Display"}>Display</option>
@@ -111,7 +115,7 @@ export default function AddAttributeProduct(props) {
                       onChange={(e) => setValue(e.target.value)}
                       value={value}
                     >
-                      <option>--Select an Value--</option>
+                      <option>Select an Value</option>
                       {attributeValues.map((attrValue, index) => (
                         <option key={index} value={attrValue}>
                           {attrValue}
@@ -134,8 +138,8 @@ export default function AddAttributeProduct(props) {
                       type="text"
                       id="inputAddAttribute-value"
                       className="form-control"
-                        onChange={(e) => setPrice(e.target.value)}
-                        value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                      value={price}
                       required
                     />
                   </div>
@@ -152,8 +156,8 @@ export default function AddAttributeProduct(props) {
                       type="text"
                       id="inputAddAttribute-value"
                       className="form-control"
-                        onChange={(e) => setInventory(e.target.value)}
-                        value={inventory}
+                      onChange={(e) => setInventory(e.target.value)}
+                      value={inventory}
                       required
                     />
                   </div>
@@ -166,14 +170,21 @@ export default function AddAttributeProduct(props) {
                     >
                       Taxrate
                     </label>
-                    <input
-                      type="text"
-                      id="inputAddAttribute-value"
-                      className="form-control"
-                        onChange={(e) => setTaxrate(e.target.value)}
-                        value={taxrate}
-                      required
-                    />
+                    <select
+                      id="selectAddAttribute-attribute"
+                      className="form-select"
+                      onChange={(e) => setTaxrate(e.target.value)}
+                      value={taxrate}
+                    >
+                      <option value={""}>Select an Percentage</option>
+                      <option value={"2"}>2%</option>
+                      <option value={"5"}>5%</option>
+                      <option value={"8"}>8%</option>
+                      <option value={"10"}>10%</option>
+                      <option value={"12"}>12%</option>
+                      <option value={"15"}>15%</option>
+                      <option value={"20"}>20%</option>
+                    </select>
                   </div>
                 </div>
               </div>
