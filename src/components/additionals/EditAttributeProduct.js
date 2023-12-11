@@ -166,14 +166,21 @@ export default function EditAttributeProduct(props) {
                     >
                       Taxrate
                     </label>
-                    <input
-                      type="text"
-                      id="inputAddAttribute-value"
-                      className="form-control"
-                        onChange={(e) => setTaxrate(e.target.value)}
-                        value={taxrate}
-                      required
-                    />
+                   <select
+                      id="selectAddAttribute-attribute"
+                      className="form-select"
+                      onChange={(e) => setTaxrate(e.target.value)}
+                      value={taxrate}
+                    >
+                      <option value={""}>Select an Percentage</option>
+                      <option value={"2"}>2%</option>
+                      <option value={"5"}>5%</option>
+                      <option value={"8"}>8%</option>
+                      <option value={"10"}>10%</option>
+                      <option value={"12"}>12%</option>
+                      <option value={"15"}>15%</option>
+                      <option value={"20"}>20%</option>
+                    </select>
                   </div>
                 </div>
               </div>
