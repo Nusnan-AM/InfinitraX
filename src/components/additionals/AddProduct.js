@@ -4,13 +4,11 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import SearchIcon from "@mui/icons-material/Search";
-import ClearIcon from "@mui/icons-material/Clear";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import axios from "axios";
 import AddAttributeProduct from "../modals/AddAttributeProduct";
+import EditAttributeTabledata from "../additionals/EditAttributeTableData";
 
 function AddProduct(props) {
   const [datas, setDatas] = useState([]);
@@ -30,14 +28,38 @@ function AddProduct(props) {
   useEffect(() => {
     (async () => await fetchData2())();
   }, []);
+
   async function fetchData() {
-    const response = await axios.get("http://127.0.0.1:8000/category");
-    setcategoryList(response.data);
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/category");
+      const activeCategories = response.data.filter(
+        (category) => category.status === "Active"
+      );
+      setcategoryList(activeCategories);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
   }
 
+  const resetform = () => {
+    setSerialno("");
+    setName("");
+    setCategory("");
+    setBrand("");
+    setDescription("");
+    setDatas([]);
+  };
+
   async function fetchData2() {
-    const result = await axios.get("http://127.0.0.1:8000/brand");
-    setbrandList(result.data);
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/brand");
+      const activeBrand = response.data.filter(
+        (brand) => brand.status === "Active"
+      );
+      setbrandList(activeBrand);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
   }
 
   const addAttributeModal = () => {
@@ -60,22 +82,54 @@ function AddProduct(props) {
       const productData = {
         serialno: serialno,
         name: name,
-        categories: category, 
-        brand: brand, 
+        categories: category,
+        brand: brand,
         description: description,
         inventory: datas,
       };
-     
-      const response = await axios.post("http://127.0.0.1:8000/product", productData);
-      toast.success("Added Successful");
-      console.log(response.data); 
-     
-  
+
+      const response = await axios.post(
+        "http://127.0.0.1:8000/product",
+        productData
+      );
+      if (response.data) {
+        toast.success("Product Added Successfully");
+        resetform();
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+        console.log(response.data);
+      } else {
+        toast.error("Product Already added");
+      }
     } catch (error) {
       console.error("Error adding product:", error);
     }
   };
-  
+
+  const [showAttributeEditModal, setShowAttributeEditModal] = useState(false);
+  const [selectedAttributeIndex, setSelectedAttributeIndex] = useState(null);
+  const [editedAttribute, setEditedAttribute] = useState({
+    attribute: "",
+    value: "",
+    price: "",
+    inventory: "",
+    taxrate: "",
+  });
+
+  const handleEdit = (index) => {
+    setSelectedAttributeIndex(index);
+    setEditedAttribute(datas[index]);
+    setShowAttributeEditModal(true);
+  };
+
+  const handleAttributeEditConfirmed = () => {
+    const updatedDatas = [...datas];
+    updatedDatas[selectedAttributeIndex] = editedAttribute;
+    setDatas(updatedDatas);
+    setShowAttributeEditModal(false);
+  };
+
   return (
     <>
       <div>
@@ -83,14 +137,6 @@ function AddProduct(props) {
           <div className="col-6">
             <h5>Add Product</h5>
           </div>
-          {/* <div className="col-6 d-flex">
-            <button
-              className="d-flex gap-1 btn btn-success"
-              onClick={props.handleClose}
-            >
-              View Product
-            </button>
-          </div> */}
         </div>
         <div className="container mb-2 AddProduct-Form-section">
           <div className="row mb-2">
@@ -118,8 +164,8 @@ function AddProduct(props) {
                   type="text"
                   id="inputAddAttribute-value"
                   className="form-control"
-                    onChange={(e) => setName(e.target.value)}
-                    value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  value={name}
                   required
                 />
               </div>
@@ -132,8 +178,8 @@ function AddProduct(props) {
                 <select
                   id="selectAddAttribute-attribute"
                   className="form-select"
-                    onChange={(e) => setCategory(e.target.value)}
-                    value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  value={category}
                 >
                   <option value={""}>--Select the Category--</option>
                   {categoryList.map((category) => (
@@ -152,8 +198,8 @@ function AddProduct(props) {
                 <select
                   id="selectAddAttribute-attribute"
                   className="form-select"
-                    onChange={(e) => setBrand(e.target.value)}
-                    value={brand}
+                  onChange={(e) => setBrand(e.target.value)}
+                  value={brand}
                 >
                   <option>--Select the Brand--</option>
                   {brandList.map((brand) => (
@@ -165,9 +211,6 @@ function AddProduct(props) {
               </div>
             </div>
           </div>
-          {/* <div className="row mb-2"> */}
-
-          {/* </div> */}
           <div className="row mb-2">
             <div className="col-12">
               <div className="form-outline mb-2">
@@ -178,8 +221,8 @@ function AddProduct(props) {
                   type="text"
                   id="inputAddAttribute-value"
                   className="form-control"
-                    onChange={(e) => setDescription(e.target.value)}
-                    value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  value={description}
                   required
                 />
               </div>
@@ -231,7 +274,11 @@ function AddProduct(props) {
             <tbody>
               {datas.length === 0 ? (
                 <tr>
-                  <td colSpan="7" className="text-center" style={{fontWeight:'600'}}>
+                  <td
+                    colSpan="7"
+                    className="text-center"
+                    style={{ fontWeight: "600" }}
+                  >
                     Add Attributes here...
                   </td>
                 </tr>
@@ -248,14 +295,7 @@ function AddProduct(props) {
                       <IconButton
                         aria-label="delete"
                         className="viewbutt"
-                        // onClick={() => categoryViewModal(data)}
-                      >
-                        <VisibilityIcon className="text-" />
-                      </IconButton>
-                      <IconButton
-                        aria-label="delete"
-                        className="viewbutt"
-                        // onClick={() => categoryEditModal(data)}
+                        onClick={() => handleEdit(index)}
                       >
                         <EditIcon className="text-success" />
                       </IconButton>
@@ -294,6 +334,14 @@ function AddProduct(props) {
         onHide={() => addAttributeModal(false)}
         addAttribute={addAttribute}
       />
+      <EditAttributeTabledata
+        show={showAttributeEditModal}
+        onHide={() => setShowAttributeEditModal(false)}
+        editedAttribute={editedAttribute}
+        setEditedAttribute={setEditedAttribute}
+        onConfirm={handleAttributeEditConfirmed}
+      />
+      <ToastContainer />
     </>
   );
 }

@@ -5,8 +5,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function AddAttributeProduct(props) {
-  const { show, onHide, addAttribute } = props;
+export default function EditAttributeProduct(props) {
+  const { show, onHide,addAttribute} = props;
   const [attributes, setAttributes] = useState("");
   const [value, setValue] = useState("");
   const [price, setPrice] = useState("");
@@ -25,6 +25,8 @@ export default function AddAttributeProduct(props) {
     setTaxrate("");
   };
 
+  
+
   useEffect(() => {
     (async () => await fetchData())();
   }, []);
@@ -42,7 +44,7 @@ export default function AddAttributeProduct(props) {
 
     setAttributeValues(filteredValues);
     setAttributes(selectedAttribute);
-    setValue("");
+    setValue(""); 
   };
 
   const handleAddAttribute = () => {
@@ -53,23 +55,17 @@ export default function AddAttributeProduct(props) {
       inventory: inventory,
       taxrate: taxrate,
     };
-    if (
-      !attributedata.attribute ||
-      !attributedata.value ||
-      !attributedata.price ||
-      !attributedata.inventory ||
-      !attributedata.taxrate
-    ) {
+    if (!attributedata.attribute || !attributedata.value || !attributedata.price || !attributedata.inventory || !attributedata.taxrate) {
       toast.warning("Fill in all fields");
-    } else {
+    } else{
       addAttribute(attributedata);
-      resetForm();
-    }
+      resetForm(); 
+    } 
   };
 
   return (
     <>
-      <Modal show={show} onHide={onHide} centered backdrop="static" size="lg">
+      <Modal show={show} onHide={onHide} centered backdrop="static" size="lg" className="confirmmodal-Back">
         <Modal.Header closeButton>
           <Modal.Title className="Modal-Title">Add attributes</Modal.Title>
         </Modal.Header>
@@ -94,7 +90,7 @@ export default function AddAttributeProduct(props) {
                       }}
                       value={attributes}
                     >
-                      <option value={""}>Select an Attribute</option>
+                      <option>--Select an Attribute--</option>
                       <option value={"Color"}>Color</option>
                       <option value={"Storage"}>Storage</option>
                       <option value={"Display"}>Display</option>
@@ -115,7 +111,7 @@ export default function AddAttributeProduct(props) {
                       onChange={(e) => setValue(e.target.value)}
                       value={value}
                     >
-                      <option>Select an Value</option>
+                      <option>--Select an Value--</option>
                       {attributeValues.map((attrValue, index) => (
                         <option key={index} value={attrValue}>
                           {attrValue}
@@ -138,8 +134,8 @@ export default function AddAttributeProduct(props) {
                       type="text"
                       id="inputAddAttribute-value"
                       className="form-control"
-                      onChange={(e) => setPrice(e.target.value)}
-                      value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        value={price}
                       required
                     />
                   </div>
@@ -156,8 +152,8 @@ export default function AddAttributeProduct(props) {
                       type="text"
                       id="inputAddAttribute-value"
                       className="form-control"
-                      onChange={(e) => setInventory(e.target.value)}
-                      value={inventory}
+                        onChange={(e) => setInventory(e.target.value)}
+                        value={inventory}
                       required
                     />
                   </div>
@@ -170,7 +166,7 @@ export default function AddAttributeProduct(props) {
                     >
                       Taxrate
                     </label>
-                    <select
+                   <select
                       id="selectAddAttribute-attribute"
                       className="form-select"
                       onChange={(e) => setTaxrate(e.target.value)}
