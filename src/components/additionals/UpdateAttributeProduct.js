@@ -2,18 +2,16 @@ import React, { useState, useEffect } from "react";
 import "../../App.css";
 import { Modal, Button } from "react-bootstrap";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function EditAttributeProduct(props) {
-  const { show, onHide,addAttribute} = props;
+export default function UpdateAttributeProduct(props) {
+  const { show, onHide, serialno } = props;
   const [attributes, setAttributes] = useState("");
   const [value, setValue] = useState("");
   const [price, setPrice] = useState("");
   const [inventory, setInventory] = useState("");
   const [taxrate, setTaxrate] = useState("");
-  const [updateTrigger, setUpdateTrigger] = useState(false);
-  const [attribute, setAttribute] = useState([]);
   const [attributeList, setAttributeList] = useState([]);
   const [attributeValues, setAttributeValues] = useState([]);
 
@@ -25,15 +23,12 @@ export default function EditAttributeProduct(props) {
     setTaxrate("");
   };
 
-  
-
   useEffect(() => {
     (async () => await fetchData())();
   }, []);
 
   async function fetchData() {
     const result = await axios.get("http://127.0.0.1:8000/attribute");
-    setAttribute(result.data);
     setAttributeList(result.data);
   }
 
@@ -44,10 +39,10 @@ export default function EditAttributeProduct(props) {
 
     setAttributeValues(filteredValues);
     setAttributes(selectedAttribute);
-    setValue(""); 
+    setValue("");
   };
 
-  const handleAddAttribute = () => {
+  const handleAddAttribute = async () => {
     const attributedata = {
       attribute: attributes,
       value: value,
@@ -55,23 +50,69 @@ export default function EditAttributeProduct(props) {
       inventory: inventory,
       taxrate: taxrate,
     };
-    if (!attributedata.attribute || !attributedata.value || !attributedata.price || !attributedata.inventory || !attributedata.taxrate) {
-      toast.warning("Fill in all fields");
-    } else{
-      addAttribute(attributedata);
-      resetForm(); 
-    } 
+
+    try {
+      const productData = {
+        serialno: serialno,
+        inventory: [attributedata],
+      };
+
+      const response = await axios.post(
+        "http://127.0.0.1:8000/inventory",
+        productData
+      );
+
+      if (response.data) {
+        toast.success("Product Attribute Added Successfully");
+        resetForm();
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        toast.error("Product Already added");
+      }
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
   };
 
   return (
     <>
-      <Modal show={show} onHide={onHide} centered backdrop="static" size="lg" className="confirmmodal-Back">
+      <Modal
+        show={show}
+        onHide={onHide}
+        centered
+        backdrop="static"
+        size="lg"
+        className="confirmmodal-Back"
+      >
         <Modal.Header closeButton>
-          <Modal.Title className="Modal-Title">Add attributes</Modal.Title>
+          <Modal.Title className="Modal-Title">Update attributes</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form>
             <div className="modal-body">
+              {/* <div className="row mb-2">
+                <div className="col-12">
+                  <div className="form-outline mb-4">
+                    <label
+                      className="form-label"
+                      htmlFor="inputAddAttribute-attribute"
+                    >
+                      SeialNo
+                    </label>
+                    <div className="row mb-2">
+                      <input
+                        type="text"
+                        id="inputAddAttribute-value"
+                        className="form-control"
+                        value={serialno}
+                        readOnly
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div> */}
               <div className="row mb-2">
                 <div className="col-6">
                   <div className="form-outline mb-4">
@@ -134,8 +175,8 @@ export default function EditAttributeProduct(props) {
                       type="text"
                       id="inputAddAttribute-value"
                       className="form-control"
-                        onChange={(e) => setPrice(e.target.value)}
-                        value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                      value={price}
                       required
                     />
                   </div>
@@ -152,8 +193,8 @@ export default function EditAttributeProduct(props) {
                       type="text"
                       id="inputAddAttribute-value"
                       className="form-control"
-                        onChange={(e) => setInventory(e.target.value)}
-                        value={inventory}
+                      onChange={(e) => setInventory(e.target.value)}
+                      value={inventory}
                       required
                     />
                   </div>
@@ -166,7 +207,7 @@ export default function EditAttributeProduct(props) {
                     >
                       Taxrate
                     </label>
-                   <select
+                    <select
                       id="selectAddAttribute-attribute"
                       className="form-select"
                       onChange={(e) => setTaxrate(e.target.value)}
@@ -186,6 +227,7 @@ export default function EditAttributeProduct(props) {
               </div>
             </div>
           </form>
+          <ToastContainer />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="success" onClick={handleAddAttribute}>

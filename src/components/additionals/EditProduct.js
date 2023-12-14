@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UpdateConfirmationModal from "../modals/confirmationmodal/UpdateConfirmationModal";
 import DeleteConfirmationModal from "../modals/confirmationmodal/DeleteConfirmDouble";
-import AddAttributeProduct from "./EditAttributeProduct";
+import UpdateAttributeProduct from "./UpdateAttributeProduct";
 import { IconButton } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -375,10 +375,14 @@ function EditProduct(props) {
                 </table>
               </div>
             </div>
-            <AddAttributeProduct
+            <UpdateAttributeProduct
               show={showAdd}
-              onHide={() => addAttributeModal(false)}
+              onHide={() => {
+                addAttributeModal(false);
+                setUpdateTrigger(!updateTrigger);
+              }}
               addAttribute={addAttribute}
+              serialno={serialno}
             />
             <ToastContainer />
           </>
