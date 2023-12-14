@@ -11,7 +11,11 @@ const EditAttributeProduct = ({
 }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditedAttribute((prev) => ({ ...prev, [name]: value }));
+    if (name === "taxrate") {
+      setEditedAttribute((prev) => ({ ...prev, [name]: value }));
+    } else {
+      setEditedAttribute((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const [attributeList, setAttributeList] = useState([]);
@@ -31,7 +35,7 @@ const EditAttributeProduct = ({
       // Set the default value based on the editedAttribute.value
       setValue(editedAttribute.value || "");
     }
-  }, [editedAttribute.attribute]); 
+  }, [editedAttribute.attribute]);
 
   async function fetchData() {
     try {
@@ -156,8 +160,12 @@ const EditAttributeProduct = ({
                 <select
                   id="selectAddAttribute-attribute"
                   className="form-select"
-                  onChange={handleInputChange}
                   value={editedAttribute.taxrate}
+                  onChange={(e) =>
+                    handleInputChange({
+                      target: { name: "taxrate", value: e.target.value },
+                    })
+                  }
                 >
                   <option value={""}>Select an Percentage</option>
                   <option value={"2"}>2%</option>
