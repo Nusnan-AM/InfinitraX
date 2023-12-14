@@ -311,7 +311,7 @@ function EditProduct(props) {
                     className="d-flex gap-1 btn btn-success"
                     onClick={addAttributeModal}
                   >
-                    AddAttribute
+                    UpdateAttribute
                     <AddCircleIcon />
                   </button>
                 </div>
