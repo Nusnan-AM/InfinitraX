@@ -108,7 +108,7 @@ function BrandView(props) {
           <hr/>
           <div className="d-flex row p-2">
             <h6>Product Attributes</h6>
-            <div className="Category-TableSection">
+            <div className="Product-TableSection">
               <table className="table table-striped table-hover">
                 <thead className="top-0 position-sticky z-1">
                   <tr>
