@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import Sidebar from "../layouts/Sidebar";
 import { Navbar } from "react-bootstrap";
 import { IconButton } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ViewInventoryModal from "../components/modals/ViewInventoryModal";
+import EditInventoryModal from "../components/modals/EditInventoryModal";
+import DeleteConfirmationModal from "../components/modals/confirmationmodal/DeleteConfirmationModal";
+
 
 function Inventory() {
+  const [showView, setShowView] = useState(false); 
+  const [selectedInventory, setSelectedInventory] = useState(null);
+  const [showEdit, setShowEdit] = useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+
   const InventoryTable = [
     {
       product: "monitor",
@@ -100,6 +109,21 @@ function Inventory() {
       inventory: "110",
     },
   ];
+  
+  const handleView = (inventory) => {
+    setSelectedInventory(inventory);
+    setShowView(true);
+  };
+  
+  const handleEdit = (inventory) => {
+    setSelectedInventory(inventory);
+    setShowEdit(true);
+  };
+  const handleDelete = () => {
+    console.log("Deleting inventory:", selectedInventory);
+    setShowDeleteConfirmation(false);
+  };
+
 
   return (
     <Sidebar>
@@ -156,32 +180,55 @@ function Inventory() {
             </tr>
           </thead>
           <tbody>
-            {InventoryTable.map((data, index) => {
-              return (
-                <tr key={index}>
-                  <th scope="row">{index+1}</th>
-                  <td>{data.product}</td>
-                  <td>{data.attribute}</td>
-                  <td>{data.price}</td>
-                  <td>{data.sellingprice}</td>
-                  <td>{data.inventory}</td>
-                  <td>
-                    <IconButton aria-label="delete" className="viewbutt">
-                      <VisibilityIcon className="text-" />
-                    </IconButton>
-                    <IconButton aria-label="delete" className="viewbutt">
-                      <EditIcon className="text-success" />
-                    </IconButton>
-                    <IconButton aria-label="delete" className="viewbutt">
-                      <DeleteIcon className="text-danger" />
-                    </IconButton>
-                  </td>
-                </tr>
-              );
-            })}
+            {InventoryTable.map((data, index) => (
+              <tr key={index}>
+                <th scope="row">{index + 1}</th>
+                          <td>{data.product}</td>
+                          <td>{data.attribute}</td>
+                          <td>{data.price}</td>
+                          <td>{data.sellingprice}</td>
+                          <td>{data.inventory}</td>
+                          
+                <td>
+                  <IconButton
+                    aria-label="view"
+                    className="viewbutt"
+                    onClick={() => handleView(data)}
+                  >
+                    <VisibilityIcon className="text-" />
+                  </IconButton>
+                  <IconButton 
+                  aria-label="edit" 
+                  className="viewbutt"
+                  onClick={() => handleEdit(data)}>
+                    <EditIcon className="text-success" />
+                  </IconButton>
+                  <IconButton aria-label="delete" 
+                  className="viewbutt"
+                  onClick={() => setShowDeleteConfirmation(true)}>
+                    <DeleteIcon className="text-danger" />
+                  </IconButton>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
+      <ViewInventoryModal
+        show={showView}
+        onHide={() => setShowView(false)}
+        inventoryDetails={selectedInventory}
+      />
+       <EditInventoryModal
+        show={showEdit}
+        onHide={() => setShowEdit(false)}
+        inventoryDetails={selectedInventory}
+      />
+       <DeleteConfirmationModal
+        show={showDeleteConfirmation}
+        onHide={() => setShowDeleteConfirmation(false)}
+        onDelete={handleDelete}
+      />
     </Sidebar>
   );
 }
