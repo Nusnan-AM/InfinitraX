@@ -4,6 +4,33 @@ body {
   color: black;
 }
 
+.btn-secondary{
+  color: #1c7a24 !important;
+  background-color: #e3f7e5 !important;
+  border:none !important;
+  box-shadow:  0 4px 9px -4px #e3ebf7 !important;
+  width: 100px !important;
+  text-align: center !important;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500 !important;
+}
+
+.btn-secondary:hover{
+  background-color: #d8dfeb !important;
+}
+
+.btn-success{
+  border:none !important;
+  box-shadow:  0 4px 9px -4px #e3ebf7 !important;
+}
+
+.btn-danger{
+  background-color: #5f0000 !important;
+  border:none !important;
+  box-shadow:  0 4px 9px -4px #e3ebf7 !important;
+}
+
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
   background-color: rgb(236, 255, 237);
 }
@@ -79,6 +106,10 @@ thead,tbody{
 .SearchBox:hover {
   border-color: #007bff;
 }
+
+
+
+
 
 
 

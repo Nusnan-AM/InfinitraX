@@ -21,11 +21,13 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import DeleteConfirmationModal from "../components/modals/confirmationmodal/DeleteConfirmationModal";
 
+
 function Category() {
   const [updateTrigger, setUpdateTrigger] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState(null);
   const [brandToDelete, setbrandToDelete] = useState(null);
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
+  const [confirmModalVisible2, setConfirmModalVisible2] = useState(false);
   const [Category, setCategory] = useState([]);
   const [Brand, setBrand] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -118,12 +120,12 @@ function Category() {
   }
 
   const handleDelete2 = async (id) => {
-    setConfirmModalVisible(true);
+    setConfirmModalVisible2(true);
     setbrandToDelete(id);
   };
 
   async function DeleteBrand(id) {
-    setConfirmModalVisible(false);
+    setConfirmModalVisible2(false);
     await axios.delete("http://127.0.0.1:8000/brand/" + id);
     toast.success("Brand deleted successfully");
     fetchData2();
@@ -232,7 +234,7 @@ function Category() {
                 value={selectedStatus}
                 onChange={handleStatusChange}
               >
-                <option value={""}>Filter by Category</option>
+                <option value={""}>Filter by Status</option>
                 <option value={"Active"}>Active</option>
                 <option value={"InActive"}>InActive</option>
               </select>
@@ -488,8 +490,8 @@ function Category() {
         onConfirm={() => DeleteCategory(categoryToDelete)}
       />
       <DeleteConfirmationModal
-        show={confirmModalVisible}
-        onHide={() => setConfirmModalVisible(false)}
+        show={confirmModalVisible2}
+        onHide={() => setConfirmModalVisible2(false)}
         onConfirm={() => DeleteBrand(brandToDelete)}
       />
     </Sidebar>
