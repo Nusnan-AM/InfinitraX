@@ -246,7 +246,7 @@ function Product() {
                     value={selectedBrand}
                     onChange={handleBrandChange}
                   >
-                    <option value={""}>--Select the Category--</option>
+                    <option value={""}>--Select the Brand--</option>
                   {brandList.map((brand) => (
                     <option key={brand.id} value={brand.brand}>
                       {brand.brand}
