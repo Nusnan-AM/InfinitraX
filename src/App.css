@@ -107,6 +107,10 @@ thead,tbody{
   border-color: #007bff;
 }
 
+.form-control:hover{
+  border-color: #007bff;
+}
+
 
 
 
