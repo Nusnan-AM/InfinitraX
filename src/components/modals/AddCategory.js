@@ -102,7 +102,7 @@ function AddCategory(props) {
         <Button variant="secondary" onClick={resetForm}>
           Reset
         </Button>
-        <ToastContainer />
+        {/* <ToastContainer /> */}
       </Modal.Footer>
     </Modal>
   );

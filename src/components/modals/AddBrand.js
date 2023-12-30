@@ -100,7 +100,7 @@ function AddBrand(props) {
       <Modal.Footer>
         <Button variant="success" onClick={addBrand}>ADD Brand</Button>
         <Button variant="secondary" onClick={resetForm}>Reset</Button>
-        <ToastContainer/>
+        {/* <ToastContainer/> */}
       </Modal.Footer>
     </Modal>
   );

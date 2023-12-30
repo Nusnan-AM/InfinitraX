@@ -216,7 +216,7 @@ function Attributes() {
                 </tbody>
               </table>
             </div>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
           </div>
           <AddAttribute
             show={showAdd}
