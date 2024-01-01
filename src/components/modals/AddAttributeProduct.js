@@ -132,7 +132,7 @@ export default function AddAttributeProduct(props) {
                       className="form-label"
                       htmlFor="inputAddAttribute-value"
                     >
-                      Price
+                      Price ($)
                     </label>
                     <input
                       type="number"

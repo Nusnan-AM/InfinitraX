@@ -179,9 +179,9 @@ function Inventory() {
                         <td>{data.attribute}</td>
                         <td>{data.value}</td>
                         <td>{data.inventory}</td>
-                        <td>{data.price}</td>
+                        <td>${data.price}</td>
                         <td>{data.taxrate}</td>
-                        <td>{data.price}</td>
+                        <td>${(data.price * (1 + data.taxrate / 100)).toFixed(2)}</td>
                         <td>
                           <IconButton
                             aria-label="view"

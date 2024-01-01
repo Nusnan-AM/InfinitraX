@@ -350,7 +350,7 @@ function EditProduct(props) {
                         <th scope="row">{index + 1}</th>
                         <td>{data.attribute}</td>
                         <td>{data.value}</td>
-                        <td>{data.price}</td>
+                        <td>${data.price}</td>
                         <td>{data.inventory}</td>
                         <td>{data.taxrate}</td>
                         <td className="col-2">

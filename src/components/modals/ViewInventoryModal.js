@@ -4,7 +4,7 @@ import { Modal, Button } from "react-bootstrap";
 function ViewInventoryModal({ show, onHide, inventoryDetails }) {
   return (
     <Modal show={show} onHide={onHide} centered backdrop="static" size="lg">
-      <Modal.Header closeButton>
+      <Modal.Header>
         <Modal.Title className="Modal-Title">View Inventory</Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -106,7 +106,10 @@ function ViewInventoryModal({ show, onHide, inventoryDetails }) {
                 type="text"
                 class="form-control"
                 id="exampleFormControlInput1"
-                value={inventoryDetails && inventoryDetails.price}
+                value={
+                  inventoryDetails &&
+                  (inventoryDetails.price * (1 + inventoryDetails.taxrate / 100)).toFixed(2)
+                }
                 readOnly
               />
             </div>
