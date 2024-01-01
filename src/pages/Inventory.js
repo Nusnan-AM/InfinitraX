@@ -3,7 +3,7 @@ import Sidebar from "../layouts/Sidebar";
 import { Navbar } from "react-bootstrap";
 import { IconButton } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import EditIcon from "@mui/icons-material/Edit";
+import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import DeleteIcon from "@mui/icons-material/Delete";
 import ClearIcon from "@mui/icons-material/Clear";
 import ViewInventoryModal from "../components/modals/ViewInventoryModal";
@@ -12,6 +12,7 @@ import DeleteConfirmationModal from "../components/modals/confirmationmodal/Dele
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+import "../styles/inventory.css";
 
 function Inventory() {
   const [showView, setShowView] = useState(false);
@@ -31,17 +32,18 @@ function Inventory() {
   const handleStatusChange = (event) => {
     setSelectedStatus(event.target.value);
   };
-  const inventoryId = 1;  // Replace with the actual ID
-  axios.get(`http://your-api-url/inventoryApi/${inventoryId}`)
-    .then(response => {
+  const inventoryId = 1; // Replace with the actual ID
+  axios
+    .get(`http://your-api-url/inventoryApi/${inventoryId}`)
+    .then((response) => {
       console.log(response.data);
     })
-    .catch(error => {
+    .catch((error) => {
       console.error(error);
     });
-  
+
   async function fetchData() {
-    const result = await axios.get("http://127.0.0.1:8000/inventory");
+    const result = await axios.get("http://127.0.0.1:8000/inventorydata");
     setInventory(result.data);
     setInventoryList(result.data);
   }
@@ -64,10 +66,16 @@ function Inventory() {
   useEffect(() => {
     const filteredData = inventoryList.filter(
       (inventory) =>
-        (selectedStatus === "" || inventory.inventory === selectedStatus)
+        selectedStatus === "" || inventory.inventory === selectedStatus
     );
     setFilteredInventoryList(filteredData);
   }, [selectedStatus, inventoryList]);
+
+
+  const inventoryViewModal = (inventory) => {
+    setSelectedInventory(inventory);
+    setShowView(true);
+  };
 
   return (
     <>
@@ -135,22 +143,29 @@ function Inventory() {
                     <th scope="col" className="col-1">
                       No
                     </th>
-                    <th scope="col" className="col-1">
-                      Product
+                    <th scope="col" className="col-2">
+                      Product SerialNo
                     </th>
                     <th scope="col" className="col-1">
                       Attribute
                     </th>
                     <th scope="col" className="col-1">
-                      Price
-                    </th>
-                    <th scope="col" className="col-1">
-                      Selling Price
+                      Value
                     </th>
                     <th scope="col" className="col-1">
                       Inventory
                     </th>
                     <th scope="col" className="col-1">
+                      Price
+                    </th>
+                    
+                    <th scope="col" className="col-1">
+                      Taxrate
+                    </th>
+                    <th scope="col" className="col-1">
+                      Selling price
+                    </th>
+                    <th scope="col" className="col-2">
                       Action
                     </th>
                   </tr>
@@ -160,13 +175,18 @@ function Inventory() {
                     filteredInventoryList.map((data, i) => (
                       <tr key={i}>
                         <th scope="row">{i + 1}</th>
-                        <td>{data.inventory}</td>
+                        <td>{data.product}</td>
+                        <td>{data.attribute}</td>
                         <td>{data.value}</td>
+                        <td>{data.inventory}</td>
+                        <td>{data.price}</td>
+                        <td>{data.taxrate}</td>
+                        <td>{data.price}</td>
                         <td>
                           <IconButton
                             aria-label="view"
                             className="viewbutt"
-                            onClick={() => setShowView(true)}
+                            onClick={() => inventoryViewModal(data)}
                           >
                             <VisibilityIcon className="text-" />
                           </IconButton>
@@ -175,7 +195,7 @@ function Inventory() {
                             className="viewbutt"
                             onClick={() => setShowEdit(true)}
                           >
-                            <EditIcon className="text-success" />
+                            <LocalGroceryStoreIcon className="text-success" />
                           </IconButton>
                           <IconButton
                             aria-label="delete"
@@ -204,7 +224,7 @@ function Inventory() {
           <ViewInventoryModal
             show={showView}
             onHide={() => setShowView(false)}
-            attributeDetails={selectedInventory}
+            inventoryDetails={selectedInventory}
           />
           <EditInventoryModal
             show={showEdit}
@@ -215,14 +235,14 @@ function Inventory() {
             attributeDetails={selectedInventory}
           />
           <DeleteConfirmationModal
-          show={showDelete}
-          onHide={() => setShowDelete(false)}
-          onConfirm={() => deleteInventoryModal(inventoryToDelete)}
-        />
-      </Sidebar>
-    </div>
-  </>
-);
+            show={showDelete}
+            onHide={() => setShowDelete(false)}
+            onConfirm={() => deleteInventoryModal(inventoryToDelete)}
+          />
+        </Sidebar>
+      </div>
+    </>
+  );
 }
 
 export default Inventory;
