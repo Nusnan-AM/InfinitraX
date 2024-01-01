@@ -34,7 +34,7 @@ function Inventory() {
   const handleStatusChange = (event) => {
     setSelectedStatus(event.target.value);
   };
- 
+
   async function fetchData() {
     const result = await axios.get("http://127.0.0.1:8000/inventorydata");
     setInventory(result.data);
@@ -72,10 +72,10 @@ function Inventory() {
         inventory.product.toLowerCase().includes(searchTerm3.toLowerCase()) &&
         (selectedStatus === "" || inventory.attribute === selectedStatus) &&
         (selectedPriceRange === "" ||
-        isPriceInRange(inventory.price, selectedPriceRange))
+          isPriceInRange(inventory.price, selectedPriceRange))
     );
     setFilteredInventoryList(filteredData);
-  }, [searchTerm3, selectedStatus,selectedPriceRange, inventoryList]);
+  }, [searchTerm3, selectedStatus, selectedPriceRange, inventoryList]);
 
   const inventoryViewModal = (inventory) => {
     setSelectedInventory(inventory);
@@ -90,7 +90,6 @@ function Inventory() {
   const handleChange3 = (event) => {
     setSearchTerm3(event.target.value);
   };
- 
 
   return (
     <>
@@ -212,12 +211,11 @@ function Inventory() {
                       <th scope="col" className="col-1">
                         Price
                       </th>
-
                       <th scope="col" className="col-1">
                         Taxrate
                       </th>
-                      <th scope="col" className="col-1">
-                        Selling price
+                      <th scope="col" className="col-2">
+                        Selling Price
                       </th>
                       <th scope="col" className="col-2">
                         Action
@@ -281,14 +279,14 @@ function Inventory() {
               inventoryDetails={selectedInventory}
             />
             <InventoryStockUpdateModal
-             show={showView2}
-             onHide={() => setShowView2(false)}
-             inventoryDetails={selectedInventory}
+              show={showView2}
+              onHide={() => setShowView2(false)}
+              inventoryDetails={selectedInventory}
             />
             <DeleteConfirmationModal
-             show={confirmModalVisible}
-             onHide={() => setConfirmModalVisible(false)}
-             onConfirm={() => deleteInventoryModal(inventoryDelete)}
+              show={confirmModalVisible}
+              onHide={() => setConfirmModalVisible(false)}
+              onConfirm={() => deleteInventoryModal(inventoryDelete)}
             />
           </div>
         </div>
