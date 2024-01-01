@@ -453,7 +453,7 @@ function Category() {
             </div>
           </div>
         </div>
-        <ToastContainer />
+        {/* <ToastContainer /> */}
       </div>
       <CategoryView
         show={showModal3}
