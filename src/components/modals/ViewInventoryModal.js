@@ -72,7 +72,7 @@ function ViewInventoryModal({ show, onHide, inventoryDetails }) {
           <div className="col-4">
             <div class="mb-3">
               <label for="exampleFormControlInput1" class="form-label">
-                Price
+                Price ($)
               </label>
               <input
                 type="text"
@@ -86,7 +86,7 @@ function ViewInventoryModal({ show, onHide, inventoryDetails }) {
           <div className="col-4">
             <div class="mb-3">
               <label for="exampleFormControlInput1" class="form-label">
-                Taxrate
+                Taxrate 
               </label>
               <input
                 type="text"
@@ -100,7 +100,7 @@ function ViewInventoryModal({ show, onHide, inventoryDetails }) {
           <div className="col-4">
             <div class="mb-3">
               <label for="exampleFormControlInput1" class="form-label">
-                Selling Price
+                Selling Price ($)
               </label>
               <input
                 type="text"
