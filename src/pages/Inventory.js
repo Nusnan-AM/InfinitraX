@@ -7,23 +7,20 @@ import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ClearIcon from "@mui/icons-material/Clear";
 import ViewInventoryModal from "../components/modals/ViewInventoryModal";
-import EditInventoryModal from "../components/modals/EditInventoryModal";
 import DeleteConfirmationModal from "../components/modals/confirmationmodal/DeleteConfirmationModal";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import "../styles/inventory.css";
 import SearchIcon from "@mui/icons-material/Search";
+import InventoryStockUpdateModal from "../components/modals/InventoryStockUpdateModal";
 
 function Inventory() {
   const [showView, setShowView] = useState(false);
+  const [showView2, setShowView2] = useState(false);
   const [selectedInventory, setSelectedInventory] = useState(null);
-  const [showEdit, setShowEdit] = useState(false);
-  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  const [showDelete, setShowDelete] = useState(false);
 
   const [inventory, setInventory] = useState([]);
-  const [inventoryToDelete, setInventoryToDelete] = useState(null);
   const [updateTrigger, setUpdateTrigger] = useState(false);
 
   const [searchTerm3, setSearchTerm3] = useState("");
@@ -31,29 +28,27 @@ function Inventory() {
   const [filteredInventoryList, setFilteredInventoryList] = useState([]);
   const [inventoryList, setInventoryList] = useState([]);
   const [selectedPriceRange, setSelectedPriceRange] = useState("");
+  const [inventoryDelete, setinventoryDelete] = useState(null);
+  const [confirmModalVisible, setConfirmModalVisible] = useState(false);
 
   const handleStatusChange = (event) => {
     setSelectedStatus(event.target.value);
   };
-  const inventoryId = 1; 
-  axios
-    .get(`http://your-api-url/inventoryApi/${inventoryId}`)
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-
+ 
   async function fetchData() {
     const result = await axios.get("http://127.0.0.1:8000/inventorydata");
     setInventory(result.data);
     setInventoryList(result.data);
   }
 
+  const handleDelete = async (id) => {
+    setConfirmModalVisible(true);
+    setinventoryDelete(id);
+  };
+
   async function deleteInventoryModal(id) {
-    setShowDeleteConfirmation(false);
-    await axios.delete("http://127.0.0.1:8000/inventory/" + id);
+    setConfirmModalVisible(false);
+    await axios.delete("http://127.0.0.1:8000/inventorydata/" + id);
     toast.success("Attribute deleted successfully");
     fetchData();
   }
@@ -85,6 +80,11 @@ function Inventory() {
   const inventoryViewModal = (inventory) => {
     setSelectedInventory(inventory);
     setShowView(true);
+  };
+
+  const inventoryStockModal = (inventory) => {
+    setSelectedInventory(inventory);
+    setShowView2(true);
   };
 
   const handleChange3 = (event) => {
@@ -125,7 +125,7 @@ function Inventory() {
                       style={{
                         zIndex: "100",
                         backgroundColor: "white",
-                        right: "25px",
+                        right: "17px",
                       }}
                       onClick={() => setSearchTerm3("")}
                     >
@@ -174,10 +174,10 @@ function Inventory() {
                     onChange={(e) => setSelectedPriceRange(e.target.value)}
                   >
                     <option value="">Select Price Range</option>
-                    <option value="1-100">1 - 100</option>
-                    <option value="100-1000">100 - 1000</option>
-                    <option value="1000-10000">1000 - 10000</option>
-                    <option value="10000-1000000">10000 - 1000000</option>
+                    <option value="1-100">$1 - $100</option>
+                    <option value="100-1000">$100 - $1000</option>
+                    <option value="1000-10000">$1000 - $10000</option>
+                    <option value="10000-1000000">$10000 - $1000000</option>
                   </select>
                 </form>
               </div>
@@ -250,17 +250,14 @@ function Inventory() {
                             <IconButton
                               aria-label="edit"
                               className="viewbutt"
-                              onClick={() => setShowEdit(true)}
+                              onClick={() => inventoryStockModal(data)}
                             >
                               <LocalGroceryStoreIcon className="text-success" />
                             </IconButton>
                             <IconButton
                               aria-label="delete"
                               className="viewbutt"
-                              onClick={() => {
-                                setShowDeleteConfirmation(true);
-                                setInventoryToDelete(data.id);
-                              }}
+                              onClick={() => handleDelete(data.id)}
                             >
                               <DeleteIcon className="text-danger" />
                             </IconButton>
@@ -283,18 +280,15 @@ function Inventory() {
               onHide={() => setShowView(false)}
               inventoryDetails={selectedInventory}
             />
-            <EditInventoryModal
-              show={showEdit}
-              onHide={() => {
-                setShowEdit(false);
-                setUpdateTrigger(!updateTrigger);
-              }}
-              attributeDetails={selectedInventory}
+            <InventoryStockUpdateModal
+             show={showView2}
+             onHide={() => setShowView2(false)}
+             inventoryDetails={selectedInventory}
             />
             <DeleteConfirmationModal
-              show={showDelete}
-              onHide={() => setShowDelete(false)}
-              onConfirm={() => deleteInventoryModal(inventoryToDelete)}
+             show={confirmModalVisible}
+             onHide={() => setConfirmModalVisible(false)}
+             onConfirm={() => deleteInventoryModal(inventoryDelete)}
             />
           </div>
         </div>
