@@ -1,51 +1,81 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import axios from 'axios';
 
-class SalesOverviewChart extends React.Component {
+class SalesOverviewChart extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       series: [
         {
-          name: 'series1',
-          data: [31, 40, 28, 51, 42, 109, 100]
+          name: 'Price',
+          data: [],
         },
         {
-          name: 'series2',
-          data: [11, 32, 45, 32, 34, 52, 41]
-        }
+          name: 'Selling Price',
+          data: [],
+        },
       ],
       options: {
         chart: {
           height: 300,
-          type: 'area'
+          type: 'area',
         },
         dataLabels: {
-          enabled: false
+          enabled: false,
         },
         stroke: {
-          curve: 'smooth'
+          curve: 'smooth',
         },
         xaxis: {
-          type: 'datetime',
-          categories: [
-            "2018-09-19T00:00:00.000Z",
-            "2018-09-19T01:30:00.000Z",
-            "2018-09-19T02:30:00.000Z",
-            "2018-09-19T03:30:00.000Z",
-            "2018-09-19T04:30:00.000Z",
-            "2018-09-19T05:30:00.000Z",
-            "2018-09-19T06:30:00.000Z"
-          ]
+          type: 'category',
+          categories: [],
         },
         tooltip: {
           x: {
-            format: 'dd/MM/yy HH:mm'
+            format: 'dd/MM/yy HH:mm',
           },
         },
       },
     };
+  }
+
+  componentDidMount() {
+  
+    axios.get('http://127.0.0.1:8000/inventorydata')
+      .then((response) => {
+        const inventoryData = response.data;
+        const categories = [];
+        const prices = [];
+        const sellingPrices = [];
+
+        inventoryData.forEach((data) => {
+          const price = data.price;
+          const sellingPrice = (price * (1 + parseFloat(data.taxrate) / 100)).toFixed(2);
+
+          categories.push(data.product);
+          prices.push(price);
+          sellingPrices.push(sellingPrice);
+        });
+      
+        this.setState({
+          series: [
+            { name: 'Price', data: prices },
+            { name: 'Selling Price', data: sellingPrices },
+          ],
+          options: {
+            ...this.state.options,
+            xaxis: {
+              ...this.state.options.xaxis,
+              categories: categories,
+            },
+          },
+        });
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
   }
 
   render() {

@@ -17,6 +17,9 @@ function Dashboard() {
   const [categoriesData, setCategoriesData] = useState([]);
   const [brandData, setBrandData] = useState([]);
   const [productData, setProductData] = useState([]);
+  const [inventoryData, setInventoryData] = useState([]);
+  const [totalSales, setTotalSales] = useState(0);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,6 +61,23 @@ function Dashboard() {
     fetchData3();
   }, []);
 
+  useEffect(() => {
+    const fetchData4 = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/inventorydata");
+        setInventoryData(response.data);
+        const sales = response.data.reduce((total, item) => {
+          return total + item.price * item.inventory;
+        }, 0);
+  
+        setTotalSales(sales);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData4();
+  }, []);
+
   const activeCategoriesCount = categoriesData.filter(category => category.status === 'Active').length;
   const activeBrandCount = brandData.filter(brand => brand.status === 'Active').length;
   const activeProductCount = productData.products ? productData.products.length : 0;
@@ -81,8 +101,8 @@ function Dashboard() {
                 style={{ background: "#E00000" }}
               ></div>
               <div className="col-7 d-flex flex-column align-items-center justify-content-md-center">
-                <h3>Total Sales</h3>
-                <p>$31656.65</p>
+                <h3>Total Value</h3>
+                <p>${totalSales.toFixed(2)}</p>
               </div>
               <div className="col-5 d-flex align-items-center justify-content-md-center">
                 <img src={DashboardIcon1} alt="" />
@@ -138,13 +158,13 @@ function Dashboard() {
         <div className="d-flex row mb-4">
           <div className="col-lg-6 col-md-6 col-sm-12 mb-4">
             <div className="DashboardGraphContainer">
-              <h4>Stock Overview</h4>
+              <h4>Category Overview</h4>
               <StockOverViewChart />
             </div>
           </div>
           <div className="col-lg-6 col-md-6 col-sm-12 mb-4">
             <div className="DashboardGraphContainer">
-              <h4>Product Overview</h4>
+              <h4>Brand Overview</h4>
               <ProductOverViewChart />
             </div>
           </div>

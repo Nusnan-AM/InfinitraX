@@ -1,74 +1,86 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import axios from 'axios';
 
-class ProductOverViewChart extends React.Component {
-  constructor(props) {
-    super(props);
+const colors = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0', '#546E7A', '#26a69a', '#D10CE8'];
 
-    this.state = {
-      series: [
-        {
-          name: 'Net Profit',
-          data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
-        },
-        {
-          name: 'Revenue',
-          data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
-        },
-        {
-          name: 'Free Cash Flow',
-          data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
-        },
-      ],
-      options: {
-        chart: {
-          type: 'bar',
-          height: 350,
-        },
-        plotOptions: {
-          bar: {
-            horizontal: false,
-            columnWidth: '55%',
-            endingShape: 'rounded',
-          },
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          show: true,
-          width: 2,
-          colors: ['transparent'],
-        },
-        xaxis: {
-          categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
-        },
-        yaxis: {
-          title: {
-            text: '$ (thousands)',
-          },
-        },
-        fill: {
-          opacity: 1,
-        },
-        tooltip: {
-          y: {
-            formatter: function (val) {
-              return '$ ' + val + ' thousands';
-            },
+const ProductOverViewChart = () => {
+  const [chartData, setChartData] = useState({
+    series: [{ data: [] }],
+    options: {
+      chart: {
+        height: 200,
+        type: 'bar',
+        events: {
+          click: function (chart, w, e) {
           },
         },
       },
-    };
-  }
+      colors: colors,
+      plotOptions: {
+        bar: {
+          columnWidth: '45%',
+          distributed: true,
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      legend: {
+        show: false,
+      },
+      xaxis: {
+        brand: [],
+        labels: {
+          style: {
+            colors: colors,
+            fontSize: '12px',
+          },
+        },
+      },
+    },
+  });
 
-  render() {
-    return (
-      <div id="chart">
-        <ReactApexChart options={this.state.options} series={this.state.series} type="bar" height={190} />
-      </div>
-    );
-  }
-}
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/product');
+        const brand = response.data.products.map((product) => product.brand);
+        const brandCount = {};
+       
+        brand.forEach((brand) => {
+          brandCount[brand] = (brandCount[brand] || 0) + 1;
+        });
+        
+        setChartData({
+          ...chartData,
+          series: [{ data: Object.values(brandCount) }],
+          options: {
+            ...chartData.options,
+            xaxis: {
+              categories: Object.keys(brandCount),
+              labels: {
+                style: {
+                  colors: colors,
+                  fontSize: '12px',
+                },
+              },
+            },
+          },
+        });
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <div id="chart">
+      <ReactApexChart options={chartData.options} series={chartData.series} type="bar" height={200} />
+    </div>
+  );
+};
 
 export default ProductOverViewChart;
