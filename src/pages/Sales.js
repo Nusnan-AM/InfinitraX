@@ -184,9 +184,9 @@ function Sales() {
           </div>
           <div className="Product-Main-Section">
             <div className="container mt-3">
-              <Navbar className="navbar bg-white mb-3 mx-1 py-1 rounded">
-                <div className="container-fluid">
-                  <p className="navbar-brand fw-bold">Sales List</p>
+              <Navbar className="navbar bg-white mb-3 mx-1 py-1 rounded ">
+                <div className="container-fluid Sales-section">
+                  <h5 className="navbar-brand">Sales List</h5>
                 </div>
               </Navbar>
               <div className="Inventory-TableSection">
