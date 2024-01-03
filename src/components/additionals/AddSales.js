@@ -1,46 +1,51 @@
 import React from "react";
 import { useState } from "react";
 import "../../App.css";
-import { Modal, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Inventory } from "@mui/icons-material";
 
-export default function AddSalesmodel(props) {
-  const { show, onHide } = props;
-  const [id, setId] = useState("");
-  const [product, setProduct] = useState("");
+
+function AddSales(props) {
+  const { show, onHide ,inventoryDetails} = props;
+  const [serialno, setSerialno] = useState("");
   const [quantity, setQuantity] = useState("");
   const [value, setValue] = useState("");
-  const [price, setPrice] = useState("");
+  const [product, setProduct] = useState("");
+  const [stock, setStock] = useState("");
   const [updateTrigger, setUpdateTrigger] = useState(false);
 
 
+  const id=inventoryDetails && inventoryDetails.id;
+
+  const updatedStock = parseInt(stock) - parseInt(quantity);
+
   const resetForm = () => {
-    setId("");
     setProduct("");
     setQuantity("");
     setValue("");
-    setPrice("");
+    setProduct("");
   };
 
   async function AddSalesmodel(event) {
     event.preventDefault();
-    if (product.length === 0) {
+    if (serialno.length === 0) {
+      toast.warning("Fill the Serial No Field");
+    } else if (product.length === 0) {
       toast.warning("Fill the Product Field");
-    } else if (quantity.length === 0) {
-      toast.warning("Fill the Quantity Field");
     }else if (value.length === 0) {
       toast.warning("Fill the value Field");
-    }  else if (price.length === 0) {
-      toast.warning("Fill the Price Field");
+    }  else if (quantity.length === 0) {
+      toast.warning("Fill the Quantity Field");
     } else {
       try {
-        await axios.post("", {
+        await axios.post("http://127.0.0.1:8000/sales", {
+          serialno:serialno,
           product: product,
-          quantity:quantity,
           value: value,
-          price: price,
+          Inventory: updatedStock,
         });
         toast.success("Sales added Succesfully");
         resetForm();
@@ -53,16 +58,29 @@ export default function AddSalesmodel(props) {
 
   return (
     <>
-      <Modal show={show} onHide={onHide} centered backdrop="static">
-        <Modal.Header closeButton>
-          <Modal.Title className="Modal-Title">Add Sales</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <form>
+      <div className="d-flex mb-4 Category-AddedSection">
+          <div className="col-6">
+            <h5>Add Sales</h5>
+          </div>
+        </div>
+        <div>
             <div className="modal-body">
             <div className="form-outline mb-4">
                 <label className="form-label" htmlFor="inputAddSales-value">
-                Product
+                Serial No
+                </label>
+                <input
+                  type="text"
+                  id="inputAddSales-value"
+                  className="form-control"
+                  onChange={(e) => setSerialno(e.target.value)}
+                  value={serialno}
+                  required
+                />
+              </div>
+              <div className="form-outline mb-4">
+                <label className="form-label" htmlFor="inputAddSales-value">
+                  Product Name
                 </label>
                 <input
                   type="text"
@@ -75,20 +93,7 @@ export default function AddSalesmodel(props) {
               </div>
               <div className="form-outline mb-4">
                 <label className="form-label" htmlFor="inputAddSales-value">
-                  Quantity
-                </label>
-                <input
-                  type="text"
-                  id="inputAddSales-value"
-                  className="form-control"
-                  onChange={(e) => setQuantity(e.target.value)}
-                  value={quantity}
-                  required
-                />
-              </div>
-              <div className="form-outline mb-4">
-                <label className="form-label" htmlFor="inputAddSales-value">
-                  Value
+                  value
                 </label>
                 <input
                   type="text"
@@ -101,29 +106,30 @@ export default function AddSalesmodel(props) {
               </div>
               <div className="form-outline mb-4">
                 <label className="form-label" htmlFor="inputAddSales-value">
-                  Price
+                 Quantity 
                 </label>
                 <input
                   type="text"
                   id="inputAddSales-value"
                   className="form-control"
-                  onChange={(e) => setPrice(e.target.value)}
-                  value={price}
+                  onChange={(e) => setQuantity(e.target.value)}
+                  value={quantity}
                   required
                 />
               </div>
             </div>
-          </form>
-        </Modal.Body>
-        <Modal.Footer>
+          </div>
+
+   
           <Button variant="success" onClick={AddSalesmodel}>
             Add Sales
           </Button>
           <Button variant="secondary" onClick={resetForm}>
             Reset
           </Button>
-        </Modal.Footer>
-      </Modal>
+        
     </>
   );
 }
+
+export default AddSales;
