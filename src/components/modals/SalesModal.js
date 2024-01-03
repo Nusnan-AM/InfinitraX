@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
-function InventoryStockUpdateModal({ show, onHide, inventoryDetails }) {
+function SalesModal({ show, onHide, salesDetails }) {
   const [showUpdateConfirmModal, setShowUpdateConfirmModal] = useState(false);
   const [stock, setStock] = useState("");
   const [updateTrigger, setUpdateTrigger] = useState(false);
@@ -14,9 +14,9 @@ function InventoryStockUpdateModal({ show, onHide, inventoryDetails }) {
     setShowUpdateConfirmModal(true);
   };
 
-  const id=inventoryDetails && inventoryDetails.id;
+  const id=salesDetails && salesDetails.id;
 
-  const updatestock = parseInt(stock) + parseInt(inventoryDetails && inventoryDetails.inventory);
+  const updatestock = parseInt(salesDetails && salesDetails.inventory) - parseInt(stock) ;
 
   async function handleUpdateConfirmed(e) {
     e.preventDefault();
@@ -28,7 +28,7 @@ function InventoryStockUpdateModal({ show, onHide, inventoryDetails }) {
       await axios
         .put(`http://127.0.0.1:8000/inventorydata/${id}`, updatedProduct)
         .then((response) => {
-          toast.success("Stock Updated successfully");
+          toast.success("Stock Sales successfully");
           setStock("");
           onHide();
           setUpdateTrigger(!updateTrigger);
@@ -43,7 +43,7 @@ function InventoryStockUpdateModal({ show, onHide, inventoryDetails }) {
     <Modal show={show} onHide={onHide} centered backdrop="static">
       <Modal.Header>
         <Modal.Title className="Modal-Title">
-          Inventory Stock Update
+          Sales Stock Update
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -57,7 +57,7 @@ function InventoryStockUpdateModal({ show, onHide, inventoryDetails }) {
                 type="text"
                 class="form-control"
                 id="exampleFormControlInput1"
-                value={inventoryDetails && inventoryDetails.product}
+                value={salesDetails && salesDetails.product}
                 readOnly
               />
             </div>
@@ -71,7 +71,7 @@ function InventoryStockUpdateModal({ show, onHide, inventoryDetails }) {
                 type="text"
                 class="form-control"
                 id="exampleFormControlInput1"
-                value={inventoryDetails && inventoryDetails.inventory}
+                value={salesDetails && salesDetails.inventory}
                 readOnly
               />
             </div>
@@ -80,7 +80,7 @@ function InventoryStockUpdateModal({ show, onHide, inventoryDetails }) {
         <div>
           <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">
-              Enter the Stock
+              Enter the Stock amount to sale
             </label>
             <input
               type="number"
@@ -93,7 +93,7 @@ function InventoryStockUpdateModal({ show, onHide, inventoryDetails }) {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="success" onClick={handleUpdate}>Update Stock</Button>
+        <Button variant="success" onClick={handleUpdate}>Update Sales</Button>
         <Button variant="secondary" onClick={onHide}>
           Cancel
         </Button>
@@ -107,4 +107,4 @@ function InventoryStockUpdateModal({ show, onHide, inventoryDetails }) {
   );
 }
 
-export default InventoryStockUpdateModal;
+export default SalesModal;
