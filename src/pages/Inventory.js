@@ -280,7 +280,10 @@ function Inventory() {
             />
             <InventoryStockUpdateModal
               show={showView2}
-              onHide={() => setShowView2(false)}
+              onHide={() => {
+                setShowView2(false);
+                setUpdateTrigger(!updateTrigger);
+              }}
               inventoryDetails={selectedInventory}
             />
             <DeleteConfirmationModal
