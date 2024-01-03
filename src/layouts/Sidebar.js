@@ -313,7 +313,7 @@ function Sidebar({ children }) {
               </NavLink>
             </div>
             <div className={"w-100 border-bottom-d1d1d1 mb-2"} />
-            <div className={"w-100 px-sm-2"}>
+            {/* <div className={"w-100 px-sm-2"}>
               <NavLink
                 className={({ isActive }) =>
                   isActive
@@ -333,7 +333,7 @@ function Sidebar({ children }) {
                   )}
                 </div>
               </NavLink>
-            </div>
+            </div> */}
             <div className={"w-100 px-sm-2"}>
               <NavLink
                 className={({ isActive }) =>
